@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1421506936 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
+	<iostream>
+	<vector>
+	<fstream>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	<glm/fwd.hpp>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+
