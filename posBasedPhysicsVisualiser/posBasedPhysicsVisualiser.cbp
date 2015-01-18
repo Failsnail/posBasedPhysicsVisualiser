@@ -32,26 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="TextureFragmentShader.fragmentshader" />
+		<Unit filename="ColorFragmentShader.fragmentshader" />
 		<Unit filename="TransformVertexShader.vertexshader" />
-		<Unit filename="controls.cpp" />
-		<Unit filename="controls.hpp" />
-		<Unit filename="objloader.cpp" />
-		<Unit filename="objloader.hpp" />
-		<Unit filename="quaternion_utils.cpp" />
-		<Unit filename="quaternion_utils.hpp" />
-		<Unit filename="shader.cpp" />
-		<Unit filename="shader.hpp" />
-		<Unit filename="tangentspace.cpp" />
-		<Unit filename="tangentspace.hpp" />
-		<Unit filename="text2D.cpp" />
-		<Unit filename="text2D.hpp" />
-		<Unit filename="texture.cpp" />
-		<Unit filename="texture.hpp" />
-		<Unit filename="tutorial06.cpp" />
-		<Unit filename="uvtemplate.DDS" />
-		<Unit filename="vboindexer.cpp" />
-		<Unit filename="vboindexer.hpp" />
+		<Unit filename="tutorial04.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
