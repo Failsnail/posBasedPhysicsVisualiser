@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/OpenGlTutorial" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/posBasedPhysicsVisualiser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/OpenGlTutorial" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/posBasedPhysicsVisualiser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -32,13 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="ColorFragmentShader.fragmentshader" />
-		<Unit filename="TransformVertexShader.vertexshader" />
-		<Unit filename="tutorial04.cpp" />
+		<Unit filename="fragmentShader.glsl" />
+		<Unit filename="main.cpp" />
+		<Unit filename="vertexShader.glsl" />
 		<Extensions>
 			<code_completion />
 			<envvars />
 			<debugger />
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
