@@ -1,17 +1,22 @@
 #version 330 core
 
-// Input vertex data, different for all executions of this shader.
-layout(location = 0) in vec3 vertexPosition_modelspace;
+//input
+uniform mat4 camera;
+uniform mat4 model;
 
-// Output data ; will be interpolated for each fragment.
+//Input vertex data, different for all executions of this shader.
+in vec3 vert;
+
+//Output data ; will be interpolated for each fragment.
 out float depth;
 
-// Values that stay constant for the whole mesh.
+//Values that stay constant for the whole mesh.
 uniform mat4 MVP;
 
 void main() {
 
-	// Output position of the vertex, in clip space : MVP * position
-	gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
-	depth = gl_Position.z;
+	//Output position of the vertex
+	gl_Position = camera * model * vec4(vert, 1);
+
+    depth = gl_Position.z;
 }

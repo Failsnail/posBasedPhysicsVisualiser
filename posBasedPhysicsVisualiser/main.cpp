@@ -16,86 +16,10 @@
 
 GLFWwindow* window;
 int windowWidth, windowHeight;
+glm::mat4 Projection;
+glm::mat4 View;
 
-#if false //first one is my code (probably copied from opengl-tutorial with some comments), the second one is from a download provided by the same site
-GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path) {
 
-    // Create the shaders
-    GLuint VertexShaderID = glCreateShader(GL_VERTEX_SHADER);
-    GLuint FragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // Read the Vertex Shader code from the file
-    std::string VertexShaderCode;
-    std::ifstream VertexShaderStream(vertex_file_path, std::ios::in);
-    if (VertexShaderStream.is_open()) {
-        std::string Line = "";
-        while (getline(VertexShaderStream, Line))
-            VertexShaderCode += "\n" + Line;
-        VertexShaderStream.close();
-    }
-
-    // Read the Fragment Shader code from the file
-    std::string FragmentShaderCode;
-    std::ifstream FragmentShaderStream(fragment_file_path, std::ios::in);
-    if (FragmentShaderStream.is_open()) {
-        std::string Line = "";
-        while (getline(FragmentShaderStream, Line)) {
-            FragmentShaderCode += "\n" + Line;
-        }
-        FragmentShaderStream.close();
-    }
-
-    GLint Result = GL_FALSE;
-    int InfoLogLength;
-
-    // Compile Vertex Shader
-    printf("Compiling shader : %s\n", vertex_file_path);
-    char const * VertexSourcePointer = VertexShaderCode.c_str();
-    glShaderSource(VertexShaderID, 1, &VertexSourcePointer , NULL);
-    glCompileShader(VertexShaderID);
-
-    // Check Vertex Shader
-    glGetShaderiv(VertexShaderID, GL_COMPILE_STATUS, &Result);
-    glGetShaderiv(VertexShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    std::vector<char> VertexShaderErrorMessage(InfoLogLength);
-    glGetShaderInfoLog(VertexShaderID, InfoLogLength, NULL, &VertexShaderErrorMessage[0]);
-    fprintf(stdout, "%s\n", &VertexShaderErrorMessage[0]);
-
-    // Compile Fragment Shader
-    printf("Compiling shader : %s\n", fragment_file_path);
-    char const * FragmentSourcePointer = FragmentShaderCode.c_str();
-    glShaderSource(FragmentShaderID, 1, &FragmentSourcePointer , NULL);
-    glCompileShader(FragmentShaderID);
-
-    // Check Fragment Shader
-    glGetShaderiv(FragmentShaderID, GL_COMPILE_STATUS, &Result);
-    glGetShaderiv(FragmentShaderID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    std::vector<char> FragmentShaderErrorMessage(InfoLogLength);
-    glGetShaderInfoLog(FragmentShaderID, InfoLogLength, NULL, &FragmentShaderErrorMessage[0]);
-    fprintf(stdout, "%s\n", &FragmentShaderErrorMessage[0]);
-
-    // Link the program
-    fprintf(stdout, "Linking program\n");
-    GLuint ProgramID = glCreateProgram();
-    glAttachShader(ProgramID, VertexShaderID);
-    glAttachShader(ProgramID, FragmentShaderID);
-    glLinkProgram(ProgramID);
-
-    // Check the program
-    glGetProgramiv(ProgramID, GL_LINK_STATUS, &Result);
-    glGetProgramiv(ProgramID, GL_INFO_LOG_LENGTH, &InfoLogLength);
-    std::vector<char> ProgramErrorMessage( std::max(InfoLogLength, int(1)) );
-    glGetProgramInfoLog(ProgramID, InfoLogLength, NULL, &ProgramErrorMessage[0]);
-    fprintf(stdout, "%s\n", &ProgramErrorMessage[0]);
-
-    glDeleteShader(VertexShaderID);
-    glDeleteShader(FragmentShaderID);
-
-    std::cout << "Shaders succesfully initialized!" << std::endl;
-
-    return ProgramID;
-}
-#else
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path){
 
 	// Create the shaders
@@ -110,7 +34,7 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		while(getline(VertexShaderStream, Line))
 			VertexShaderCode += "\n" + Line;
 		VertexShaderStream.close();
-	}else{
+	} else {
 		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
 		getchar();
 		return 0;
@@ -188,10 +112,206 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 
 	return ProgramID;
 }
-#endif
+
+glm::mat4 translate(GLfloat x, GLfloat y, GLfloat z) {
+    return glm::translate(glm::mat4(), glm::vec3(x,y,z));
+}
+
+// convenience function that returns a scaling matrix
+glm::mat4 scale(GLfloat x, GLfloat y, GLfloat z) {
+    return glm::scale(glm::mat4(), glm::vec3(x,y,z));
+}
+
+struct ModelAsset {
+    GLuint shaders = 0;
+    GLuint vbo = 0;
+    GLuint vao = 0;
+    GLenum drawType = GL_TRIANGLES;
+    GLint drawStart = 0;
+    GLint drawCount = 0;
+};
+
+ModelAsset* sphere = nullptr;
+
+const ModelAsset* getSphereAsset() {
+    if (sphere == nullptr) {
+        sphere = new ModelAsset;
+
+        sphere->shaders = LoadShaders( "vertexShader.glsl", "fragmentShader.glsl" );
+        sphere->drawType = GL_TRIANGLES;
+        sphere->drawStart = 0;
+        sphere->drawCount = 20 * 3;
+
+        glGenBuffers(1, &(sphere->vbo));
+        glGenVertexArrays(1, &(sphere->vao));
+
+        // bind the VAO
+        glBindVertexArray(sphere->vao);
+
+        // bind the VBO
+        glBindBuffer(GL_ARRAY_BUFFER, sphere->vbo);
+
+        // Get a handle for our camera uniform
+        GLuint MatrixID = glGetUniformLocation(sphere->shaders, "camera");
+
+        /*
+        (0, ±1, ±phi)
+        (±1, ±phi, 0)
+        (±phi, 0, ±1)
+        */
+        static const GLfloat g_vertex_buffer_data[] = {
+            //dakjes:
+            //(0, ±1, ±phi)
+            0.0f, 1.0f, phi,
+            0.0f, -1.0f, phi,
+            phi, 0.0f, 1.0f,
+
+            0.0f, 1.0f, phi,
+            0.0f, -1.0f, phi,
+            -phi, 0.0f, 1.0f,
+
+            0.0f, -1.0f, -phi,
+            0.0f, 1.0f, -phi,
+            -phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            0.0f, 1.0f, -phi,
+            phi, 0.0f, -1.0f,
+
+            //(±1, ±phi, 0)
+            1.0f, phi, 0.0f,
+            -1.0f, phi, 0.0f,
+            0.0f, 1.0f, phi,
+
+            1.0f, phi, 0.0f,
+            -1.0f, phi, 0.0f,
+            0.0f, 1.0f, -phi,
+
+            -1.0f, -phi, 0.0f,
+            1.0f, -phi, 0.0f,
+            0.0f, -1.0f, -phi,
+
+            -1.0f, -phi, 0.0f,
+            1.0f, -phi, 0.0f,
+            0.0f, -1.0f, phi,
+
+            //(±phi, 0, ±1)
+            phi, 0.0f, 1.0f,
+            phi, 0.0f, -1.0f,
+            1.0f, phi, 0.0f,
+
+            phi, 0.0f, 1.0f,
+            phi, 0.0f, -1.0f,
+            1.0f, -phi, 0.0f,
+
+            -phi, 0.0f, -1.0f,
+            -phi, 0.0f, 1.0f,
+            -1.0f, -phi, 0.0f,
+
+            -phi, 0.0f, -1.0f,
+            -phi, 0.0f, 1.0f,
+            -1.0f, phi, 0.0f,
+
+            //hoekjes:
+        //origineel:
+            0.0f, 1.0f, phi,
+            1.0f, phi, 0.0f,
+            phi, 0.0f, 1.0f,
+
+        //gespiegeld om X-as:
+            0.0f, 1.0f, phi,
+            -1.0f, phi, 0.0f,
+            -phi, 0.0f, 1.0f,
+
+        //gespiegeld om Y-as:
+            0.0f, -1.0f, phi,
+            1.0f, -phi, 0.0f,
+            phi, 0.0f, 1.0f,
+
+            0.0f, -1.0f, phi,
+            -1.0f, -phi, 0.0f,
+            -phi, 0.0f, 1.0f,
+
+        //gespiegeld om Z-as:
+            0.0f, 1.0f, -phi,
+            1.0f, phi, 0.0f,
+            phi, 0.0f, -1.0f,
+
+            0.0f, 1.0f, -phi,
+            -1.0f, phi, 0.0f,
+            -phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            1.0f, -phi, 0.0f,
+            phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            -1.0f, -phi, 0.0f,
+            -phi, 0.0f, -1.0f
+        };
+
+        glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+    }
+    return sphere;
+}
+
+void deleteSphereAsset() {
+
+	// Cleanup VBO and shader
+	glDeleteBuffers(1, &(sphere->vbo));
+	glDeleteProgram(sphere->shaders);
+	glDeleteVertexArrays(1, &(sphere->vao));
+
+    delete sphere;
+    sphere = nullptr;
+}
+
+struct ModelInstance {
+    ModelAsset* asset = nullptr;
+    glm::mat4 transform;
+};
+
+//renders a single `ModelInstance`
+void renderInstance(const ModelInstance& instance) {
+    ModelAsset asset = *(instance.asset);
 
 
+    //bind the shaders
+    glUseProgram(asset.shaders);
 
+    //set the shader uniforms
+    asset.shaders->setUniform("camera", gCamera.matrix());
+    asset.shaders->setUniform("model", inst.transform);
+
+    // Send our transformation to the currently bound shader,
+    // in the "MVP" uniform
+    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+
+
+    // 1rst attribute buffer : vertices
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glVertexAttribPointer(
+        0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
+        3,                  // size
+        GL_FLOAT,           // type
+        GL_FALSE,           // normalized?
+        0,                  // stride
+        (void*)0            // array buffer offset
+    );
+
+    //bind VAO and draw
+    glBindVertexArray(asset->vao);
+
+
+    // Draw the triangles !
+    glDrawArrays(instance.asset.drawType, instance.asset.drawStart, instance.asset.drawCount);
+
+    //unbind everything
+    glDisableVertexAttribArray(0);
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
 //http://www.tomdalling.com/blog/modern-opengl/05-model-assets-and-instances/
 
 
@@ -249,7 +369,7 @@ int main() {
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
 	#if true    //ALLWAYS LEAVE THIS ON TRUE (only change if you want to mess with peoples brains)
-        glDepthFunc(GL_LESS);    // Accept fragment if it closer to the camera than the former one
+        glDepthFunc(GL_LESS);    //Accept fragment if it closer to the camera than the former one
         glClearDepth(100.0f);           //zorg dat deze NIET lager is dan de far clipping plane
 	#else
         glDepthFunc(GL_GREATER);
@@ -258,8 +378,13 @@ int main() {
 
 
 
+	// Projection matrix : 45° Field of View, display ratio, display range : 0.1 unit <-> 100 units
+	Projection = glm::perspective(45.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
+
+
+
 	// Dark background
-	glClearColor(0.1f, 0.1f, 0.2f, 0.0f);
+	glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 
 
    #if false //verify correct configuration of glew:
@@ -269,172 +394,7 @@ int main() {
     #endif
 
 
-	GLuint VertexArrayID;
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
 
-	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders( "vertexShader.glsl", "fragmentShader.glsl" );
-
-
-	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
-
-	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	glm::mat4 Projection = glm::perspective(45.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
-
-	// Camera matrix
-	glm::mat4 View; //will be specified in the game loop
-
-	// Model matrix : an identity matrix (model will be at the origin)
-	glm::mat4 Model      = glm::mat4(1.0f);
-
-	// Our ModelViewProjection : multiplication of our 3 matrices
-	glm::mat4 MVP        = Projection * View * Model; // Remember, matrix multiplication is the other way around
-
-#if cube
-	// Our vertices. Tree consecutive floats give a 3D vertex; Three consecutive vertices give a triangle.
-	// A cube has 6 faces with 2 triangles each, so this makes 6*2=12 triangles, and 12*3 vertices
-	static const GLfloat g_vertex_buffer_data[] = {
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		 1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		 1.0f,-1.0f,-1.0f,
-		 1.0f, 1.0f,-1.0f,
-		 1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		 1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		 1.0f,-1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f,-1.0f,-1.0f,
-		 1.0f, 1.0f,-1.0f,
-		 1.0f,-1.0f,-1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f,-1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		 1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		 1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		 1.0f,-1.0f, 1.0f
-	};
-#else
-    /*
-    (0, ±1, ±phi)
-    (±1, ±phi, 0)
-    (±phi, 0, ±1)
-    */
-	static const GLfloat g_vertex_buffer_data[] = {
-        //dakjes:
-        //(0, ±1, ±phi)
-	    0.0f, 1.0f, phi,
-        0.0f, -1.0f, phi,
-        phi, 0.0f, 1.0f,
-
-	    0.0f, 1.0f, phi,
-        0.0f, -1.0f, phi,
-        -phi, 0.0f, 1.0f,
-
-	    0.0f, -1.0f, -phi,
-        0.0f, 1.0f, -phi,
-        -phi, 0.0f, -1.0f,
-
-	    0.0f, -1.0f, -phi,
-        0.0f, 1.0f, -phi,
-        phi, 0.0f, -1.0f,
-
-        //(±1, ±phi, 0)
-        1.0f, phi, 0.0f,
-        -1.0f, phi, 0.0f,
-        0.0f, 1.0f, phi,
-
-        1.0f, phi, 0.0f,
-        -1.0f, phi, 0.0f,
-        0.0f, 1.0f, -phi,
-
-        -1.0f, -phi, 0.0f,
-        1.0f, -phi, 0.0f,
-        0.0f, -1.0f, -phi,
-
-        -1.0f, -phi, 0.0f,
-        1.0f, -phi, 0.0f,
-        0.0f, -1.0f, phi,
-
-        //(±phi, 0, ±1)
-        phi, 0.0f, 1.0f,
-        phi, 0.0f, -1.0f,
-        1.0f, phi, 0.0f,
-
-        phi, 0.0f, 1.0f,
-        phi, 0.0f, -1.0f,
-        1.0f, -phi, 0.0f,
-
-        -phi, 0.0f, -1.0f,
-        -phi, 0.0f, 1.0f,
-        -1.0f, -phi, 0.0f,
-
-        -phi, 0.0f, -1.0f,
-        -phi, 0.0f, 1.0f,
-        -1.0f, phi, 0.0f,
-
-        //hoekjes:
-    //origineel:
-        0.0f, 1.0f, phi,
-        1.0f, phi, 0.0f,
-        phi, 0.0f, 1.0f,
-
-    //gespiegeld om X-as:
-        0.0f, 1.0f, phi,
-        -1.0f, phi, 0.0f,
-        -phi, 0.0f, 1.0f,
-
-    //gespiegeld om Y-as:
-        0.0f, -1.0f, phi,
-        1.0f, -phi, 0.0f,
-        phi, 0.0f, 1.0f,
-
-        0.0f, -1.0f, phi,
-        -1.0f, -phi, 0.0f,
-        -phi, 0.0f, 1.0f,
-
-    //gespiegeld om Z-as:
-        0.0f, 1.0f, -phi,
-        1.0f, phi, 0.0f,
-        phi, 0.0f, -1.0f,
-
-        0.0f, 1.0f, -phi,
-        -1.0f, phi, 0.0f,
-        -phi, 0.0f, -1.0f,
-
-        0.0f, -1.0f, -phi,
-        1.0f, -phi, 0.0f,
-        phi, 0.0f, -1.0f,
-
-        0.0f, -1.0f, -phi,
-        -1.0f, -phi, 0.0f,
-        -phi, 0.0f, -1.0f
-	};
-#endif
-
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
 
 
     double beginTime = glfwGetTime();
@@ -446,43 +406,17 @@ int main() {
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Use our shader
-		glUseProgram(programID);
+        //update
 
         time = (float)(glfwGetTime() - beginTime);
 
         View = glm::lookAt(
-            glm::vec3(3 * cos(time), 4 + 4 * sin (time / 2.1), 3 * sin(time)),
+            glm::vec3(3 * cos(time), 4 + 4 * sin (time / 2.1), 3 * sin(time)), //location of the camera
             glm::vec3(0, 0, 0), // and looks at the origin
             glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
         );
 
-        MVP = Projection * View * Model; // Remember, matrix multiplication is the other way around
-
-		// Send our transformation to the currently bound shader,
-		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-		glVertexAttribPointer(
-			0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-			3,                  // size
-			GL_FLOAT,           // type
-			GL_FALSE,           // normalized?
-			0,                  // stride
-			(void*)0            // array buffer offset
-		);
-
-		// Draw the triangles !
-		#if cube
-            glDrawArrays(GL_TRIANGLES, 0, 12*3); // 12*3 indices starting at 0 -> 12 triangles
-        #else
-            glDrawArrays(GL_TRIANGLES, 0, 20*3);
-        #endif
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
+        //render all instances
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(window, GL_TRUE);
@@ -493,12 +427,14 @@ int main() {
 		glfwPollEvents();
 	}
 
-    glfwTerminate();
 
-	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexbuffer);
-	glDeleteProgram(programID);
-	glDeleteVertexArrays(1, &VertexArrayID);
+
+    deleteSphereAsset();
+
+
+
+
+    glfwTerminate();
 
     #if false // use to loop at console when not opened in IDE
         std::cin.get();

@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="cubeverteces.txt" />
 		<Unit filename="fragmentShader.glsl" />
 		<Unit filename="main.cpp" />
 		<Unit filename="vertexShader.glsl" />
