@@ -10,14 +10,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>     //glm gedeelte over matrix transformaties
 
-#define Fullscreen false //eigen variabele; bepaalt later in de code of fullscreen of windowed mode gebruikt word
+#define Fullscreen false    //bepaalt later in de code of fullscreen of windowed mode gebruikt word
 #define phi 1.6180339887498948482
-#define cube false
+#define cube false           //bepaalt of de cube vorm word gebruikt of het bal achtige vormpje
 
 GLFWwindow* window;
 int windowWidth, windowHeight;
 
-#if true //first one is my code (probably copied from opengl-tutorial with some comments), the second one is from a download provided by the same site
+#if false //first one is my code (probably copied from opengl-tutorial with some comments), the second one is from a download provided by the same site
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path) {
 
     // Create the shaders
@@ -229,7 +229,7 @@ int main() {
     std::cout << "windowWidth = " << windowWidth << "\nwindowHeight = " << windowHeight << std::endl;
 
     if( window == NULL ){
-        std::cout << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials." << std::endl;
+        std::cout << "Failed to open GLFW window." << std::endl;
         glfwTerminate();
         return -1;
     }
@@ -243,23 +243,31 @@ int main() {
 		return -1;
 	}
 
-	// Dark background
-	glClearColor(0.1f, 0.1f, 0.2f, 0.0f);
 
     //glEnable(GL_CULL_FACE);   //verteces zijn met de hand geschreven, dus niet altijd goed geroteert...
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
-	// Accept fragment if it closer to the camera than the former one
-	glDepthFunc(GL_LESS);
+	#if true    //ALLWAYS LEAVE THIS ON TRUE (only change if you want to mess with peoples brains)
+        glDepthFunc(GL_LESS);    // Accept fragment if it closer to the camera than the former one
+        glClearDepth(100.0f);           //zorg dat deze NIET lager is dan de far clipping plane
+	#else
+        glDepthFunc(GL_GREATER);
+        glClearDepth(0.0f);           //zorg dat deze NIET lager is dan de far clipping plane
+	#endif
 
-    glClearDepth(100.0f);           //zorg dat deze NIET lager is dan de far clipping plane
 
-   /*#if false //verify correct configuration of glew:
-    GLuint vertexBuffer;
-    glGenBuffers(1, &vertexBuffer);
-    std::cout << vertexBuffer << std::endl;
-    #endif*/
+
+	// Dark background
+	glClearColor(0.1f, 0.1f, 0.2f, 0.0f);
+
+
+   #if false //verify correct configuration of glew:
+        GLuint vertexBuffer;
+        glGenBuffers(1, &vertexBuffer);
+        std::cout << vertexBuffer << std::endl;
+    #endif
+
 
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
@@ -384,7 +392,7 @@ int main() {
         -phi, 0.0f, 1.0f,
         -1.0f, phi, 0.0f,
 
-        //hoekjes: vind één hoekje, en spiegel hem daarna over alle assen!
+        //hoekjes:
     //origineel:
         0.0f, 1.0f, phi,
         1.0f, phi, 0.0f,

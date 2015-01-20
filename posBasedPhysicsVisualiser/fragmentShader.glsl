@@ -8,6 +8,6 @@ out vec3 color;
 
 void main() {
 
-	color = vec3(1,1,1) * (1 - depth / 15 + 0.1 / depth);
+	color = vec3(1,1,1) * (1 - depth / 12 + 0.1 / depth);
 
 }
