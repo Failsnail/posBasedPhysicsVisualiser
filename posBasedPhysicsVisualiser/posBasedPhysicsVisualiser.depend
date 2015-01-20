@@ -1,12 +1,38 @@
 # depslib dependency file v1.0
-1421744336 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
-	<math.h>
-	<iostream>
-	<vector>
-	<fstream>
+1421765725 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
+	"platform.hpp"
 	<GL/glew.h>
 	<GLFW/glfw3.h>
-	<glm/fwd.hpp>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
+	<cassert>
+	<iostream>
+	<stdexcept>
+	<cmath>
+	<list>
+	"tdogl/Program.h"
+	"tdogl/Texture.h"
+	"tdogl/Camera.h"
+
+1421749593 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\platform.hpp
+	<string>
+
+1421749591 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\tdogl\program.h
+	"Shader.h"
+	<vector>
+	<glm/glm.hpp>
+
+1421749591 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\tdogl\shader.h
+	<GL/glew.h>
+	<string>
+
+1421749591 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\tdogl\texture.h
+	<GL/glew.h>
+	"Bitmap.h"
+
+1421749591 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\tdogl\bitmap.h
+	<string>
+
+1421749591 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\tdogl\camera.h
+	<glm/glm.hpp>
 
