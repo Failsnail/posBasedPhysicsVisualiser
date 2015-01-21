@@ -32,21 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="fragment-shader.txt" />
+		<Unit filename="cubeverteces.txt" />
+		<Unit filename="fragmentShader.glsl" />
 		<Unit filename="main.cpp" />
-		<Unit filename="platform.hpp" />
-		<Unit filename="tdogl/Bitmap.cpp" />
-		<Unit filename="tdogl/Bitmap.h" />
-		<Unit filename="tdogl/Camera.cpp" />
-		<Unit filename="tdogl/Camera.h" />
-		<Unit filename="tdogl/Program.cpp" />
-		<Unit filename="tdogl/Program.h" />
-		<Unit filename="tdogl/Shader.cpp" />
-		<Unit filename="tdogl/Shader.h" />
-		<Unit filename="tdogl/Texture.cpp" />
-		<Unit filename="tdogl/Texture.h" />
-		<Unit filename="vertex-shader.txt" />
-		<Unit filename="wooden-crate.jpg" />
+		<Unit filename="vertexShader.glsl" />
 		<Extensions>
 			<code_completion />
 			<envvars />
