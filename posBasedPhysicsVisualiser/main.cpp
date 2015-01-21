@@ -16,8 +16,9 @@
 
 GLFWwindow* window;
 int windowWidth, windowHeight;
-glm::mat4 Projection;
-glm::mat4 View;
+glm::mat4 projection;
+glm::mat4 view;
+glm::mat4 camera;
 
 
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path){
@@ -151,9 +152,6 @@ const ModelAsset* getSphereAsset() {
         // bind the VBO
         glBindBuffer(GL_ARRAY_BUFFER, sphere->vbo);
 
-        // Get a handle for our camera uniform
-        GLuint MatrixID = glGetUniformLocation(sphere->shaders, "camera");
-
         /*
         (0, ±1, ±phi)
         (±1, ±phi, 0)
@@ -267,30 +265,28 @@ void deleteSphereAsset() {
 }
 
 struct ModelInstance {
-    ModelAsset* asset = nullptr;
+    const ModelAsset* asset = nullptr;
     glm::mat4 transform;
 };
 
 //renders a single `ModelInstance`
 void renderInstance(const ModelInstance& instance) {
-    ModelAsset asset = *(instance.asset);
+    const ModelAsset& asset = *(instance.asset);
 
 
     //bind the shaders
     glUseProgram(asset.shaders);
 
     //set the shader uniforms
-    asset.shaders->setUniform("camera", gCamera.matrix());
-    asset.shaders->setUniform("model", inst.transform);
+    //asset.shaders->setUniform("camera", projection * view);
+    //asset.shaders->setUniform("model", instance.transform);
 
-    // Send our transformation to the currently bound shader,
-    // in the "MVP" uniform
-    glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
+    glUniformMatrix4fv(asset.shaders, 1, true, &camera[0][0]);
+    glUniformMatrix4fv(asset.shaders, 1, true, &instance.transform[0][0]);
 
     // 1rst attribute buffer : vertices
     glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, asset.vbo);
     glVertexAttribPointer(
         0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
         3,                  // size
@@ -301,11 +297,11 @@ void renderInstance(const ModelInstance& instance) {
     );
 
     //bind VAO and draw
-    glBindVertexArray(asset->vao);
+    glBindVertexArray(asset.vao);
 
 
     // Draw the triangles !
-    glDrawArrays(instance.asset.drawType, instance.asset.drawStart, instance.asset.drawCount);
+    glDrawArrays(asset.drawType, asset.drawStart, asset.drawCount);
 
     //unbind everything
     glDisableVertexAttribArray(0);
@@ -379,7 +375,7 @@ int main() {
 
 
 	// Projection matrix : 45° Field of View, display ratio, display range : 0.1 unit <-> 100 units
-	Projection = glm::perspective(45.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
+	projection = glm::perspective(45.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
 
 
@@ -394,7 +390,9 @@ int main() {
     #endif
 
 
-
+    ModelInstance mySphere;
+    mySphere.asset = getSphereAsset();
+    mySphere.transform;
 
 
     double beginTime = glfwGetTime();
@@ -410,13 +408,16 @@ int main() {
 
         time = (float)(glfwGetTime() - beginTime);
 
-        View = glm::lookAt(
+        view = glm::lookAt(
             glm::vec3(3 * cos(time), 4 + 4 * sin (time / 2.1), 3 * sin(time)), //location of the camera
             glm::vec3(0, 0, 0), // and looks at the origin
             glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
         );
 
+        camera = projection * view;
+
         //render all instances
+        renderInstance(mySphere);
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
             glfwSetWindowShouldClose(window, GL_TRUE);
