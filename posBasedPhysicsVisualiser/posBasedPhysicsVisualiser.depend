@@ -1,12 +1,39 @@
 # depslib dependency file v1.0
-1421842326 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
-	<math.h>
+1421871000 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
 	<iostream>
+	<stdio.h>
+	<string>
 	<vector>
+	<iostream>
 	<fstream>
-	<GL/glew.h>
-	<GLFW/glfw3.h>
+	<algorithm>
+	<stdlib.h>
+	<string.h>
 	<glm/fwd.hpp>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+
+1421856142 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\asset.cpp
+	<glm/fwd.hpp>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+
+1421856153 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\instance.cpp
+	<glm/fwd.hpp>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
+	"asset.cpp"
+
+1421856142 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\asset.cpp
+	<glm/fwd.hpp>
+	<glm/glm.hpp>
+	<glm/gtc/matrix_transform.hpp>
+	<GL/glew.h>
+	<GLFW/glfw3.h>
 

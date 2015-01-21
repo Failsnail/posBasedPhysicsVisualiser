@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/posBasedPhysicsVisualiser" prefix_auto="1" extension_auto="1" />
+				<Option output="posBasedPhysicsVisualiser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="../posBasedPhysicsVisualiser" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -32,10 +32,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="cubeverteces.txt" />
-		<Unit filename="fragmentShader.glsl" />
+		<Unit filename="fragmentshader.glsl" />
 		<Unit filename="main.cpp" />
-		<Unit filename="vertexShader.glsl" />
+		<Unit filename="vertexshader.glsl" />
 		<Extensions>
 			<code_completion />
 			<envvars />

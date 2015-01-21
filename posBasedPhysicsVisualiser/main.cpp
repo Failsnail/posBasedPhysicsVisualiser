@@ -1,25 +1,60 @@
-#define GLEW_STATIC
-
-#include <math.h>
 #include <iostream>
+#include <stdio.h>
+#include <string>
 #include <vector>
-#include <fstream>      //filestream: word gebruikt voor het lezen van de shaders
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/fwd.hpp>  //gebruik om glm sneller te laten compileren
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+
+#include <stdlib.h>
+#include <string.h>
+
+using namespace std;
+
+// GLM
+#include <glm/fwd.hpp> //gebruik om glm sneller te laten compileren
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>     //glm gedeelte over matrix transformaties
+#include <glm/gtc/matrix_transform.hpp> //glm gedeelte over matrix transformaties
 
-#define Fullscreen false    //bepaalt later in de code of fullscreen of windowed mode gebruikt word
-#define phi 1.6180339887498948482
-#define cube false           //bepaalt of de cube vorm word gebruikt of het bal achtige vormpje
+// GLEW
+#define GLEW_STATIC
+#include <GL/glew.h>
 
-GLFWwindow* window;
+// GLFW
+#include <GLFW/glfw3.h>
+
+/*
+http://learnopengl.com/#!Getting-started/Hello-Triangle
+*/
+
+struct asset {
+    GLuint shaders;
+    GLuint vbo;
+    GLuint vao;
+    GLenum drawType;
+    GLint drawStart;
+    GLint drawCount;
+};
+
+struct instance {
+    asset* myAsset = nullptr;
+    //glm::mat4 transform;
+};
+
+asset* triangle;
+
 int windowWidth, windowHeight;
-glm::mat4 projection;
-glm::mat4 view;
-glm::mat4 camera;
 
+//glm::mat4 cameraPosition;
+//glm::mat4 projection;
+//glm::mat4 camera;
+
+// Is called whenever a key is pressed/released via GLFW
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+    cout << key << endl;
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
 
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path){
 
@@ -35,7 +70,7 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 		while(getline(VertexShaderStream, Line))
 			VertexShaderCode += "\n" + Line;
 		VertexShaderStream.close();
-	} else {
+	}else{
 		printf("Impossible to open %s. Are you in the right directory ? Don't forget to read the FAQ !\n", vertex_file_path);
 		getchar();
 		return 0;
@@ -114,332 +149,111 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 	return ProgramID;
 }
 
-glm::mat4 translate(GLfloat x, GLfloat y, GLfloat z) {
-    return glm::translate(glm::mat4(), glm::vec3(x,y,z));
-}
+asset* loadTriangle() {
+    if (triangle == nullptr) {
+        cout << "loading triangle..." << endl;
 
-// convenience function that returns a scaling matrix
-glm::mat4 scale(GLfloat x, GLfloat y, GLfloat z) {
-    return glm::scale(glm::mat4(), glm::vec3(x,y,z));
-}
+        triangle = new asset;
 
-struct ModelAsset {
-    GLuint shaders = 0;
-    GLuint vbo = 0;
-    GLuint vao = 0;
-    GLenum drawType = GL_TRIANGLES;
-    GLint drawStart = 0;
-    GLint drawCount = 0;
-};
+        // Build and compile our shader program
+        triangle->shaders = LoadShaders("vertexshader.glsl", "fragmentShader.glsl");
 
-ModelAsset* sphere = nullptr;
+        triangle->drawType = GL_TRIANGLES;
+        triangle->drawStart = 0;
+        triangle->drawCount = 3;
 
-const ModelAsset* getSphereAsset() {
-    if (sphere == nullptr) {
-        sphere = new ModelAsset;
-
-        sphere->shaders = LoadShaders( "vertexShader.glsl", "fragmentShader.glsl" );
-        sphere->drawType = GL_TRIANGLES;
-        sphere->drawStart = 0;
-        sphere->drawCount = 20 * 3;
-
-        glGenBuffers(1, &(sphere->vbo));
-        glGenVertexArrays(1, &(sphere->vao));
-
-        // bind the VAO
-        glBindVertexArray(sphere->vao);
-
-        // bind the VBO
-        glBindBuffer(GL_ARRAY_BUFFER, sphere->vbo);
-
-        /*
-        (0, ±1, ±phi)
-        (±1, ±phi, 0)
-        (±phi, 0, ±1)
-        */
-        static const GLfloat g_vertex_buffer_data[] = {
-            //dakjes:
-            //(0, ±1, ±phi)
-            0.0f, 1.0f, phi,
-            0.0f, -1.0f, phi,
-            phi, 0.0f, 1.0f,
-
-            0.0f, 1.0f, phi,
-            0.0f, -1.0f, phi,
-            -phi, 0.0f, 1.0f,
-
-            0.0f, -1.0f, -phi,
-            0.0f, 1.0f, -phi,
-            -phi, 0.0f, -1.0f,
-
-            0.0f, -1.0f, -phi,
-            0.0f, 1.0f, -phi,
-            phi, 0.0f, -1.0f,
-
-            //(±1, ±phi, 0)
-            1.0f, phi, 0.0f,
-            -1.0f, phi, 0.0f,
-            0.0f, 1.0f, phi,
-
-            1.0f, phi, 0.0f,
-            -1.0f, phi, 0.0f,
-            0.0f, 1.0f, -phi,
-
-            -1.0f, -phi, 0.0f,
-            1.0f, -phi, 0.0f,
-            0.0f, -1.0f, -phi,
-
-            -1.0f, -phi, 0.0f,
-            1.0f, -phi, 0.0f,
-            0.0f, -1.0f, phi,
-
-            //(±phi, 0, ±1)
-            phi, 0.0f, 1.0f,
-            phi, 0.0f, -1.0f,
-            1.0f, phi, 0.0f,
-
-            phi, 0.0f, 1.0f,
-            phi, 0.0f, -1.0f,
-            1.0f, -phi, 0.0f,
-
-            -phi, 0.0f, -1.0f,
-            -phi, 0.0f, 1.0f,
-            -1.0f, -phi, 0.0f,
-
-            -phi, 0.0f, -1.0f,
-            -phi, 0.0f, 1.0f,
-            -1.0f, phi, 0.0f,
-
-            //hoekjes:
-        //origineel:
-            0.0f, 1.0f, phi,
-            1.0f, phi, 0.0f,
-            phi, 0.0f, 1.0f,
-
-        //gespiegeld om X-as:
-            0.0f, 1.0f, phi,
-            -1.0f, phi, 0.0f,
-            -phi, 0.0f, 1.0f,
-
-        //gespiegeld om Y-as:
-            0.0f, -1.0f, phi,
-            1.0f, -phi, 0.0f,
-            phi, 0.0f, 1.0f,
-
-            0.0f, -1.0f, phi,
-            -1.0f, -phi, 0.0f,
-            -phi, 0.0f, 1.0f,
-
-        //gespiegeld om Z-as:
-            0.0f, 1.0f, -phi,
-            1.0f, phi, 0.0f,
-            phi, 0.0f, -1.0f,
-
-            0.0f, 1.0f, -phi,
-            -1.0f, phi, 0.0f,
-            -phi, 0.0f, -1.0f,
-
-            0.0f, -1.0f, -phi,
-            1.0f, -phi, 0.0f,
-            phi, 0.0f, -1.0f,
-
-            0.0f, -1.0f, -phi,
-            -1.0f, -phi, 0.0f,
-            -phi, 0.0f, -1.0f
+        // Set up our vertex data (and buffer(s)) and attribute pointers
+        GLfloat vertices[] = {
+          -0.5f, -0.5f,     //Left (X,Y)
+          0.5f, -0.5f,      //Right (X,Y)
+          0.0f, 0.5f        //Top (X,Y)
         };
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
+        glGenVertexArrays(1, &(triangle->vao));
+        glGenBuffers(1, &(triangle->vbo));
+
+        // Bind our Vertex Array Object first, then bind and set our buffers and pointers.
+        glBindVertexArray(triangle->vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, triangle->vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+        glEnableVertexAttribArray(0);
+
+        glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
     }
-    return sphere;
+    return triangle;
 }
 
-void deleteSphereAsset() {
-
-	// Cleanup VBO and shader
-	glDeleteBuffers(1, &(sphere->vbo));
-	glDeleteProgram(sphere->shaders);
-	glDeleteVertexArrays(1, &(sphere->vao));
-
-    delete sphere;
-    sphere = nullptr;
+void deleteTriangle() {
+    cout << "deleting triangle..." << endl;
+    delete triangle;
+    triangle = nullptr;
 }
 
-struct ModelInstance {
-    const ModelAsset* asset = nullptr;
-    glm::mat4 transform;
-};
+void displayInstance(const instance& tempInstance) {
+    //cout << "displaying an instance..." << endl;
 
-//renders a single `ModelInstance`
-void renderInstance(const ModelInstance& instance) {
-    const ModelAsset& asset = *(instance.asset);
+    const asset& tempAsset = *(tempInstance.myAsset);
 
+    // Draw our first triangle
+    glUseProgram(tempAsset.shaders);
+    glBindVertexArray(tempAsset.vao);
+    glDrawArrays(tempAsset.drawType, tempAsset.drawStart, tempAsset.drawCount);
 
-    //bind the shaders
-    glUseProgram(asset.shaders);
-
-    //set the shader uniforms
-    //asset.shaders->setUniform("camera", projection * view);
-    //asset.shaders->setUniform("model", instance.transform);
-
-    glUniformMatrix4fv(asset.shaders, 1, true, &camera[0][0]);
-    glUniformMatrix4fv(asset.shaders, 1, true, &instance.transform[0][0]);
-
-    // 1rst attribute buffer : vertices
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, asset.vbo);
-    glVertexAttribPointer(
-        0,                  // attribute. No particular reason for 0, but must match the layout in the shader.
-        3,                  // size
-        GL_FLOAT,           // type
-        GL_FALSE,           // normalized?
-        0,                  // stride
-        (void*)0            // array buffer offset
-    );
-
-    //bind VAO and draw
-    glBindVertexArray(asset.vao);
-
-
-    // Draw the triangles !
-    glDrawArrays(asset.drawType, asset.drawStart, asset.drawCount);
-
-    //unbind everything
-    glDisableVertexAttribArray(0);
     glBindVertexArray(0);
-    glUseProgram(0);
 }
-//http://www.tomdalling.com/blog/modern-opengl/05-model-assets-and-instances/
 
-
-
+// The MAIN function, from here we start our application and run our Program/Game loop
 int main() {
-                        //INITIALIZE LIBRARIES, WINDOW & CONTEXT
-
-    // Initialize GLFW
-    if (glfwInit()) {
-        std::cout << "GLFW was successfully initialized" << std::endl;
-    } else {
-        std::cout << "GLFW could not be initialized" << std::endl;
-        return -1;
-    }
-
+    // Init GLFW
+    glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    #if true //again, first code is original, second one is from download
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #else
-        glfwWindowHint(GLFW_SAMPLES, 4);
-    #endif
-
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    #if Fullscreen
-        window = glfwCreateWindow(1366, 768, "OpenGL", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
-    #else
-        window = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr); // Windowed
-    #endif
+    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr); // Windowed
+    glfwMakeContextCurrent(window);
 
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
-    std::cout << "windowWidth = " << windowWidth << "\nwindowHeight = " << windowHeight << std::endl;
+    // Set the required callback functions
+    glfwSetKeyCallback(window, keyCallback);
 
-    if( window == NULL ){
-        std::cout << "Failed to open GLFW window." << std::endl;
-        glfwTerminate();
-        return -1;
+    // Initialize GLEW to setup the OpenGL Function pointers
+    glewExperimental = GL_TRUE;
+    glewInit();
+
+    // Define the viewport dimensions
+    glViewport(0, 0, windowWidth, windowHeight);
+
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+
+    instance triangleObject;
+    triangleObject.myAsset = loadTriangle();
+
+
+    // Game loop
+    while(!glfwWindowShouldClose(window))     {
+        // Check and call events
+        glfwPollEvents();
+
+        // Render
+        // Clear the colorbuffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        displayInstance(triangleObject);
+
+        // Swap the buffers
+        glfwSwapBuffers(window);
     }
 
-    glfwMakeContextCurrent(window);
-
-	// Initialize GLEW
-	glewExperimental = true; // Needed for core profile
-	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
-		return -1;
-	}
-
-
-    //glEnable(GL_CULL_FACE);   //verteces zijn met de hand geschreven, dus niet altijd goed geroteert...
-
-	// Enable depth test
-	glEnable(GL_DEPTH_TEST);
-	#if true    //ALLWAYS LEAVE THIS ON TRUE (only change if you want to mess with peoples brains)
-        glDepthFunc(GL_LESS);    //Accept fragment if it closer to the camera than the former one
-        glClearDepth(100.0f);           //zorg dat deze NIET lager is dan de far clipping plane
-	#else
-        glDepthFunc(GL_GREATER);
-        glClearDepth(0.0f);           //zorg dat deze NIET lager is dan de far clipping plane
-	#endif
-
-
-
-	// Projection matrix : 45° Field of View, display ratio, display range : 0.1 unit <-> 100 units
-	projection = glm::perspective(45.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
-
-
-
-	// Dark background
-	glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
-
-
-   #if false //verify correct configuration of glew:
-        GLuint vertexBuffer;
-        glGenBuffers(1, &vertexBuffer);
-        std::cout << vertexBuffer << std::endl;
-    #endif
-
-
-    ModelInstance mySphere;
-    mySphere.asset = getSphereAsset();
-    mySphere.transform;
-
-
-    double beginTime = glfwGetTime();
-    float time;
-
-                        //MAIN-LOOP
-
-    while(!glfwWindowShouldClose(window)) {
-		// Clear the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        //update
-
-        time = (float)(glfwGetTime() - beginTime);
-
-        view = glm::lookAt(
-            glm::vec3(3 * cos(time), 4 + 4 * sin (time / 2.1), 3 * sin(time)), //location of the camera
-            glm::vec3(0, 0, 0), // and looks at the origin
-            glm::vec3(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-        );
-
-        camera = projection * view;
-
-        //render all instances
-        renderInstance(mySphere);
-
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            glfwSetWindowShouldClose(window, GL_TRUE);
-        }
-
-		// Swap buffers
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-
-
-
-    deleteSphereAsset();
-
-
-
+    deleteTriangle();
 
     glfwTerminate();
-
-    #if false // use to loop at console when not opened in IDE
-        std::cin.get();
-    #endif
-
     return 0;
 }
+
