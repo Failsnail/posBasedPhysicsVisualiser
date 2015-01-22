@@ -9,12 +9,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PI 3.14159265358979323846
+
 using namespace std;
 
 // GLM
 #include <glm/fwd.hpp> //gebruik om glm sneller te laten compileren
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp> //glm gedeelte over matrix transformaties
+#include <glm/gtc/type_ptr.hpp>
 
 // GLEW
 #define GLEW_STATIC
@@ -25,10 +28,12 @@ using namespace std;
 
 /*
 http://learnopengl.com/#!Getting-started/Hello-Triangle
+http://learnopengl.com/#!Getting-started/Shaders
 */
 
 struct asset {
     GLuint shaders;
+    GLuint MVPid;
     GLuint vbo;
     GLuint vao;
     GLenum drawType;
@@ -38,16 +43,28 @@ struct asset {
 
 struct instance {
     asset* myAsset = nullptr;
-    //glm::mat4 transform;
+    glm::mat4 transform = glm::mat4(1.0f);
 };
 
 asset* triangle;
 
-int windowWidth, windowHeight;
+int windowWidth = 800, windowHeight = 600;
 
-//glm::mat4 cameraPosition;
-//glm::mat4 projection;
-//glm::mat4 camera;
+glm::mat4 view = glm::mat4(1.0f);         //the position and orientation of the camera
+glm::mat4 projection = glm::mat4(1.0f);   //the shape of the view
+glm::mat4 camera = glm::mat4(1.0f);       //projection * view
+glm::mat4 MVPmatrix = glm::mat4(1.0f);    //instance.transform * camera, thus different for every instance
+
+/*
+float randomGeneratorFloat = 84;
+float random() {
+    randomGeneratorFloat = randomGeneratorFloat * 777;
+    while (randomGeneratorFloat > 100) {
+        randomGeneratorFloat -= 100;
+    }
+    return randomGeneratorFloat / 100;
+}
+*/
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -164,9 +181,9 @@ asset* loadTriangle() {
 
         // Set up our vertex data (and buffer(s)) and attribute pointers
         GLfloat vertices[] = {
-          -0.5f, -0.5f,     //Left (X,Y)
-          0.5f, -0.5f,      //Right (X,Y)
-          0.0f, 0.5f        //Top (X,Y)
+          -0.5f, -0.5f, 0.0f,
+          0.5f, -0.5f, 0.0f,
+          0.0f, 0.5f, 0.0f
         };
 
         glGenVertexArrays(1, &(triangle->vao));
@@ -178,8 +195,8 @@ asset* loadTriangle() {
         glBindBuffer(GL_ARRAY_BUFFER, triangle->vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(12, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+        glEnableVertexAttribArray(12);
 
         glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
     }
@@ -193,13 +210,17 @@ void deleteTriangle() {
 }
 
 void displayInstance(const instance& tempInstance) {
-    //cout << "displaying an instance..." << endl;
-
     const asset& tempAsset = *(tempInstance.myAsset);
 
-    // Draw our first triangle
-    glUseProgram(tempAsset.shaders);
-    glBindVertexArray(tempAsset.vao);
+    glUseProgram(tempAsset.shaders);    //open our shaders
+    glBindVertexArray(tempAsset.vao);   //use our buffers and information stored with it
+
+    //GLuint MVPid = glGetUniformLocation(triangle->shaders, "MVP");
+
+    //MVPmatrix = camera * tempInstance.transform;
+
+    //glUniformMatrix4fv(MVPid, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
+
     glDrawArrays(tempAsset.drawType, tempAsset.drawStart, tempAsset.drawCount);
 
     glBindVertexArray(0);
@@ -214,7 +235,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr); // Windowed
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "LearnOpenGL", nullptr, nullptr); // Windowed
     glfwMakeContextCurrent(window);
 
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
@@ -232,20 +253,38 @@ int main() {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 
-    instance triangleObject;
-    triangleObject.myAsset = loadTriangle();
+    projection = glm::perspective(90.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
+
+    instance myInstance;
+    myInstance.myAsset = loadTriangle();
+
+    //glm::translate(myInstance.transform, glm::vec3(2.0f, -2.0f, -70.0f));
+
+
+    double beginTime = glfwGetTime();
+    double currentTime;
 
     // Game loop
     while(!glfwWindowShouldClose(window))     {
         // Check and call events
         glfwPollEvents();
 
-        // Render
         // Clear the colorbuffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        displayInstance(triangleObject);
+        // Update
+        currentTime = glfwGetTime() - beginTime;
+
+        view = glm::lookAt(glm::vec3(cos(currentTime * PI / 2) * 2, 0.0f, sin(currentTime * PI / 2) * 2),
+                           glm::vec3(0.0f, 0.0f, 0.0f),
+                           glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+        // Render
+        camera = projection * view;
+
+        displayInstance(myInstance);
 
         // Swap the buffers
         glfwSwapBuffers(window);
