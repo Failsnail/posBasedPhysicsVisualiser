@@ -10,11 +10,11 @@
 #include <string.h>
 
 #define PI 3.14159265358979323846
+#define phi 1.6180339887498948482
 
 using namespace std;
 
 // GLM
-#include <glm/fwd.hpp> //gebruik om glm sneller te laten compileren
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp> //glm gedeelte over matrix transformaties
 #include <glm/gtc/type_ptr.hpp>
@@ -47,6 +47,7 @@ struct instance {
 };
 
 asset* triangle;
+asset* sphere;
 
 int windowWidth = 800, windowHeight = 600;
 
@@ -54,17 +55,6 @@ glm::mat4 view = glm::mat4(1.0f);         //the position and orientation of the 
 glm::mat4 projection = glm::mat4(1.0f);   //the shape of the view
 glm::mat4 camera = glm::mat4(1.0f);       //projection * view
 glm::mat4 MVPmatrix = glm::mat4(1.0f);    //instance.transform * camera, thus different for every instance
-
-/*
-float randomGeneratorFloat = 84;
-float random() {
-    randomGeneratorFloat = randomGeneratorFloat * 777;
-    while (randomGeneratorFloat > 100) {
-        randomGeneratorFloat -= 100;
-    }
-    return randomGeneratorFloat / 100;
-}
-*/
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -177,7 +167,7 @@ asset* loadTriangle() {
 
         triangle->drawType = GL_TRIANGLES;
         triangle->drawStart = 0;
-        triangle->drawCount = 3;
+        triangle->drawCount = 1 * 3;
 
         // Set up our vertex data (and buffer(s)) and attribute pointers
         GLfloat vertices[] = {
@@ -209,17 +199,143 @@ void deleteTriangle() {
     triangle = nullptr;
 }
 
+asset* loadSphere() {
+    if (sphere == nullptr) {
+        cout << "loading sphere..." << endl;
+
+        sphere = new asset;
+
+        // Build and compile our shader program
+        sphere->shaders = LoadShaders("vertexshader.glsl", "fragmentShader.glsl");
+
+        sphere->drawType = GL_TRIANGLES;
+        sphere->drawStart = 0;
+        sphere->drawCount = 20 * 3;
+
+        // Set up our vertex data (and buffer(s)) and attribute pointers
+        GLfloat vertices[] = {
+            //dakjes:
+            //(0, ±1, ±phi)
+            0.0f, 1.0f, phi,
+            0.0f, -1.0f, phi,
+            phi, 0.0f, 1.0f,
+
+            0.0f, 1.0f, phi,
+            0.0f, -1.0f, phi,
+            -phi, 0.0f, 1.0f,
+
+            0.0f, -1.0f, -phi,
+            0.0f, 1.0f, -phi,
+            -phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            0.0f, 1.0f, -phi,
+            phi, 0.0f, -1.0f,
+
+            //(±1, ±phi, 0)
+            1.0f, phi, 0.0f,
+            -1.0f, phi, 0.0f,
+            0.0f, 1.0f, phi,
+
+            1.0f, phi, 0.0f,
+            -1.0f, phi, 0.0f,
+            0.0f, 1.0f, -phi,
+
+            -1.0f, -phi, 0.0f,
+            1.0f, -phi, 0.0f,
+            0.0f, -1.0f, -phi,
+
+            -1.0f, -phi, 0.0f,
+            1.0f, -phi, 0.0f,
+            0.0f, -1.0f, phi,
+
+            //(±phi, 0, ±1)
+            phi, 0.0f, 1.0f,
+            phi, 0.0f, -1.0f,
+            1.0f, phi, 0.0f,
+
+            phi, 0.0f, 1.0f,
+            phi, 0.0f, -1.0f,
+            1.0f, -phi, 0.0f,
+
+            -phi, 0.0f, -1.0f,
+            -phi, 0.0f, 1.0f,
+            -1.0f, -phi, 0.0f,
+
+            -phi, 0.0f, -1.0f,
+            -phi, 0.0f, 1.0f,
+            -1.0f, phi, 0.0f,
+
+            //hoekjes:
+        //origineel:
+            0.0f, 1.0f, phi,
+            1.0f, phi, 0.0f,
+            phi, 0.0f, 1.0f,
+
+        //gespiegeld om X-as:
+            0.0f, 1.0f, phi,
+            -1.0f, phi, 0.0f,
+            -phi, 0.0f, 1.0f,
+
+        //gespiegeld om Y-as:
+            0.0f, -1.0f, phi,
+            1.0f, -phi, 0.0f,
+            phi, 0.0f, 1.0f,
+
+            0.0f, -1.0f, phi,
+            -1.0f, -phi, 0.0f,
+            -phi, 0.0f, 1.0f,
+
+        //gespiegeld om Z-as:
+            0.0f, 1.0f, -phi,
+            1.0f, phi, 0.0f,
+            phi, 0.0f, -1.0f,
+
+            0.0f, 1.0f, -phi,
+            -1.0f, phi, 0.0f,
+            -phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            1.0f, -phi, 0.0f,
+            phi, 0.0f, -1.0f,
+
+            0.0f, -1.0f, -phi,
+            -1.0f, -phi, 0.0f,
+            -phi, 0.0f, -1.0f
+        };
+
+        glGenVertexArrays(1, &(sphere->vao));
+        glGenBuffers(1, &(sphere->vbo));
+
+        // Bind our Vertex Array Object first, then bind and set our buffers and pointers.
+        glBindVertexArray(sphere->vao);
+
+        glBindBuffer(GL_ARRAY_BUFFER, sphere->vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+        glVertexAttribPointer(12, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+        glEnableVertexAttribArray(12);
+
+        glBindVertexArray(0); // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
+    }
+    return sphere;
+}
+
+void deleteSphere() {
+    cout << "deleting sphere..." << endl;
+    delete sphere;
+    triangle = nullptr;
+}
+
 void displayInstance(const instance& tempInstance) {
     const asset& tempAsset = *(tempInstance.myAsset);
 
     glUseProgram(tempAsset.shaders);    //open our shaders
     glBindVertexArray(tempAsset.vao);   //use our buffers and information stored with it
 
-    //GLuint MVPid = glGetUniformLocation(triangle->shaders, "MVP");
-
-    //MVPmatrix = camera * tempInstance.transform;
-
-    //glUniformMatrix4fv(MVPid, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
+    GLuint MVPid = glGetUniformLocation(tempAsset.shaders, "MVP");
+    MVPmatrix = camera * tempInstance.transform;
+    glUniformMatrix4fv(MVPid, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
 
     glDrawArrays(tempAsset.drawType, tempAsset.drawStart, tempAsset.drawCount);
 
@@ -252,15 +368,28 @@ int main() {
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);    // Accept fragment if it closer to the camera than the former one
+    glClearDepth(100.0f);           //zorg dat deze NIET lager is dan de far clipping plane
 
-    projection = glm::perspective(90.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
+    projection = glm::perspective(70.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
+
+    glm::mat4 tempMatrix;
 
     instance myInstance;
-    myInstance.myAsset = loadTriangle();
+    myInstance.myAsset = loadSphere();
 
-    //glm::translate(myInstance.transform, glm::vec3(2.0f, -2.0f, -70.0f));
+    tempMatrix = glm::scale(tempMatrix, glm::vec3(0.5f, 0.5f, 0.5f));
+    myInstance.transform = tempMatrix;
 
+    tempMatrix = glm::translate(tempMatrix, glm::vec3(2.0f, 0.0f, 0.0f));
+    myInstance.transform = tempMatrix * myInstance.transform;
+
+    instance mySphere;
+    mySphere.myAsset = loadSphere();
+    mySphere.transform = glm::translate(mySphere.transform, glm::vec3(-2.0f, 0.0f, 0.0f));
 
     double beginTime = glfwGetTime();
     double currentTime;
@@ -276,7 +405,7 @@ int main() {
         // Update
         currentTime = glfwGetTime() - beginTime;
 
-        view = glm::lookAt(glm::vec3(cos(currentTime * PI / 2) * 2, 0.0f, sin(currentTime * PI / 2) * 2),
+        view = glm::lookAt(glm::vec3(cos(currentTime * PI / 2) * 6, 2.0f + 2.0f * sin (currentTime * PI / 6.5f), sin(currentTime * PI / 2) * 6),
                            glm::vec3(0.0f, 0.0f, 0.0f),
                            glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -285,12 +414,14 @@ int main() {
         camera = projection * view;
 
         displayInstance(myInstance);
+        displayInstance(mySphere);
 
         // Swap the buffers
         glfwSwapBuffers(window);
     }
 
     deleteTriangle();
+    deleteSphere();
 
     glfwTerminate();
     return 0;

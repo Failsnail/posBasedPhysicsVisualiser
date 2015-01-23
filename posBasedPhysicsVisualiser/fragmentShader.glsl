@@ -1,7 +1,13 @@
 #version 330 core
 
-out vec4 color;
+// Interpolated values from the vertex shaders
+in float depth;
+
+// Ouput data
+out vec3 color;
 
 void main() {
-    color = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+
+	color = vec3(1,1,1) * (1 - depth / 15);
+
 }
