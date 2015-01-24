@@ -45,7 +45,8 @@ struct asset {
 
 struct instance {
     asset* myAsset = nullptr;
-    glm::mat4 transform = glm::mat4(1.0f);
+    glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+    float scale = 1;
 };
 
 asset* triangle;
@@ -354,13 +355,28 @@ void deleteSphere() {
 }
 
 void displayInstance(const instance& tempInstance) {
+    if (tempInstance.myAsset == nullptr) {
+        return; //the instance didn't contain an asset
+    }
     const asset& tempAsset = *(tempInstance.myAsset);
 
     glUseProgram(tempAsset.shaders);    //open our shaders
     glBindVertexArray(tempAsset.vao);   //use our buffers and information stored with it
 
     GLuint MVPid = glGetUniformLocation(tempAsset.shaders, "MVP");
-    MVPmatrix = camera * tempInstance.transform;
+
+    glm::mat4 transform;
+
+    {
+    glm::mat4 translate;
+    glm::mat4 scale;
+    translate = glm::translate(translate, tempInstance.position);
+    scale = glm::scale(scale, glm::vec3(tempInstance.scale, tempInstance.scale, tempInstance.scale));
+    transform = translate * scale;
+    }
+
+    MVPmatrix = camera * transform;
+
     glUniformMatrix4fv(MVPid, 1, GL_FALSE, glm::value_ptr(MVPmatrix));
 
     glDrawArrays(tempAsset.drawType, tempAsset.drawStart, tempAsset.drawCount);
@@ -462,20 +478,20 @@ int main() {
 
     projection = glm::perspective(70.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
+
     glm::mat4 tempMatrix;
+
 
     instance myInstance;
     myInstance.myAsset = loadSphere();
-
-    tempMatrix = glm::scale(tempMatrix, glm::vec3(0.5f, 0.5f, 0.5f));
-    myInstance.transform = tempMatrix;
-
-    tempMatrix = glm::translate(tempMatrix, glm::vec3(2.0f, 0.0f, 0.0f));
-    myInstance.transform = tempMatrix * myInstance.transform;
-
+    myInstance.position = glm::vec3(5.0f, 0.0f, 0.0f);
+/*
     instance mySphere;
     mySphere.myAsset = loadSphere();
-    mySphere.transform = glm::translate(mySphere.transform, glm::vec3(-2.0f, 0.0f, 0.0f));
+    mySphere.position = glm::vec3(-3.0f, 0.0f, 0.0f);
+*/
+    double beginTime = glfwGetTime();
+    double currentTime;
 
     // Game loop
     while(!glfwWindowShouldClose(window))     {
@@ -486,13 +502,18 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Update
+        currentTime = glfwGetTime() - beginTime;
         moveCamera();
+
+        myInstance.scale = 1.0f +
+            (1.0f + 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI / 2.7f)
+            + (1.0f - 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI * 1.7f);
 
         // Render
         camera = projection * view;
 
         displayInstance(myInstance);
-        displayInstance(mySphere);
+        //displayInstance(mySphere);
 
         // Swap the buffers
         glfwSwapBuffers(window);
