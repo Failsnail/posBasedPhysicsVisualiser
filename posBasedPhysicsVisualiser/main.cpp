@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define fullscreen true
+
 #define PI 3.14159265358979323846
 #define phi 1.6180339887498948482
 
@@ -49,7 +51,18 @@ struct instance {
 asset* triangle;
 asset* sphere;
 
+double lastXmouse, lastYmouse;
+double Xmouse, Ymouse;
+double yaw = 0, pitch = 0;
+
 int windowWidth = 800, windowHeight = 600;
+GLFWwindow* window;
+
+bool keys[1024];
+
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, -5.0f);
+glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, 1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 glm::mat4 view = glm::mat4(1.0f);         //the position and orientation of the camera
 glm::mat4 projection = glm::mat4(1.0f);   //the shape of the view
@@ -59,8 +72,21 @@ glm::mat4 MVPmatrix = glm::mat4(1.0f);    //instance.transform * camera, thus di
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
     cout << key << endl;
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if (key >= 0 && key < 1024) {
+        if(action == GLFW_PRESS) {
+          keys[key] = true;
+        } else if(action == GLFW_RELEASE) {
+          keys[key] = false;
+        }
+    }
+}
+
+void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+    Xmouse = xpos;
+    Ymouse = ypos;
 }
 
 GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path){
@@ -342,6 +368,54 @@ void displayInstance(const instance& tempInstance) {
     glBindVertexArray(0);
 }
 
+void moveCamera() {
+    //update camera parameters to mouse input
+    GLfloat sensitivity = 0.002f;
+    yaw += (Xmouse - lastXmouse) * sensitivity;
+    pitch -= (Ymouse - lastYmouse) * sensitivity;
+
+    if (pitch < -0.49 * PI) {
+        pitch = -0.49 * PI;
+    }
+    if (pitch > 0.49 * PI) {
+        pitch = 0.49 * PI;
+    }
+
+    cameraDir.x = cos(yaw) * cos(pitch);
+    cameraDir.y = sin(pitch);
+    cameraDir.z = sin(yaw) * cos(pitch);
+
+    cameraDir = glm::normalize(cameraDir);
+
+    lastXmouse = Xmouse;
+    lastYmouse = Ymouse;
+
+    //update camera parameters to keyboard input
+    GLfloat cameraSpeed = 0.05f;
+    if (keys[GLFW_KEY_W]) {
+        cameraPos += cameraSpeed * cameraDir;
+    }
+    if (keys[GLFW_KEY_S]) {
+        cameraPos -= cameraSpeed * cameraDir;
+    }
+    if (keys[GLFW_KEY_A]) {
+        cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * cameraSpeed;
+    }
+    if (keys[GLFW_KEY_D]) {
+        cameraPos += glm::normalize(glm::cross(cameraDir, cameraUp)) * cameraSpeed;
+    }
+    if (keys[GLFW_KEY_SPACE]) {
+        cameraPos.y += cameraSpeed;
+    }
+    if (keys[GLFW_KEY_LEFT_SHIFT]) {
+        cameraPos.y -= cameraSpeed;
+    }
+    //update the view matrix to the new parameters
+    view = glm::lookAt(cameraPos,
+                       cameraPos + cameraDir,
+                       cameraUp);
+}
+
 // The MAIN function, from here we start our application and run our Program/Game loop
 int main() {
     // Init GLFW
@@ -349,15 +423,27 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "LearnOpenGL", nullptr, nullptr); // Windowed
+    #if fullscreen
+    window = glfwCreateWindow(1366, 768, "OpenGL", glfwGetPrimaryMonitor(), nullptr); // Fullscreen
+    #else
+    window = glfwCreateWindow(windowWidth, windowHeight, "LearnOpenGL", nullptr, nullptr); // Windowed
+    #endif // fullscreen
+
     glfwMakeContextCurrent(window);
+
+    glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
+    // Capture the mouse
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
     // Set the required callback functions
     glfwSetKeyCallback(window, keyCallback);
+    glfwSetCursorPosCallback(window, mouseCallback);
 
     // Initialize GLEW to setup the OpenGL Function pointers
     glewExperimental = GL_TRUE;
@@ -391,9 +477,6 @@ int main() {
     mySphere.myAsset = loadSphere();
     mySphere.transform = glm::translate(mySphere.transform, glm::vec3(-2.0f, 0.0f, 0.0f));
 
-    double beginTime = glfwGetTime();
-    double currentTime;
-
     // Game loop
     while(!glfwWindowShouldClose(window))     {
         // Check and call events
@@ -403,12 +486,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Update
-        currentTime = glfwGetTime() - beginTime;
-
-        view = glm::lookAt(glm::vec3(cos(currentTime * PI / 2) * 6, 2.0f + 2.0f * sin (currentTime * PI / 6.5f), sin(currentTime * PI / 2) * 6),
-                           glm::vec3(0.0f, 0.0f, 0.0f),
-                           glm::vec3(0.0f, 1.0f, 0.0f));
-
+        moveCamera();
 
         // Render
         camera = projection * view;
