@@ -52,6 +52,8 @@ struct instance {
 asset* triangle;
 asset* sphere;
 
+double beginTime, currentTime, lastTime, deltaTime;
+
 double lastXmouse, lastYmouse;
 double Xmouse, Ymouse;
 double yaw = 0, pitch = 0;
@@ -69,6 +71,9 @@ glm::mat4 view = glm::mat4(1.0f);         //the position and orientation of the 
 glm::mat4 projection = glm::mat4(1.0f);   //the shape of the view
 glm::mat4 camera = glm::mat4(1.0f);       //projection * view
 glm::mat4 MVPmatrix = glm::mat4(1.0f);    //instance.transform * camera, thus different for every instance
+
+
+instance myInstance;
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -386,7 +391,7 @@ void displayInstance(const instance& tempInstance) {
 
 void moveCamera() {
     //update camera parameters to mouse input
-    GLfloat sensitivity = 0.002f;
+    GLfloat sensitivity = 0.001f;
     yaw += (Xmouse - lastXmouse) * sensitivity;
     pitch -= (Ymouse - lastYmouse) * sensitivity;
 
@@ -430,6 +435,22 @@ void moveCamera() {
     view = glm::lookAt(cameraPos,
                        cameraPos + cameraDir,
                        cameraUp);
+}
+
+void update() {
+    //updating of time values and clearing the screen is already done.
+
+    myInstance.scale = 1.0f +
+        (1.0f + 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI / 2.7f)
+        + (1.0f - 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI * 1.7f);
+
+    // Render
+    moveCamera();
+
+    camera = projection * view;
+
+    displayInstance(myInstance);
+    //displayInstance(mySphere);
 }
 
 // The MAIN function, from here we start our application and run our Program/Game loop
@@ -479,10 +500,7 @@ int main() {
     projection = glm::perspective(70.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
 
-    glm::mat4 tempMatrix;
 
-
-    instance myInstance;
     myInstance.myAsset = loadSphere();
     myInstance.position = glm::vec3(5.0f, 0.0f, 0.0f);
 /*
@@ -490,30 +508,24 @@ int main() {
     mySphere.myAsset = loadSphere();
     mySphere.position = glm::vec3(-3.0f, 0.0f, 0.0f);
 */
-    double beginTime = glfwGetTime();
-    double currentTime;
+
+    beginTime = glfwGetTime();
 
     // Game loop
     while(!glfwWindowShouldClose(window))     {
         // Check and call events
         glfwPollEvents();
 
-        // Clear the colorbuffer
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        lastTime = currentTime;
+        currentTime = glfwGetTime() - beginTime;
+        deltaTime = currentTime - lastTime;
+
+        // Clear the buffers
+        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 
         // Update
-        currentTime = glfwGetTime() - beginTime;
-        moveCamera();
-
-        myInstance.scale = 1.0f +
-            (1.0f + 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI / 2.7f)
-            + (1.0f - 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI * 1.7f);
-
-        // Render
-        camera = projection * view;
-
-        displayInstance(myInstance);
-        //displayInstance(mySphere);
+        update();
 
         // Swap the buffers
         glfwSwapBuffers(window);
