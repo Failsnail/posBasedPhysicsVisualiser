@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="posBased" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -34,6 +35,26 @@
 		</Compiler>
 		<Unit filename="fragmentshader.glsl" />
 		<Unit filename="main.cpp" />
+		<Unit filename="posBased/constraints/constraint.cpp" />
+		<Unit filename="posBased/constraints/constraint.h" />
+		<Unit filename="posBased/constraints/distanceconstraint.cpp" />
+		<Unit filename="posBased/constraints/distanceconstraint.h" />
+		<Unit filename="posBased/constraints/positionconstraint.cpp" />
+		<Unit filename="posBased/constraints/positionconstraint.h" />
+		<Unit filename="posBased/particles/particle.cpp" />
+		<Unit filename="posBased/particles/particle.h" />
+		<Unit filename="posBased/particles/particlepool.cpp" />
+		<Unit filename="posBased/particles/particlepool.h" />
+		<Unit filename="posBased/simulator.cpp" />
+		<Unit filename="posBased/simulator.h" />
+		<Unit filename="posBased/softforces/softforce.cpp" />
+		<Unit filename="posBased/softforces/softforce.h" />
+		<Unit filename="posBased/vector/vector2d.cpp" />
+		<Unit filename="posBased/vector/vector2d.h" />
+		<Unit filename="posBased/vector/vector3d.cpp" />
+		<Unit filename="posBased/vector/vector3d.h" />
+		<Unit filename="posBased/worldstate.cpp" />
+		<Unit filename="posBased/worldstate.h" />
 		<Unit filename="vertexshader.glsl" />
 		<Extensions>
 			<code_completion />

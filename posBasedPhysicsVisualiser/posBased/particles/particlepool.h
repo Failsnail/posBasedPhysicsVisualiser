@@ -17,6 +17,8 @@ class particlePool {
         particlePool(const particlePool& newValue);
         virtual ~particlePool();
 
+        bool isActive(const int& index) const;
+
         particle getParticle(const int& index) const;
         vectorType getPosition(const int& index) const;
         vectorType getVelocity(const int& index) const;

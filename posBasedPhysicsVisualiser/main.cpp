@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define fullscreen true
+#define fullscreen false
 
 #define PI 3.14159265358979323846
 #define phi 1.6180339887498948482
@@ -28,10 +28,16 @@ using namespace std;
 // GLFW
 #include <GLFW/glfw3.h>
 
-/*
-http://learnopengl.com/#!Getting-started/Hello-Triangle
-http://learnopengl.com/#!Getting-started/Shaders
-*/
+#include "posBased/simulator.h"
+#include "posBased/worldstate.h"
+#include "posBased/particles/particle.h"
+#include "posBased/particles/particlepool.h"
+#include "posBased/constraints/constraint.h"
+#include "posBased/constraints/distanceconstraint.h"
+#include "posBased/constraints/positionconstraint.h"
+#include "posBased/softforces/softforce.h"
+#include "posBased/vector/vector2d.h"
+#include "posBased/vector/vector3d.h"
 
 struct asset {
     GLuint shaders;
@@ -56,7 +62,7 @@ double beginTime, currentTime, lastTime, deltaTime;
 
 double lastXmouse, lastYmouse;
 double Xmouse, Ymouse;
-double yaw = 0, pitch = 0;
+double yaw = 0.5f * PI, pitch = 0;
 
 int windowWidth = 800, windowHeight = 600;
 GLFWwindow* window;
@@ -73,7 +79,12 @@ glm::mat4 camera = glm::mat4(1.0f);       //projection * view
 glm::mat4 MVPmatrix = glm::mat4(1.0f);    //instance.transform * camera, thus different for every instance
 
 
-instance myInstance;
+worldstate myWorldstate;
+simulator mySimulator;
+
+instance** instanceList = nullptr;
+int instanceListLength = 0;
+
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -359,11 +370,11 @@ void deleteSphere() {
     triangle = nullptr;
 }
 
-void displayInstance(const instance& tempInstance) {
-    if (tempInstance.myAsset == nullptr) {
+void displayInstance(const instance& newInstance) {
+    if (newInstance.myAsset == nullptr) {
         return; //the instance didn't contain an asset
     }
-    const asset& tempAsset = *(tempInstance.myAsset);
+    const asset& tempAsset = *(newInstance.myAsset);
 
     glUseProgram(tempAsset.shaders);    //open our shaders
     glBindVertexArray(tempAsset.vao);   //use our buffers and information stored with it
@@ -375,8 +386,8 @@ void displayInstance(const instance& tempInstance) {
     {
     glm::mat4 translate;
     glm::mat4 scale;
-    translate = glm::translate(translate, tempInstance.position);
-    scale = glm::scale(scale, glm::vec3(tempInstance.scale, tempInstance.scale, tempInstance.scale));
+    translate = glm::translate(translate, newInstance.position);
+    scale = glm::scale(scale, glm::vec3(newInstance.scale, newInstance.scale, newInstance.scale));
     transform = translate * scale;
     }
 
@@ -414,10 +425,12 @@ void moveCamera() {
     //update camera parameters to keyboard input
     GLfloat cameraSpeed = 0.05f;
     if (keys[GLFW_KEY_W]) {
-        cameraPos += cameraSpeed * cameraDir;
+        //cameraPos += cameraSpeed * cameraDir;
+        cameraPos += cameraSpeed * glm::normalize(glm::vec3(cameraDir.x, 0.0f, cameraDir.z));
     }
     if (keys[GLFW_KEY_S]) {
-        cameraPos -= cameraSpeed * cameraDir;
+        //cameraPos -= cameraSpeed * cameraDir;
+        cameraPos -= cameraSpeed * glm::normalize(glm::vec3(cameraDir.x, 0.0f, cameraDir.z));
     }
     if (keys[GLFW_KEY_A]) {
         cameraPos -= glm::normalize(glm::cross(cameraDir, cameraUp)) * cameraSpeed;
@@ -437,24 +450,133 @@ void moveCamera() {
                        cameraUp);
 }
 
+glm::vec3 convertVector(const vector2D& newVector) {
+    return glm::vec3(newVector.getX(), newVector.getY(), 0.0f);
+}
+
+glm::vec3 convertVector(const vector3D& newVector) {
+    return glm::vec3(newVector.getX(), newVector.getY(), newVector.getZ());
+}
+
+void deleteInstanceList() {
+    for (int i = 0; i < instanceListLength; i++) {
+        delete instanceList[i];
+    }
+    delete instanceList;
+    instanceList = nullptr;
+    instanceListLength = 0;
+}
+
+void initialezeInstanceList(const int& newLength) {
+    //if the new length isn't the old length, delete the list and make a one with the good size
+    if (instanceListLength != newLength) {
+        cout << "wiping instanceList to reinitialize..." << endl;
+        deleteInstanceList();
+        cout << "initializing instanceList..." << endl;
+        instanceListLength = newLength;
+        instanceList = new instance* [instanceListLength];
+        //make shure the list only contains nullptrs
+        cout << "clearing instanceList..." << endl;
+        for (int i = 0; i < instanceListLength; i++) {
+            instanceList[i] = nullptr;
+        }
+    } else {
+        cout << "clearing InstanceList..." << endl;
+        //delete any instances stored with the list and set them to nullptrs
+        for (int i = 0; i < instanceListLength; i++) {
+            if (instanceList[i] != nullptr) {
+                delete instanceList[i];
+                instanceList[i] = nullptr;
+            }
+        }
+    }
+}
+
+void setInstanceList(const worldstate& newWorldState) {
+    cout << "getting a particlePool&..." << endl;
+    const particlePool& tempParticlePool = newWorldState.getParticlePool();
+
+    cout << "preparing the instanceList..." << endl;
+    initialezeInstanceList(tempParticlePool.getParticlePoolSize());
+
+    cout << "copying values..." << endl;
+    for (int i = 0; i < instanceListLength; i++) {
+        if (tempParticlePool.isActive(i)) {
+            instanceList[i] = new instance;
+            instanceList[i]->scale = 0.25f;
+            instanceList[i]->myAsset = loadSphere();
+            instanceList[i]->position = convertVector(tempParticlePool.getPosition(i));
+        }
+    }
+}
+
+void displayInstanceList() {
+    if (instanceList != nullptr) {
+        for (int i = 0; i < instanceListLength; i++) {
+            if (instanceList[i] != nullptr) {
+                displayInstance(*(instanceList[i]));
+            }
+        }
+    }
+}
+
+void loadWorld() {
+    cout << "initialize particlePool..." << endl;
+    {
+    particlePool tempParticlePool;
+    tempParticlePool = myWorldstate.getParticlePool();
+    tempParticlePool.initialize(20);
+    myWorldstate.setParticlePool(tempParticlePool);
+    }
+
+    cout << "initializing particles..." << endl;
+
+    int particle1, particle2;
+
+    vectorType tempVector (1, 0);
+
+    particle tempParticle;
+    tempParticle.setVelocity(tempVector);       //1,0
+    tempParticle.setPosition(tempVector);       //1,0
+    particle1 = myWorldstate.addParticle(tempParticle);
+    tempVector.clear();
+
+    tempParticle.setPosition(tempVector);       //0, 0
+    tempParticle.setVelocity(tempVector);       //0, 0
+    particle2 = myWorldstate.addParticle(tempParticle);
+
+    cout << "initializing constriants..." << endl;
+
+    constraint* myConstraint;
+    myConstraint = new distanceconstraint(particle1, particle2, 1, 1);
+
+    int tempInt = myWorldstate.addConstraint(myConstraint);
+
+    myConstraint = nullptr;
+}
+
 void update() {
     //updating of time values and clearing the screen is already done.
 
-    myInstance.scale = 1.0f +
-        (1.0f + 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI / 2.7f)
-        + (1.0f - 0.5f * sin(currentTime / 2.0f)) * sin(currentTime * PI * 1.7f);
+    cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
+
+    cout << "simulating..." << endl;
+    mySimulator.simulate(&myWorldstate, (float)deltaTime);
+
+    cout << "updating object positions..." << endl;
+    setInstanceList(myWorldstate);
 
     // Render
+    cout << "rendering..." << endl;
     moveCamera();
 
     camera = projection * view;
-
-    displayInstance(myInstance);
-    //displayInstance(mySphere);
+    displayInstanceList();
 }
 
 // The MAIN function, from here we start our application and run our Program/Game loop
 int main() {
+    cout << "initializing graphics..." << endl;
     // Init GLFW
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -489,7 +611,7 @@ int main() {
     // Define the viewport dimensions
     glViewport(0, 0, windowWidth, windowHeight);
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -499,37 +621,38 @@ int main() {
 
     projection = glm::perspective(70.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
-
-
-    myInstance.myAsset = loadSphere();
-    myInstance.position = glm::vec3(5.0f, 0.0f, 0.0f);
-/*
-    instance mySphere;
-    mySphere.myAsset = loadSphere();
-    mySphere.position = glm::vec3(-3.0f, 0.0f, 0.0f);
-*/
+    cout << "loading world..." << endl;
+    loadWorld();
 
     beginTime = glfwGetTime();
+
+    cout << endl << "running..." << endl;
 
     // Game loop
     while(!glfwWindowShouldClose(window))     {
         // Check and call events
         glfwPollEvents();
 
+        cout << "updating time..." << endl;
         lastTime = currentTime;
         currentTime = glfwGetTime() - beginTime;
         deltaTime = currentTime - lastTime;
 
+        cout << "clearing buffers...";
         // Clear the buffers
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
         // Update
+        cout << "'update'" << endl;
         update();
 
+        cout << endl;
         // Swap the buffers
         glfwSwapBuffers(window);
     }
+
+    cout << endl;
 
     deleteTriangle();
     deleteSphere();

@@ -13,6 +13,14 @@ particlePool::~particlePool() {
     clear();
 }
 
+bool particlePool::isActive(const int& index) const {
+    bool tempBool = false;
+    if (index >= 0 && index < particlePoolSize) {
+        tempBool = myParticlePoolFlag[index];
+    }
+    return tempBool;
+}
+
 particle particlePool::getParticle(const int& index) const {
     particle tempParticle;
     if (index >= 0 && index < particlePoolSize) {
