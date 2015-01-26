@@ -33,6 +33,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="demos/pulley.txt" />
+		<Unit filename="demos/scale.txt" />
+		<Unit filename="demos/simple.txt" />
+		<Unit filename="demos/string.txt" />
 		<Unit filename="fragmentshader.glsl" />
 		<Unit filename="main.cpp" />
 		<Unit filename="posBased/constraints/constraint.cpp" />
@@ -47,8 +51,12 @@
 		<Unit filename="posBased/particles/particlepool.h" />
 		<Unit filename="posBased/simulator.cpp" />
 		<Unit filename="posBased/simulator.h" />
+		<Unit filename="posBased/softforces/gravity.cpp" />
+		<Unit filename="posBased/softforces/gravity.h" />
 		<Unit filename="posBased/softforces/softforce.cpp" />
 		<Unit filename="posBased/softforces/softforce.h" />
+		<Unit filename="posBased/softforces/spring.cpp" />
+		<Unit filename="posBased/softforces/spring.h" />
 		<Unit filename="posBased/vector/vector2d.cpp" />
 		<Unit filename="posBased/vector/vector2d.h" />
 		<Unit filename="posBased/vector/vector3d.cpp" />

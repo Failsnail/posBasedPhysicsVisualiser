@@ -14,11 +14,23 @@ void simulator::simulate(worldstate* providedWorld, timeUnit deltaTime) {
         return;
     }
 
-    timeUnit tempTime = deltaTime / fullIterationsNumber;
+    timeUnit tempTime = deltaTime / (float)fullIterationsNumber;
 
-    for (int i = 0; i < projectionIterationsNumber; i++) {
+    for (int i = 0; i < fullIterationsNumber; i++) {
         virtualSimulate(providedWorld, tempTime);
     }
+}
+
+void simulator::relaxConstraints(worldstate* providedWord, const int& iterations) {
+    world = providedWord;
+
+    t1 = world->getParticlePool();
+
+    Relax(iterations);
+
+    world->setParticlePool(t1);
+
+    world = nullptr;
 }
 
 void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
@@ -33,9 +45,7 @@ void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
 
     t1 = tP;
 
-    for (int i = 0; i < relaxationIterationsNumber; i++) {
-        Relax();
-    }
+    Relax(relaxationIterationsNumber);
 
     integrate(deltaTime);
 
@@ -86,13 +96,15 @@ void simulator::project(timeUnit deltaTime) {       //writes results to tP
     }
 }
 
-void simulator::Relax() {                           //writes results to t1
-    tBuffer = t1;
+void simulator::Relax(const int& iterations) {                           //writes results to t1
+    for (int i = 0; i < iterations; i++) {
+        tBuffer = t1;
 
-    //put this loop in worldstate!
-    for (int i = 0; i < world->getConstraintPoolSize(); i++) {
-        if (world->getConstraint(i) != nullptr) {
-            world->getConstraint(i)->resolveConstraint(&tBuffer, &t1);
+        //put this loop in worldstate!
+        for (int i = 0; i < world->getConstraintPoolSize(); i++) {
+            if (world->getConstraint(i) != nullptr) {
+                world->getConstraint(i)->resolveConstraint(&tBuffer, &t1);
+            }
         }
     }
 }

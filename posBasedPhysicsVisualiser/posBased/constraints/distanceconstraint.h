@@ -6,6 +6,7 @@
 class distanceconstraint : public constraint {
     public:
         distanceconstraint(const int& newParticle1, const int& newParticle2, const unit& newLength, const int& newType);
+        //1 -> equality, 2 -> greater, 3 -> smaller
         virtual ~distanceconstraint();
         bool getUsingParticle(const int& index) const;
         void changeIndex(const int& oldIndex, const int& newIndex);

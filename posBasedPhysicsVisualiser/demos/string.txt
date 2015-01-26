@@ -1,0 +1,112 @@
+    particle tempParticle;
+    tempParticle.setMass(0.25);
+
+    tempParticle.setPosition(vectorType(0, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle1 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(1, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle2 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(2, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle3 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(3, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle4 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(4, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle5 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(5, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle6 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(6, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle7 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(7, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle8 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(8, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle9 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(9, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle10 = myWorldstate.addParticle(tempParticle);
+
+    //tempParticle.setMass(10);
+
+    tempParticle.setPosition(vectorType(10, 0));
+    tempParticle.setVelocity(vectorType(0, 20));
+    particle11 = myWorldstate.addParticle(tempParticle);
+
+
+    constraint* myConstraint;
+
+    myConstraint = new positionconstraint(particle1, vectorType(0, 0));
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+#if false
+    myConstraint = new positionconstraint(particle11, vectorType(7, 0));
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+#endif
+
+    int distanceConstraintType = 3;
+
+    myConstraint = new distanceconstraint(particle1, particle2, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle2, particle3, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle3, particle4, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle4, particle5, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle5, particle6, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle6, particle7, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle7, particle8, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle8, particle9, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle9, particle10, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle10, particle11, 1, distanceConstraintType);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+
+    softforce* mySoftforce;
+
+    mySoftforce = new gravity(9.81, vectorType(0, -1));
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySimulator.relaxConstraints(&myWorldstate, 500);

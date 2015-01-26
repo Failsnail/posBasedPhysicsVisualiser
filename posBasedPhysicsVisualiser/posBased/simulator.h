@@ -17,15 +17,17 @@ class simulator {
         simulator();
         virtual ~simulator();
         void simulate(worldstate* providedWorld, timeUnit deltaTime);
-        void virtualSimulate(worldstate* providedWorld, timeUnit deltaTime);
+        void relaxConstraints(worldstate* providedWord, const int& iterations = 20);
         void setFullIterationsNumber(int newFullIterationsNumber);
         void setProjectionIterationsNumber(int newProjectionIterationsNumber);
         void setRelaxationIterationsNumber(int newRelaxationIterationsNumber);
     protected:
         worldstate* world;
 
+        void virtualSimulate(worldstate* providedWorld, timeUnit deltaTime);
+
         void project(timeUnit deltaTime);
-        void Relax();
+        void Relax(const int& iterations);
         void integrate(timeUnit deltaTime);
 
         particlePool t0;        //initial state

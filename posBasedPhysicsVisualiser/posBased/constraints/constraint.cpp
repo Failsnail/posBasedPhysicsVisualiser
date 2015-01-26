@@ -18,6 +18,10 @@ void constraint::resolveConstraint(particlePool* const newInBuffer, particlePool
     outBuffer = nullptr;
 }
 
+int constraint::getPoolSize() const {
+    return inBuffer->getParticlePoolSize();
+}
+
 vectorType constraint::getPosition(const int& particleIndex) const {
     return inBuffer->getPosition(particleIndex);
 }

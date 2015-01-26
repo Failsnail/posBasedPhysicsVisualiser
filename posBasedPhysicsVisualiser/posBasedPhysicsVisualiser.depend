@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1422189905 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
+1422286769 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
 	<iostream>
 	<stdio.h>
 	<string>
@@ -24,6 +24,7 @@
 	"posBased/softforces/softforce.h"
 	"posBased/vector/vector2d.h"
 	"posBased/vector/vector3d.h"
+	"posBased/softforces/gravity.h"
 
 1421856142 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\asset.cpp
 	<glm/fwd.hpp>
@@ -47,9 +48,9 @@
 	<GL/glew.h>
 	<GLFW/glfw3.h>
 
-1422186621 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\vector
+1422201008 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\vector
 
-1421494986 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.h
+1422208417 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.h
 	<iostream>
 	"particles/particle.h"
 	"particles/particlePool.h"
@@ -57,7 +58,7 @@
 	"constraints/constraint.h"
 	"worldstate.h"
 
-1422183717 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particle.h
+1422204833 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particle.h
 	"vector/vector2d.h"
 
 1421415723 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\vector\vector2d.h
@@ -72,52 +73,52 @@
 1421415740 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\vector\vector3d.h
 	<cmath>
 
-1421440157 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\softforce.h
+1422196136 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\softforce.h
 	<math.h>
 	<iostream>
 	"particles/particle.h"
 	"particles/particlePool.h"
 	"vector/vector2d.h"
 
-1422110290 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.h
+1422196136 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.h
 	<math.h>
 	<iostream>
 	"particles/particle.h"
 	"particles/particlepool.h"
 	"vector/vector2d.h"
 
-1421495866 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\worldstate.h
+1422285440 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\worldstate.h
 	<iostream>
 	"particles/particle.h"
 	"particles/particlepool.h"
 	"softforces/softforce.h"
 	"constraints/constraint.h"
 
-1420825559 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\distanceconstraint.h
+1422197558 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\distanceconstraint.h
 	"constraint.h"
 
 1421440334 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\positionconstraint.h
 	"constraint.h"
 
-1422110279 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.cpp
+1422196155 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.cpp
 	"constraint.h"
 
-1421440112 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\distanceconstraint.cpp
+1422286709 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\distanceconstraint.cpp
 	"distanceconstraint.h"
 
-1421440334 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\positionconstraint.cpp
+1422272240 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\positionconstraint.cpp
 	"positionconstraint.h"
 
-1421440255 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particle.cpp
+1422204892 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particle.cpp
 	"particle.h"
 
 1422186611 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particlepool.cpp
 	"particlepool.h"
 
-1421495649 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.cpp
+1422286833 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.cpp
 	"simulator.h"
 
-1421440157 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\softforce.cpp
+1422196136 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\softforce.cpp
 	"softforce.h"
 
 1421415723 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\vector\vector2d.cpp
@@ -128,4 +129,16 @@
 
 1421496026 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\worldstate.cpp
 	"worldstate.h"
+
+1422197419 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\gravity.h
+	<softforces/softforce.h>
+
+1422199449 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\gravity.cpp
+	"gravity.h"
+
+1422195485 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\spring.cpp
+	"spring.h"
+
+1422197606 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\spring.h
+	<softforces/softforce.h>
 

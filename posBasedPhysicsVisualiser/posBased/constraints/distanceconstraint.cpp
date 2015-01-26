@@ -51,6 +51,9 @@ void distanceconstraint::virtualResolveConstraint() {
     //this value is negative if they should be moved towards each other
     //if this value equals zero, the constraint is already resolved
 
+    displacementLength *= 0.35;
+    //value between 0 and 1 to make shure the constriant is NOT fully solved, use this to remove weird resonation
+
     vectorType displacementVector;
     //vector representing the displacement of particle2 relative to particle1
     displacementVector = relativePosition;
@@ -63,13 +66,14 @@ void distanceconstraint::virtualResolveConstraint() {
 }
 
 bool distanceconstraint::getUsingParticle(const int& index) const {
+    bool tempBool = false;
     if (particle1 == index) {
-        return true;
+        tempBool = true;
     }
     if (particle2 == index) {
-        return true;
+        tempBool = true;
     }
-    return false;
+    return tempBool;
 }
 
 void distanceconstraint::changeIndex(const int& oldIndex, const int& newIndex) {

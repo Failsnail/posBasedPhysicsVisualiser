@@ -1,0 +1,42 @@
+    particle tempParticle;
+    tempParticle.setMass(0.25);
+
+    tempParticle.setPosition(vectorType(0, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle1 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(4, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle2 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(4, 0));
+    tempParticle.setVelocity(vectorType(0, 10));
+    particle3 = myWorldstate.addParticle(tempParticle);
+
+    constraint* myConstraint;
+
+    myConstraint = new positionconstraint(particle1, vectorType(0, 0));
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new positionconstraint(particle2, vectorType(4, 0));
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+
+    myConstraint = new distanceconstraint(particle1, particle3, 4, 3);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    //myConstraint = new distanceconstraint(particle2, particle3, 4, 3);
+    //myWorldstate.addConstraint(myConstraint);
+    //myConstraint = nullptr;
+
+
+    softforce* mySoftforce;
+
+    mySoftforce = new gravity(9.81, vectorType(0, -1));
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySimulator.relaxConstraints(&myWorldstate, 500);

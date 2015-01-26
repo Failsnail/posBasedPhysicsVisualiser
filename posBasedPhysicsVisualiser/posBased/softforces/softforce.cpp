@@ -18,6 +18,10 @@ void softforce::applySoftforce(particlePool* const newInBuffer, particlePool* ne
     outBuffer = nullptr;
 }
 
+int softforce::getPoolSize() const {
+    return inBuffer->getParticlePoolSize();
+}
+
 vectorType softforce::getPosition(const int& particleIndex) const {
     return inBuffer->getPosition(particleIndex);
 }

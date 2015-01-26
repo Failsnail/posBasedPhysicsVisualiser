@@ -23,6 +23,7 @@ class constraint {
     protected:
         virtual void virtualResolveConstraint() =0;
     //subclass sandbox:
+        int getPoolSize() const;
         vectorType getPosition(const int& particleIndex) const;
         unit getDistance(const int& particleIndex1, const int& particleIndex2) const;
         const particle getParticle(const int& particleIndex) const;

@@ -8,9 +8,8 @@
 #include "softforces/softforce.h"
 #include "constraints/constraint.h"
 
-#define particlePoolSize_ 20
-#define softforcePoolSize_ 20
-#define constraintPoolSize_ 20
+#define softforcePoolSize_ 10
+#define constraintPoolSize_ 100
 
 class particle;
 class softforce;

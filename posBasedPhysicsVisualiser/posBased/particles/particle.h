@@ -18,6 +18,7 @@ class particle {
         void setPosition(const vectorType& newPosition);
         void setVelocity(const vectorType& newVelocity);
         void setAcceleration(const vectorType& newAcceleration);
+        void setMass(const float& newMass);
         void clearAcceleration();
         void clear();
     protected:

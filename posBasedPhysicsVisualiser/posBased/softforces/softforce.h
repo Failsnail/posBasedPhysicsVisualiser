@@ -17,12 +17,13 @@ class softforce {
     public:
         softforce();
         virtual ~softforce();
-        virtual void applySoftforce(particlePool* const newInBuffer, particlePool* newOutBuffer);
+        void applySoftforce(particlePool* const newInBuffer, particlePool* newOutBuffer);
         virtual bool getUsingParticle(const int& index) const =0;
         virtual void changeIndex(const int& oldIndex, const int& newIndex) =0;
     protected:
         virtual void virtualApplySoftforce() =0;
         //subclass sandbox:
+        int getPoolSize() const;
         vectorType getPosition(const int& particleIndex) const;
         unit getDistance(const int& particleIndex1, const int& particleIndex2) const;
         const particle getParticle(const int& particleIndex) const;
