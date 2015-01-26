@@ -113,9 +113,14 @@ void simulator::integrate(timeUnit deltaTime) {     //writes results to t1
     for (int index = 0; index < t0.getParticlePoolSize(); index++) {
         #if false
             t1.setVelocity(index, (t1.getPosition(index) - t0.getPosition(index)) / deltaTime);
-        #else
+        #endif
+        #if true
             t1.setVelocity(index, (t1.getPosition(index) - t0.getPosition(index)) / deltaTime * 2 - t0.getVelocity(index));
             t1.setAcceleration(index, (t1.getVelocity(index) - t0.getVelocity(index)) / deltaTime);
+        #endif
+        #if false   //make this an integration sceme based on tP and t1
+            t1.setVelocity(index, (t1.getPosition(index) - tP.getPosition(index)) / deltaTime * 2 - tP.getVelocity(index));
+            t1.setAcceleration(index, (t1.getVelocity(index) - tP.getVelocity(index)) / deltaTime);
         #endif
     }
 }
