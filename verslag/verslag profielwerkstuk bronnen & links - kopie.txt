@@ -1,0 +1,14 @@
+Gebruik als reference bij het schrijven!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+http://homes.cs.washington.edu/~mernst/advice/write-technical-paper.html
+
+bronnen:
+jacobsen:
+http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
+position based dynamics:
+http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
+hierarchical position based dynamics:
+http://matthias-mueller-fischer.ch/publications/hpbd.pdf
+rest van artikelen op tijdlijst...
+
+
+
