@@ -1,0 +1,5 @@
+doel van het project:
+het samenstellen, implementeren, en testen van een systeem dat de bewegingen van objecten onder invloed van klassieke mechanica simuleert.
+
+wat is een "systeem dat de bewegingen van objecten onder invloed van klassieke mechanica simuleert"?
+Klassieke mechanica is een veld in de natuurkunde die de beweging van objecten beschrijft.
