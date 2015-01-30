@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="posBased\worldstate.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="posBased\particles\particle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="211" topLine="0" />
+			<Cursor1 position="824" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="posBased\constraints\constraint.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="957" topLine="16" />
 		</Cursor>
 	</File>
 	<File name="posBased\constraints\constraint.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="699" topLine="11" />
-		</Cursor>
-	</File>
-	<File name="vertexshader.glsl" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="433" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="posBased\constraints\positionconstraint.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -26,14 +26,14 @@
 			<Cursor1 position="684" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="posBased\simulator.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="posBased\simulator.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3753" topLine="97" />
+			<Cursor1 position="3142" topLine="69" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="28594" topLine="847" />
+			<Cursor1 position="16215" topLine="514" />
 		</Cursor>
 	</File>
 	<File name="demos\pulley.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -61,9 +61,19 @@
 			<Cursor1 position="50" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="posBased\softforces\spring.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="36" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="posBased\particles\particlepool.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1233" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="posBased\worldstate.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="364" topLine="33" />
 		</Cursor>
 	</File>
 	<File name="posBased\particles\particle.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -71,9 +81,14 @@
 			<Cursor1 position="638" topLine="5" />
 		</Cursor>
 	</File>
-	<File name="posBased\softforces\spring.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="posBased\worldstate.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="36" topLine="0" />
+			<Cursor1 position="211" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="vertexshader.glsl" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="433" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="posBased\simulator.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -89,21 +104,6 @@
 	<File name="demos\simple.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1396" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="posBased\particles\particle.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="824" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="posBased\worldstate.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="364" topLine="33" />
-		</Cursor>
-	</File>
-	<File name="posBased\constraints\constraint.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="957" topLine="16" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

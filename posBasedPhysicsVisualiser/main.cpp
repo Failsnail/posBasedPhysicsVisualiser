@@ -529,8 +529,8 @@ void displayInstanceList() {
 
 void loadWorld() {
 
-    mySimulator.setFullIterationsNumber(10);
-    mySimulator.setRelaxationIterationsNumber(30);
+    mySimulator.setFullIterationsNumber(15);
+    mySimulator.setRelaxationIterationsNumber(15);
 
     cout << "initialize particlePool..." << endl;
     {
