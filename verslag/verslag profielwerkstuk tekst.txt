@@ -22,18 +22,18 @@ a: versnelling (in m/(s^2))
 
 Om de verandering in positie, acceleratie en snelheid te beschrijven zien we de posietie als een functie van tijd. De afgeleide van deze functie is de snelheid, en de dubbele afgeleide is de acceleratie. Merk op dat de omschrijving van snelheid en acceleratie puur wiskundig is. Met deze wiskunde zijn onder andere de volgende formules te vormen:
 
-functie van positie bij constante snelheid:
+Bij constante snelheid:
 	S1 = S0 + V * t
 S: positie (in meter of m)
 V: snelheid (in m/s)
 t: tijd (in s)
 
-functie van snelheid bij constante acceleratie:
+Bij constante acceleratie:
 	V1 = V0 + a * t
 V: snelheid (in m/s)
 a: acceleratie
 
-functie van positie bij constante acceleratie:
+Bij constante acceleratie:
 	S1 = S0 + V0 + 1/2 * a * t^2
 
 Dit is alle wiskunde die nodig is voor het belangrijkste gedeelte van de simulator. Voor enkele specifieke problemen (zoals veren en zwaartekracht) worden natuurkundige formules voor speciaal voor die problemen aangehaalt.
@@ -62,19 +62,31 @@ Krachten:
 //verduidelijking van wat krachten zijn voor mensen die er niks van weten
 Er zijn verschillende fenomenen die krachten opwekken, bijvoorbeeld:
 
-zwaartekracht, veerkracht, hydraulische en pneumatische druk, wrijving, normaalkracht (de kracht die objecten op elkaar uitoefenen als ze tegen elkaar 'gedrukt' worden), adhesie, cohesie, magnetisme, drijfkracht etc. etc.
+zwaartekracht, veerkracht, dempkracht, hydraulische en pneumatische druk, wrijving, normaalkracht (de kracht die objecten op elkaar uitoefenen als ze tegen elkaar 'gedrukt' worden), adhesie, cohesie, magnetisme, drijfkracht etc. etc.
 
-Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo gelt bij zwaartekracht bijvoorbeeld dat:
+Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo gelt bij zwaartekracht, veerkracht en dempkracht bijvoorbeeld dat:
 
+Bij constante g:
 	Fz = M * g
 Fz = zwaartekracht (in N)
 g = gravitatie (in m/(s^2))
 
-En bij veerkracht:
-
+Bij constante l:
 	Fv = k * (l - lr)
 Fv = veerkracht (in N)
 k = krachtkonstante (in N/m)
 l = lengte van de veer (in m)
 l = lengte van de veer bij rust (in m)
 
+Bij constante V:
+	Fd = -c * V
+Fd = dempkracht (in N)
+c = dempingsconstante (in Ns/m)
+
+
+Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele redelijk eenvoudig te vinden parameters nodig: bij zwaartekracht word de massa van de particle gebruikt, en een constante gravitatie. Voor de veerkracht wordt de veerkrachtconstante, een getal dat de rustlengte van de veer bepaalt en de lengte van de veer (die weer met pythagoras berekent kan worden) gebruikt. Krachten zoals deze zijn exact uit te rekenen voor elk moment. Enkele parameters (zoals l, V en g in kleinere mate) veranderen echter continu. Dit betekent dat de simulatie alleen perfect is als lim t -> 0. Dit kan echter niet berijkt worden door de beperkte rekenkracht die computers bieden (t > 0). Gelukkig is het zo dat de fout die hierdoor ontstaat al snel acceptabele vormen aanneemt als t klein genoeg word gemaakt. Bovendien kan t kleiner gemaakt worden door de simulator meer rekenkracht of tijd te bieden, mocht het gewenst zijn.
+
+
+Het groote probleem zijn echter normaalkracht en verwanten (drijfkracht en hydraulische druk). In tegenstelling tot de andere krachten zijn deze niet exact te berekenen met enkele factoren; ze onstaan namelijk om een correcte staat te handhaven. Dit betekent dat de kracht niet direct gevonden kan worden: eerst moetten alle andere krachten bekent zijn, waarna berekent kan worden welke kracht daar tegenover moet staan om correcte staat te handhaven. Als een object echter onderhevig is aan meerdere normaalkrachten is ook dit logischerwijs niet mogelijk, aangezien beide krachten kennis over de andere nodig hebben om een resultaat te kunnen leveren.
+
+Omdat al bleek dat de krachten gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; we vinden eerst een correcte staat, om daarna te berekenen welke krachten nodig zijn om deze staat te berijken.
