@@ -3,71 +3,59 @@ het samenstellen, implementeren, en testen van een systeem dat de bewegingen van
 
 
 
-In toepassingen als werktuigbouwkunde, constructie, cinematorgrafie en videospellen is het soms gewenst om een simulatie van de natuurwetten te kunnen gebruiken om bijvoorbeeld voorspellingen te kunnen maken over hoe een constructie zich zal gedragen. Bij film en spellen zijn simulaties een uitkomst omdat deze goedkoop zijn en veel vrijheid geven. Er zit echter een duidelijk verschil in de gevraagde eigenschappen van de simulatie voor deze velden; waar de werktuigbouw graag heeft dat simulaties natuurkundig accuraat zijn, maar de computationele kosten niet van groot belang. Cinematografie, en zeker spellen hechten niet zo veel waarde aan preciesie van de simulatie, zo lang deze realistisch overkomt. De computatione kosten zijn echter van groot belang bij spellen omdat computers simpelweg beperkte middelen hebben, welke ook nog verdeeld moeten worden met andere systemen. Onderzoek doen naar methoden om dergelijke natuurkunde te simuleren kan lijden tot nieuwe methoden met nieuwe eigenschappen. Moderne simulatie methoden gekoppelt met krachtige computers kunnen al indrukwekkende resultaten geven, maar er is nog veel te winnen.
+In toepassingen als werktuigbouwkunde, constructie, cinematorgrafie en videospellen is het soms gewenst om een simulatie van de natuurwetten te kunnen gebruiken om bijvoorbeeld voorspellingen te kunnen maken over hoe een constructie zich zal gedragen. Bij film en spellen zijn simulaties een uitkomst omdat deze goedkoop zijn en veel vrijheid geven. Er zit echter een duidelijk verschil in de gevraagde eigenschappen van de simulatie voor deze velden; waar de werktuigbouw graag heeft dat simulaties natuurkundig accuraat zijn, maar de computationele kosten niet van groot belang. Cinematografie, en zeker spellen hechten niet zo veel waarde aan preciesie van de simulatie, zo lang deze realistisch overkomt. De computatione kosten zijn echter van groot belang bij spellen omdat computers simpelweg beperkte middelen hebben, welke ook nog verdeeld moeten worden met andere systemen. Onderzoek doen naar methoden om dergelijke natuurkunde te simuleren kan leiden tot nieuwe methoden met nieuwe eigenschappen. Moderne simulatie methoden gekoppelt met krachtige computers kunnen al indrukwekkende resultaten geven, maar er is nog veel te winnen.
 
 
 
 
 Het simuleren van klassieke bewegingen van objecten:
-Beweging staat voor de verandering van de positie van een object, dit betekent dat we formules moeten vinden die als eindresultaat een positie geven. 
 
-//draai formules voor krachten en positie om
+Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. Om de simulatie flexibel en wiskundig eenvoudig te houden worden objecten opgeslagen als punt met als atributen: een positie, snelheid en massa, deze punten worden 'particle', meervoud 'particles' genoemd. Om toch objecten met vormen moeilijkere dan punten te kunnen gebruiken kunnen we meerdere punten met elkaar verbinden (later in het verslag wordt hier verder op ingegaan). Een paar handige eigenschappen van dit systeem is dat objecten op natuurkundig accuurate wijze kunnen roteren zonder dat alle wiskunde die hier normaal aan verbonden zijn vereist is. Bovendien kunnen interne krachten (binnen het object) goed gesimuleert worden, zo wordt het bijvoorbeeld mogelijk dat objecten buigen of breken.
 
-Klassieke mechanika omschrijft de beweging van objecten. Omdat we bij simuleren geinteresseert zijn in het benaderen van bewegingen van objecten is het vanzelfsprekend dat we van klassieke mechanica gebruik kunnen maken. Klassieke mechanica is met name gebaseerd op de volgende formule:
-
-	Ft = M * a
-F: totale kracht (in Newton of N)
-M: massa (in Kilogram)
-a: versnelling (in m/(s^2))
-
-Om de verandering in positie, acceleratie en snelheid te beschrijven zien we de posietie als een functie van tijd. De afgeleide van deze functie is de snelheid, en de dubbele afgeleide is de acceleratie. Merk op dat de omschrijving van snelheid en acceleratie puur wiskundig is. Met deze wiskunde zijn onder andere de volgende formules te vormen:
-
-Bij constante snelheid:
-	S1 = S0 + V * t
-S1: eindpositie (in meter of m)
-S0: beginpositie (in meter of m)
-V: snelheid (in m/s)
-t: tijd (in s)
-
-Bij constante acceleratie:
-	V1 = V0 + a * t
-V1: eindsnelheid (in m/s)
-V0: beginsnelheid (in m/s)
-a: acceleratie
+Beweging staat voor de verandering van de positie van een object. Het ultieme doel van de simulator is het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd (t). De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Merk op dat de omschrijving van snelheid en acceleratie puur wiskundig is. Met deze theorie zijn onder andere de volgende formules te vormen:
 
 Bij constante acceleratie:
 	S1 = S0 + V0 * t + 1/2 * a * t^2
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+V0: vorige snelheid (in m/s)
+a: acceleratie (in m/s^2)
+t: tijdsinterval (in s)
 
-Dit is alle wiskunde die nodig is voor het belangrijkste gedeelte van de simulator. Voor enkele specifieke problemen (zoals veren en zwaartekracht) worden natuurkundige formules voor speciaal voor die problemen aangehaalt.
+Bij constante acceleratie:
+	V1 = V0 + a * t
+V1: huidige snelheid (in m/s)
 
-//LEG UIT OVER CONSTANTE ACCELERATIE
+Met deze formules kunnen we een nieuwe positie en snelheid uitrekenen. De nieuwe snelheid word in de particles opgeslagen, en word de keer daarop gebruikt als vorige positie en vorige snelheid. De twee onbekenden die overblijven zijn a en t. t staat voor de tijd die is verstreken over het interval dat we willen simuleren. t kan handmatig op een bepaalde waarde vastgesteld worden (bijvoorbeeld bij het simuleren van constructies of filmscénes) omdat de simulator simpelweg een bepaald interval als invoer nodig heeft, of deze kan dynamisch berekend worden met de volgende formule:
 
-//verander 'objecten' in 'particles' waar het om enkele puntmassa's gaat
-Naast deze formules moet een abstractie gevonden worden voor objecten in de echte wereld, dit zodat het programma objecten op kan slaan, en in staat is ze te manipuleren. Om de simulatie flexibel en wiskundig eenvoudig te houden worden objecten opgeslagen als punt met als atributen: een coordinaat, snelheid en massa. Het gebruiken van een punt is in dit geval handig omdat we hierdoor niet te maken hebben met rotaties, wat de wiskunde flink vermakkelijkt. Om toch objecten met moeilijkere vormen dan punten te kunnen maken kunnen we meerdere punten met elkaar verbinden. In het echt zijn objecten ook gemaakt van groote hoeveelheden zeer kleine, onderling verbonden massas (atomen), dus deze keuze hoeft niet te betekenen dat de simulator onjuiste resultaten geeft. Bovendien zorgt deze manier van het opbouwen van objecten dat interne krachten goed gesimuleert kunnen worden, zo word het bijvoorbeeld mogelijk dat objecten buigen of breken.
+t = t1 - t0
+t1: huidige tijd (in s)
+t0: vorige tijd (in s)
 
-voor de rest van het verslag zullen puntmassa's met positie en snelheid als 'particle', meervoud 'particles' aangeduid worden.
+Deze formule word gebruikt bij toepassingen waar het belangrijk is dat de tijd binnen de simulatie gekoppelt word met de tijd van de eche wereld, bijvoorbeeld bij spellen. 
 
-
-Als we nu terugkijken naar de formules die de positie als functie van tijd beschrijven zien we dat we enkele waarden nodig hebben om de nieuwe positie en snelheid van particles te vinden nodig hebben; de vorige positie, de vorige snelheid, en de acceleratie over het tijdsinterval. De vorige positie en de vorige snelheid zijn atributen van de particle die we willen simulen, dus deze zijn al opgeslagen. De acceleratie moet echter nog uitgerekend worden. De formule F = M * a is af te leiden tot de volgende formule die ons de acceleratie geeft:
+De andere onbekende, a, kan berekend worden met de tweede wet van newton:
 
 	a = Ft / M
+a: versnelling (in m/(s^2))
+Ft: totale kracht (in Newton of N)
+M: massa (in Kilogram)
+
+//UITLEG OVER CONSTANTE A:
+Deze wet verbind alle krachten en massa's in ons systeem met de acceleratie, zo is deze wet van onschatbare waarde. Er is hiermee echter een belangrijk probleem: de krachten, massa's en dus ook de acceleratie zijn momentopnamen, maar de acceleratie moet later gebruikt worden op een tijdsinterval. Om te zorgen dat a niet 'veroudert' over t mag t niet groter zijn dan 0, maar t mag ook niet gelijk zijn aan 0, want als dat het gaval zou zijn zou geen tijd verstrijken. Deze twee vereisten gecombineert betekenen dat de simulatie perfect zal zijn bij lim -> t = 0.  Helaas is de rekenkracht van computers beperkt, en kan de wiskunde hier geen uitweg bieden. Dit betekent dat de resultaten van de simulatie logischerwijs niet perfect kunnen zijn (dit komt overgens ook door de beperkte preciesie van getallen die door computers gebruikt worden). De beste (en waarschijnlijk) enige oplossing om natuurlijke correctheid te bewaren is om lim t -> 0 te benaderen door t zo klein mogelijk te maken als mogelijk. Gelukkig is de fout die hierdoor geintroduceert word klein genoeg om in veel gevallen te verwaarlozen. Voor de rest van het verslag wordt a om deze reden voor constant aangenomen.
 
 Om de acceleratie uit te rekenen hebben we dus de totale kracht die op de particle staat nodig, en de massa van de particle. Net zoals de positie en snelheid is de massa een van de atributen van de particle, welke dus al opgeslagen is en alleen nog maar uitgelezen hoeft te worden. Het berekenen van de totale kracht op een particle is simpelweg de som van alle individuele krachten die op de particle werken, opgetelt:
 
 bij n krachten:
 	Ft = F1 + F2 + F3 + ...  + F(n-1) + Fn
+Ft: totale kracht (in N)
+Fn: kracht van kracht n (in N)
 
-Resterend is het berekenen van deze individuele krachten.
-
-
-
-Krachten:
-//verduidelijking van wat krachten zijn voor mensen die er niks van weten
-Er zijn verschillende fenomenen die krachten opwekken, bijvoorbeeld:
+Resterend is het berekenen van deze individuele krachten. Er zijn verschillende fenomenen die krachten opwekken, bijvoorbeeld:
 
 zwaartekracht, veerkracht, dempkracht, hydraulische en pneumatische druk, wrijving, normaalkracht (de kracht die objecten op elkaar uitoefenen als ze tegen elkaar 'gedrukt' worden), adhesie, cohesie, magnetisme, drijfkracht etc. etc.
 
-Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo gelt bij zwaartekracht, veerkracht en dempkracht bijvoorbeeld dat:
+Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo geldt bij zwaartekracht, veerkracht en dempkracht bijvoorbeeld dat:
 
 Bij constante g:
 	Fz = M * g
@@ -79,7 +67,7 @@ Bij constante l:
 Fv = veerkracht (in N)
 k = krachtkonstante (in N/m)
 l = lengte van de veer (in m)
-l = lengte van de veer bij rust (in m)
+lr = lengte van de veer bij rust (in m)
 
 Bij constante V:
 	Fd = -c * V
@@ -87,12 +75,12 @@ Fd = dempkracht (in N)
 c = dempingsconstante (in Ns/m)
 
 
-Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele redelijk eenvoudig te vinden parameters nodig: bij zwaartekracht word de massa van de particle gebruikt, en een constante gravitatie. Voor de veerkracht wordt de veerkrachtconstante, een getal dat de rustlengte van de veer bepaalt en de lengte van de veer (die weer met pythagoras berekent kan worden) gebruikt. Krachten zoals deze zijn exact uit te rekenen voor elk moment. Enkele parameters (zoals l, V en g in kleinere mate) veranderen echter continu. Dit betekent dat de simulatie alleen perfect is als lim t -> 0. Dit kan echter niet berijkt worden door de beperkte rekenkracht die computers bieden (t > 0). Gelukkig is het zo dat de fout die hierdoor ontstaat al snel acceptabele vormen aanneemt als t klein genoeg word gemaakt. Bovendien kan t kleiner gemaakt worden door de simulator meer rekenkracht of tijd te bieden, mocht het gewenst zijn.
+Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele redelijk eenvoudig te vinden parameters nodig: bij zwaartekracht word de massa van de particle gebruikt, en een constante gravitatie. Voor de veerkracht wordt de veerkrachtconstante, een getal dat de rustlengte van de veer bepaalt en de lengte van de veer (die weer met pythagoras en de posities berekent kan worden) gebruikt. Krachten zoals deze zijn exact uit te rekenen voor elk moment. Omdat deze krachten (binnen de limieten van computers) exact uitgerekent kunnen worden met alleen bekende variabelen zullen deze krachten voor de rest van dit artikel 'deterministische krachten' genoemd worden.
 
 
-Het groote probleem zijn echter normaalkracht en verwanten (drijfkracht en hydraulische druk). In tegenstelling tot de andere krachten zijn deze niet exact te berekenen met enkele factoren; ze onstaan namelijk om een correcte staat te handhaven. Dit betekent dat de kracht niet direct gevonden kan worden: eerst moetten alle andere krachten bekent zijn, waarna berekent kan worden welke kracht daar tegenover moet staan om correcte staat te handhaven. Als een object echter onderhevig is aan meerdere normaalkrachten is ook dit logischerwijs niet mogelijk, aangezien beide krachten kennis over de andere nodig hebben om een resultaat te kunnen leveren.
+Normaalkracht en verwante krachten (zoals hydraulische druk en drijfkracht) zijn echter niet deterministisch. Deze soort krachten onstaan namelijk om een correcte staat te handhaven (meerdere objecten mogen niet de zelfde ruimte innemen bijvoorbeeld). Dit betekent dat de kracht niet direct gevonden kan worden: eerst moeten alle andere krachten bekend zijn, waarna berekent kan worden welke kracht daar tegenover gezet moet worden om een correcte staat te handhaven. Als een object echter onderhevig is het exact uitrekenen van de krachten logischerwijs niet mogelijk aangezien beide krachten kennis over de andere nodig hebben om een volledig resultaat te kunnen leveren.
 
-Omdat al bleek dat de krachten gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; na het toepassen van de alle andere krachten vinden we direct een correcte staat, zonder de krachten uit te rekenen. De posities die de particles na deze operatie hebben is de positie van de particles na de t die gesimuleert wordt. De snelheden van de particles na t zijn te berekenen met de vorige positie, vorige stelheid en de tussenliggende tijd t, omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
+Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; na het het verplaatsten van de particles door alle 'deterministische krachten' toe te passen benaderen we een correcte staat, zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie. De eindsnelheden van de particles na t zijn te berekenen met de vorige positie, vorige snelheid en de tussenliggende tijd t. Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
 
 Bij constante a:
 	S1 = S0 + V0 * t + 1/2 * a * t^2
@@ -102,35 +90,31 @@ Bij constante a:
 V: snelheid (in m/s)
 a: acceleratie
 
-We schrijven de eerste formule om naar een formule die a als antwoord geeft:
+We schrijven de eerste formule om naar een formule die a als resultaat geeft:
 
 bij constante a:
 	a = 2  * (S1 - S0 - V0 * t) / t^2
 
-Nu kunnen we deze substitueren in de tweede formule, vereenvoudigd geeft dit:
+Nu kunnen we deze substitueren in de tweede formule, na vereenvoudiging geeft dit:
 
 bij constante a:
 	V1 = 2 * (S1 - S0) / t - V0	
 
-Om de constraints te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is, en anders wat er niet correct aan is (zodat we weten wat we moeten veranderen). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaaft moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner word dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
+Dit betekent dat we S1 en V1 uit kunnen rekenen zonder individuele normaalkrachten te hoeven onderzoeken.
 
-Om dit probleem goed op te lossen is het practisch om uit te kunnen rekenen hoe 'incorrect' of fout een bepaalde staat is. Als we later constraints op willen lossen proberen we deze waarde dus te verlagen. De totale fout is de som van de fouten van alle individuele constraints. Dit geeft deze formule:
+Om de normaalkrachten te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is (dit systeem is gescheiden van het systeem dat de deterministische krachten beschrijft). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaafd moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner wordt dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
 
-bij n constraints:
-	Et = E1 + E2 + E3 + ... E(n-1) + En
-Et: totale fout (in m)
-En: fout van constraint n (in m)
-
-De fout van een constraint is de minimale som van alle afstanden die door de particles afgelegt moeten worden om de constraint te handhaven. Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme te geven die de fout van een constraint levert. Ter illustratie zal ik wel een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
+Om dit probleem goed op te lossen is het practisch om uit te kunnen rekenen hoe 'incorrect' een bepaalde staat is. Als we de constraints op willen lossen proberen we deze waarde dus te verlagen. De fout van één constraint is de minimale som van alle afstanden die door de particles afgelegd moeten worden om de constraint te handhaven. Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme (formules volstaan niet om deze waarden uit te rekenen) te geven die de fout van een constraint levert. Ter illustratie zal ik een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
 
 if (d < |Sparticle1 - Sparticle2|) {
-	//als de waarde van d groter is dan de afstand tussen particle1 en particle2 word deze code uitgevoert
+	//als de waarde van d groter is dan de afstand tussen particle1 en particle2 wordt deze code uitgevoert:
 	E = 0
 } else {
-	//als de waarde van d niet groter is dan de afstand tussen particle1 en particle2 word deze code uitgevoert
+	//als de waarde van d niet groter is dan de afstand tussen particle1 en particle2 wordt deze code uitgevoert:
 	E = d - |Sparticle1 - Sparticle2|
 }
+E: fout (in m)
+d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
+|Sparticle1 - Sparticle2|: de afstand tussen particle1 en particle2 (in m)
 
-Wat goed aan dit voorbeeld te zien is is waarom een normale formule niet volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaaft, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleinder is dan d is er wel sprake van een fout, namelijk het verschil tussen d en de onderlinge afstand. bedenk ook dat E in geen geval een negatieve waarde aan kan nemen.
-
-Om de waarde van Et kiezen we een constraint n, en proberen de waarde E van deze constraint te verlagen. We doen dit met de aanname dat de som van de waarden van E bij alle andere constraints minder toenemen dan de waarde E van constraint n daalt.
+Aan dit voorbeeld is goed te zien waarom een normale formule niet volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout, namelijk het verschil tussen d en de onderlinge afstand. bedenk dat E in geen geval een negatieve waarde aan kan nemen.
