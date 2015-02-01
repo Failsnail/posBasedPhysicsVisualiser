@@ -54,7 +54,8 @@ Als we nu terugkijken naar de formules die de positie als functie van tijd besch
 
 Om de acceleratie uit te rekenen hebben we dus de totale kracht die op de particle staat nodig, en de massa van de particle. Net zoals de positie en snelheid is de massa een van de atributen van de particle, welke dus al opgeslagen is en alleen nog maar uitgelezen hoeft te worden. Het berekenen van de totale kracht op een particle is simpelweg de som van alle individuele krachten die op de particle werken, opgetelt:
 
-	Ft = F1 + F2 + F3 + F4 + ... + Fn
+bij n krachten:
+	Ft = F1 + F2 + F3 + ...  + F(n-1) + Fn
 
 Resterend is het berekenen van deze individuele krachten.
 
@@ -113,3 +114,23 @@ bij constante a:
 
 Om de constraints te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is, en anders wat er niet correct aan is (zodat we weten wat we moeten veranderen). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaaft moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner word dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
 
+Om dit probleem goed op te lossen is het practisch om uit te kunnen rekenen hoe 'incorrect' of fout een bepaalde staat is. Als we later constraints op willen lossen proberen we deze waarde dus te verlagen. De totale fout is de som van de fouten van alle individuele constraints. Dit geeft deze formule:
+
+bij n constraints:
+	Et = E1 + E2 + E3 + ... E(n-1) + En
+Et: totale fout (in m)
+En: fout van constraint n (in m)
+
+De fout van een constraint is de minimale som van alle afstanden die door de particles afgelegt moeten worden om de constraint te handhaven. Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme te geven die de fout van een constraint levert. Ter illustratie zal ik wel een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
+
+if (d < |Sparticle1 - Sparticle2|) {
+	//als de waarde van d groter is dan de afstand tussen particle1 en particle2 word deze code uitgevoert
+	E = 0
+} else {
+	//als de waarde van d niet groter is dan de afstand tussen particle1 en particle2 word deze code uitgevoert
+	E = d - |Sparticle1 - Sparticle2|
+}
+
+Wat goed aan dit voorbeeld te zien is is waarom een normale formule niet volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaaft, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleinder is dan d is er wel sprake van een fout, namelijk het verschil tussen d en de onderlinge afstand. bedenk ook dat E in geen geval een negatieve waarde aan kan nemen.
+
+Om de waarde van Et kiezen we een constraint n, en proberen de waarde E van deze constraint te verlagen. We doen dit met de aanname dat de som van de waarden van E bij alle andere constraints minder toenemen dan de waarde E van constraint n daalt.
