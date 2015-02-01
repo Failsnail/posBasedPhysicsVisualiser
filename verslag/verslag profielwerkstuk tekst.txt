@@ -24,17 +24,19 @@ Om de verandering in positie, acceleratie en snelheid te beschrijven zien we de 
 
 Bij constante snelheid:
 	S1 = S0 + V * t
-S: positie (in meter of m)
+S1: eindpositie (in meter of m)
+S0: beginpositie (in meter of m)
 V: snelheid (in m/s)
 t: tijd (in s)
 
 Bij constante acceleratie:
 	V1 = V0 + a * t
-V: snelheid (in m/s)
+V1: eindsnelheid (in m/s)
+V0: beginsnelheid (in m/s)
 a: acceleratie
 
 Bij constante acceleratie:
-	S1 = S0 + V0 + 1/2 * a * t^2
+	S1 = S0 + V0 * t + 1/2 * a * t^2
 
 Dit is alle wiskunde die nodig is voor het belangrijkste gedeelte van de simulator. Voor enkele specifieke problemen (zoals veren en zwaartekracht) worden natuurkundige formules voor speciaal voor die problemen aangehaalt.
 
@@ -89,4 +91,25 @@ Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele
 
 Het groote probleem zijn echter normaalkracht en verwanten (drijfkracht en hydraulische druk). In tegenstelling tot de andere krachten zijn deze niet exact te berekenen met enkele factoren; ze onstaan namelijk om een correcte staat te handhaven. Dit betekent dat de kracht niet direct gevonden kan worden: eerst moetten alle andere krachten bekent zijn, waarna berekent kan worden welke kracht daar tegenover moet staan om correcte staat te handhaven. Als een object echter onderhevig is aan meerdere normaalkrachten is ook dit logischerwijs niet mogelijk, aangezien beide krachten kennis over de andere nodig hebben om een resultaat te kunnen leveren.
 
-Omdat al bleek dat de krachten gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; we vinden eerst een correcte staat, om daarna te berekenen welke krachten nodig zijn om deze staat te berijken.
+Omdat al bleek dat de krachten gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; na het toepassen van de alle andere krachten vinden we direct een correcte staat, zonder de krachten uit te rekenen. De posities die de particles na deze operatie hebben is de positie van de particles na de t die gesimuleert wordt. De snelheden van de particles na t zijn te berekenen met de vorige positie, vorige stelheid en de tussenliggende tijd t, omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
+
+Bij constante a:
+	S1 = S0 + V0 * t + 1/2 * a * t^2
+
+Bij constante a:
+	V1 = V0 + a * t
+V: snelheid (in m/s)
+a: acceleratie
+
+We schrijven de eerste formule om naar een formule die a als antwoord geeft:
+
+bij constante a:
+	a = 2  * (S1 - S0 - V0 * t) / t^2
+
+Nu kunnen we deze substitueren in de tweede formule, vereenvoudigd geeft dit:
+
+bij constante a:
+	V1 = 2 * (S1 - S0) / t - V0	
+
+Om de constraints te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is, en anders wat er niet correct aan is (zodat we weten wat we moeten veranderen). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaaft moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner word dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
+
