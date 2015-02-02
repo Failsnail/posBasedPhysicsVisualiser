@@ -80,7 +80,7 @@ Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele
 
 Normaalkracht en verwante krachten (zoals hydraulische druk en drijfkracht) zijn echter niet deterministisch. Deze soort krachten onstaan namelijk om een correcte staat te handhaven (meerdere objecten mogen niet de zelfde ruimte innemen bijvoorbeeld). Dit betekent dat de kracht niet direct gevonden kan worden: eerst moeten alle andere krachten bekend zijn, waarna berekent kan worden welke kracht daar tegenover gezet moet worden om een correcte staat te handhaven. Als een object echter onderhevig is het exact uitrekenen van de krachten logischerwijs niet mogelijk aangezien beide krachten kennis over de andere nodig hebben om een volledig resultaat te kunnen leveren.
 
-Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; na het het verplaatsten van de particles door alle 'deterministische krachten' toe te passen benaderen we een correcte staat, zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie. De eindsnelheden van de particles na t zijn te berekenen met de vorige positie, vorige snelheid en de tussenliggende tijd t. Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
+Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; Eerst verplaatsten we de particles door alle 'deterministische krachten' en de beginsnelheid toe te passen (dit heet projecteren). Daarna benaderen we een correcte staat zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie. De eindsnelheden van de particles na t zijn te berekenen met de vorige positie, vorige snelheid en de tussenliggende tijd t. Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
 
 Bij constante a:
 	S1 = S0 + V0 * t + 1/2 * a * t^2
@@ -118,3 +118,19 @@ d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
 |Sparticle1 - Sparticle2|: de afstand tussen particle1 en particle2 (in m)
 
 Aan dit voorbeeld is goed te zien waarom een normale formule niet volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout, namelijk het verschil tussen d en de onderlinge afstand. bedenk dat E in geen geval een negatieve waarde aan kan nemen.
+
+We gaan nu proberen te zorgen dat alle constraints gehandhaafd worden. Het is echter belangrijk dat constraints niet en één keer gehandhaaft worden. Als constraints in één keer opgelost zouden worden zou er inpliciet van uitgegaan worden dat andere constraints geen invloed hebben op de constraint in kwestie. Vaak is het echter zo dat meerdere particles een constraint delen, en dat beide constraints veel invloed op elkaar hebben. Om te zorgen dat constraints wel zo veel mogelijk gehandhaafd worden word het handhaven van alle constraints enkele keren herhaald. Om te zorgen dat alle constraints evenveel prioriteit krijgen word de fout van een constraint vermenigvuldigd met een factor (f) die voor alle constraints gelijk is, en waarvan de waarde tussen de 0 en 1 ligt. Alweer zal ik het voorbeeld geven van de afstandsconstraint om te demonstreren hoe dit in zijn werking kan gaan:
+
+relativePosition = getPosition(particle1) - getPosition(particle2)
+	//vector die van particle1 naar particle2 wijst
+displacementLength = relativePosition.getLength() - length
+	//de afstand waarmee beide particles van elkaar af verplaatst moeten worden
+displacementLength = displacementLength * f
+vector displacementVector = relativePosition;
+	//vector representing the displacement of particle2 relative to particle1
+displacementVector = displacementVector / |displacementVector|
+displacementVector = displacementVector * displacementLength
+displace(particle1, displacementVector * -1 / (1 + getParticle(particle1).getMass() / getParticle(particle2).getMass()))
+displace(particle2, displacementVector * 1 / (1 + getParticle(particle2).getMass() / getParticle(particle1).getMass()))
+
+Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
