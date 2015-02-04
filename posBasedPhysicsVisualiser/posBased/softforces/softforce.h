@@ -1,7 +1,7 @@
 #ifndef SOFTFORCE_H
 #define SOFTFORCE_H
 
-#include <math.h>
+#include <cmath>
 
 #include <iostream>
 

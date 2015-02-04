@@ -9,8 +9,16 @@ positionconstraint::~positionconstraint() {
     //dtor
 }
 
-void positionconstraint::virtualResolveConstraint() {
-    setPosition(particle, position);
+void positionconstraint::virtualResolveConstraint(const float& resolveError) {
+    float St = resolveError / getMass(particle);
+    vectorType tempVector = position - getPosition(particle);
+    tempVector.normalize();
+    tempVector = tempVector * St;
+    displace(particle, tempVector);
+}
+
+float positionconstraint::getError() const {
+    return getMass(particle) * (getPosition(particle) - position).getLength();
 }
 
 bool positionconstraint::getUsingParticle(const int& index) const {

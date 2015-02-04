@@ -18,8 +18,9 @@ unit vector2D::getLength() const {
     return (unit)sqrtl(x * x + y * y);
 }
 
-void vector2D::normalize() {
+vector2D vector2D::normalize() {
     *this = *this / (getLength());
+    return *this;
 }
 
 unit vector2D::getX() const {

@@ -26,7 +26,7 @@ void simulator::relaxConstraints(worldstate* providedWord, const int& iterations
 
     t1 = world->getParticlePool();
 
-    Relax(iterations);
+    Relax(0.3f, iterations);                        //TEMPORAIRILLY
 
     world->setParticlePool(t1);
 
@@ -45,7 +45,7 @@ void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
 
     t1 = tP;
 
-    Relax(relaxationIterationsNumber);
+    Relax(0.3f, relaxationIterationsNumber);        //TEMPORAIRILLY
 
     integrate(deltaTime);
 
@@ -96,14 +96,14 @@ void simulator::project(timeUnit deltaTime) {       //writes results to tP
     }
 }
 
-void simulator::Relax(const int& iterations) {                           //writes results to t1
+void simulator::Relax(const float& resolveCoeficient, const int& iterations) {                           //writes results to t1
     for (int i = 0; i < iterations; i++) {
         tBuffer = t1;
 
         //put this loop in worldstate!
         for (int i = 0; i < world->getConstraintPoolSize(); i++) {
             if (world->getConstraint(i) != nullptr) {
-                world->getConstraint(i)->resolveConstraint(&tBuffer, &t1);
+                world->getConstraint(i)->resolveConstraint(resolveCoeficient, &tBuffer, &t1);
             }
         }
     }
@@ -113,14 +113,9 @@ void simulator::integrate(timeUnit deltaTime) {     //writes results to t1
     for (int index = 0; index < t0.getParticlePoolSize(); index++) {
         #if false
             t1.setVelocity(index, (t1.getPosition(index) - t0.getPosition(index)) / deltaTime);
-        #endif
-        #if true
+        #else
             t1.setVelocity(index, (t1.getPosition(index) - t0.getPosition(index)) / deltaTime * 2 - t0.getVelocity(index));
             t1.setAcceleration(index, (t1.getVelocity(index) - t0.getVelocity(index)) / deltaTime);
-        #endif
-        #if false   //make this an integration sceme based on tP and t1
-            t1.setVelocity(index, (t1.getPosition(index) - tP.getPosition(index)) / deltaTime * 2 - tP.getVelocity(index));
-            t1.setAcceleration(index, (t1.getVelocity(index) - tP.getVelocity(index)) / deltaTime);
         #endif
     }
 }

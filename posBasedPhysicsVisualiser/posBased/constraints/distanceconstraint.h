@@ -11,7 +11,8 @@ class distanceconstraint : public constraint {
         bool getUsingParticle(const int& index) const;
         void changeIndex(const int& oldIndex, const int& newIndex);
     protected:
-        void virtualResolveConstraint();
+        void virtualResolveConstraint(const float& resolveError);
+        float getError() const;
     private:
         enum distanceConstraintType {
             equality,

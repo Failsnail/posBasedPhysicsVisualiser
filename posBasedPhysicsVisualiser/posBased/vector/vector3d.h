@@ -13,7 +13,7 @@ class vector3D {
         unit getX() const;
         unit getY() const;
         unit getZ() const;
-        void normalize();
+        vector3D normalize();
         void setX(const unit& newX);
         void setY(const unit& newY);
         void setZ(const unit& newZ);

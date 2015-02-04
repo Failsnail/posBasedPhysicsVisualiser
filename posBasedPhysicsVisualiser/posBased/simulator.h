@@ -27,7 +27,7 @@ class simulator {
         void virtualSimulate(worldstate* providedWorld, timeUnit deltaTime);
 
         void project(timeUnit deltaTime);
-        void Relax(const int& iterations);
+        void Relax(const float& resolveCoeficient, const int& iterations);
         void integrate(timeUnit deltaTime);
 
         particlePool t0;        //initial state

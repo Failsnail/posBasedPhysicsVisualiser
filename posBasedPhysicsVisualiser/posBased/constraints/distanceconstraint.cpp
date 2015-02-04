@@ -24,45 +24,51 @@ distanceconstraint::~distanceconstraint() {
     //dtor
 }
 
-void distanceconstraint::virtualResolveConstraint() {
-    vectorType relativePosition = getPosition(particle1) - getPosition(particle2);
-    //vector pointing from particle1 to particle2
+void distanceconstraint::virtualResolveConstraint(const float& resolveError) {
+    vectorType relativePosition = getPosition(particle2) - getPosition(particle1);
+        //vector pointing from particle1 to particle2 with unit length
+    float distance = relativePosition.getLength();
+    relativePosition.normalize();
+
+    float displacement1;
+    float displacement2;
+    //floats representing how far both vectors have to be moved outward
+
+    if (distance < length) {
+        displacement1 = 0.5 * resolveError / getMass(particle1);
+        displacement2 = 0.5 * resolveError / getMass(particle2);
+    } else {
+        displacement1 = - 0.5 * resolveError / getMass(particle1);
+        displacement2 = - 0.5 * resolveError / getMass(particle2);
+    }
+
+    displace(particle1, relativePosition * displacement1 * -1);
+    displace(particle2, relativePosition * displacement2 * +1);
+}
+
+float distanceconstraint::getError() const {
+    float tempError = 0;
+
+    float distance = (getPosition(particle1) - getPosition(particle2)).getLength();
+
+    tempError = 2 * getMass(particle1) * fabs((distance - length) / (1 + getMass(particle1) / getMass(particle2)));
 
     switch (myType) {
         case greater:
-            if (relativePosition.getLength() >= length) {
-                return;
+            if (distance >= length) {
+                tempError = 0;
             }
             break;
         case smaller:
-            if (relativePosition.getLength() <= length) {
-                return;
+            if (distance <= length) {
+                tempError = 0;
             }
+            break;
+        default:
             break;
     }
 
-    if (relativePosition.getLength() == 0) {
-        //there is no distance between the two constraints, so the constraint cannot be resolved
-        return;
-    }
-
-    float displacementLength = relativePosition.getLength() - length;
-    //float representing how far particle1 and two should be moved apart
-    //this value is negative if they should be moved towards each other
-    //if this value equals zero, the constraint is already resolved
-
-    displacementLength *= 0.35;
-    //value between 0 and 1 to make shure the constriant is NOT fully solved, use this to remove weird resonation
-
-    vectorType displacementVector;
-    //vector representing the displacement of particle2 relative to particle1
-    displacementVector = relativePosition;
-
-    displacementVector.normalize();
-    displacementVector = displacementVector * displacementLength;
-
-    displace(particle1, displacementVector * -1 / (1 + getParticle(particle1).getMass() / getParticle(particle2).getMass()));
-    displace(particle2, displacementVector *  1 / (1 + getParticle(particle2).getMass() / getParticle(particle1).getMass()));
+    return tempError;
 }
 
 bool distanceconstraint::getUsingParticle(const int& index) const {

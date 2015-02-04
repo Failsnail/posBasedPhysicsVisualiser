@@ -20,8 +20,9 @@ unit vector3D::getLength() const {
     return (unit)sqrtl(x * x + y * y + z * z);
 }
 
-void vector3D::normalize() {
+vector3D vector3D::normalize() {
     *this = *this / (getLength());
+    return *this;
 }
 
 unit vector3D::getX() const {

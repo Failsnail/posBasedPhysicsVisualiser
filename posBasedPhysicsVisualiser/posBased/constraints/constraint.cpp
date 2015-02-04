@@ -8,11 +8,19 @@ constraint::~constraint() {
 
 }
 
-void constraint::resolveConstraint(particlePool* const newInBuffer, particlePool* newOutBuffer) {
+void constraint::resolveConstraint(const float& resolveCoeficient, particlePool* const newInBuffer, particlePool* newOutBuffer) {
     inBuffer = newInBuffer;
     outBuffer = newOutBuffer;
 
-    virtualResolveConstraint();
+    float error = getError();
+
+    if (error != error || error < 0) {
+        std::cout << "\nA CONSTRAINT WENT ROGUE!!!\n\n";
+    }
+
+    if (error > 0) {
+        virtualResolveConstraint(error * resolveCoeficient);
+    }
 
     inBuffer = nullptr;
     outBuffer = nullptr;
@@ -32,6 +40,10 @@ unit constraint::getDistance(const int& particleIndex1, const int& particleIndex
 
 const particle constraint::getParticle(const int& particleIndex) const {
     return inBuffer->getParticle(particleIndex);
+}
+
+float constraint::getMass(const int& particleIndex) const {
+    return inBuffer->getMass(particleIndex);
 }
 
 void constraint::displace(const int& particleIndex, const vectorType& displacement) {
