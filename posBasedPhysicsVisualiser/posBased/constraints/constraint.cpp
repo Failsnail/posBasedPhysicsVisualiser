@@ -8,7 +8,7 @@ constraint::~constraint() {
 
 }
 
-void constraint::resolveConstraint(const float& resolveCoeficient, particlePool* const newInBuffer, particlePool* newOutBuffer) {
+void constraint::resolveConstraint(const float& relaxationCoeficient, particlePool* const newInBuffer, particlePool* newOutBuffer) {
     inBuffer = newInBuffer;
     outBuffer = newOutBuffer;
 
@@ -19,7 +19,7 @@ void constraint::resolveConstraint(const float& resolveCoeficient, particlePool*
     }
 
     if (error > 0) {
-        virtualResolveConstraint(error * resolveCoeficient);
+        virtualResolveConstraint(error * relaxationCoeficient);
     }
 
     inBuffer = nullptr;

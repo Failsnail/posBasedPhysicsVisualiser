@@ -26,7 +26,7 @@ void simulator::relaxConstraints(worldstate* providedWord, const int& iterations
 
     t1 = world->getParticlePool();
 
-    Relax(0.3f, iterations);                        //TEMPORAIRILLY
+    Relax(relaxationCoefficient, iterations);
 
     world->setParticlePool(t1);
 
@@ -45,7 +45,7 @@ void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
 
     t1 = tP;
 
-    Relax(0.3f, relaxationIterationsNumber);        //TEMPORAIRILLY
+    Relax(relaxationCoefficient, relaxationIterationsNumber);
 
     integrate(deltaTime);
 
@@ -54,7 +54,7 @@ void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
     world = nullptr;
 }
 
-void simulator::setFullIterationsNumber(int newFullIterationsNumber) {
+void simulator::setFullIterationsNumber(const int& newFullIterationsNumber) {
     if (newFullIterationsNumber > 0) {
         fullIterationsNumber = newFullIterationsNumber;
     } else {
@@ -62,7 +62,7 @@ void simulator::setFullIterationsNumber(int newFullIterationsNumber) {
     }
 }
 
-void simulator::setProjectionIterationsNumber(int newProjectionIterationsNumber) {
+void simulator::setProjectionIterationsNumber(const int& newProjectionIterationsNumber) {
     if (newProjectionIterationsNumber > 0) {
         projectionIterationsNumber = newProjectionIterationsNumber;
     } else {
@@ -70,11 +70,17 @@ void simulator::setProjectionIterationsNumber(int newProjectionIterationsNumber)
     }
 }
 
-void simulator::setRelaxationIterationsNumber(int newRelaxationIterationsNumber) {
+void simulator::setRelaxationIterationsNumber(const int& newRelaxationIterationsNumber) {
     if (newRelaxationIterationsNumber > 0) {
         relaxationIterationsNumber = newRelaxationIterationsNumber;
     } else {
         relaxationIterationsNumber = 1;
+    }
+}
+
+void simulator::setRelaxationCoefficient(const float& newRelaxationCoefficient) {
+    if (newRelaxationCoefficient > 0 && newRelaxationCoefficient <= 1) {
+        relaxationCoefficient = newRelaxationCoefficient;
     }
 }
 
