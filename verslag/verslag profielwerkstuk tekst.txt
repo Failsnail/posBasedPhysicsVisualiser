@@ -14,21 +14,25 @@ Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten
 
 Beweging staat voor de verandering van de positie van een object. Het ultieme doel van de simulator is het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd (t). De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Merk op dat de omschrijving van snelheid en acceleratie puur wiskundig is. Met deze theorie zijn onder andere de volgende formules te vormen:
 
-Bij constante acceleratie:
+Bij constante a:
 	S1 = S0 + V0 * t + 1/2 * a * t^2
 S1: huidige positie (in m)
 S0: vorige positie (in m)
 V0: vorige snelheid (in m/s)
-a: acceleratie (in m/s^2)
 t: tijdsinterval (in s)
+a: acceleratie (in m/s^2)
 
 Bij constante acceleratie:
 	V1 = V0 + a * t
 V1: huidige snelheid (in m/s)
+V0: vorige snelheid (in m/s)
+a: acceleratie (in m/s^2)
+t: tijdsinterval (in s)
 
 Met deze formules kunnen we een nieuwe positie en snelheid uitrekenen. De nieuwe snelheid word in de particles opgeslagen, en word de keer daarop gebruikt als vorige positie en vorige snelheid. De twee onbekenden die overblijven zijn a en t. t staat voor de tijd die is verstreken over het interval dat we willen simuleren. t kan handmatig op een bepaalde waarde vastgesteld worden (bijvoorbeeld bij het simuleren van constructies of filmscènes) omdat de simulator simpelweg een bepaald interval als invoer nodig heeft, of deze kan dynamisch berekend worden met de volgende formule:
 
-t = t1 - t0
+	t = t1 - t0
+t: tijdsinterval (in s)
 t1: huidige tijd (in s)
 t0: vorige tijd (in s)
 
@@ -39,14 +43,14 @@ De andere onbekende, a, kan berekend worden met de tweede wet van newton:
 	a = Ft / M
 a: versnelling (in m/(s^2))
 Ft: totale kracht (in Newton of N)
-M: massa (in Kilogram)
+M: massa (in kilogram)
 
 Deze wet verbind alle krachten en massa's in ons systeem met de acceleratie, zo is deze wet van onschatbare waarde. Er is hiermee echter een belangrijk probleem: de krachten, massa's en dus ook de acceleratie zijn momentopnamen, maar de acceleratie moet later gebruikt worden op een tijdsinterval. Om te zorgen dat a niet 'veroudert' over t mag t niet groter zijn dan 0, maar t mag ook niet gelijk zijn aan 0, want als dat het gaval zou zijn zou geen tijd verstrijken. Deze twee vereisten gecombineerd betekenen dat de simulatie perfect zal zijn bij lim -> t = 0.  Helaas is de rekenkracht van computers beperkt, en kan de wiskunde hier geen uitweg bieden. Dit betekent dat de resultaten van de simulatie logischerwijs niet perfect kunnen zijn (dit komt overigens ook door de beperkte precisie van getallen die door computers gebruikt worden). De beste (en waarschijnlijk) enige oplossing om natuurlijke correctheid te bewaren is om lim t -> 0 te benaderen door t zo klein mogelijk te maken als mogelijk. Gelukkig is de fout die hierdoor geïntroduceerd word klein genoeg om in veel gevallen te verwaarlozen. Voor de rest van het verslag wordt a om deze reden voor constant aangenomen.
 
 Om de acceleratie uit te rekenen hebben we dus de totale kracht die op de particle staat nodig, en de massa van de particle. Net zoals de positie en snelheid is de massa een van de attributen van de particle, welke dus al opgeslagen is en alleen nog maar uitgelezen hoeft te worden. Het berekenen van de totale kracht op een particle is simpelweg de som van alle individuele krachten die op de particle werken, opgeteld:
 
 bij n krachten:
-	Ft = F1 + F2 + F3 + ...  + F(n-1) + Fn
+	Ft = F1 + F2 + ...  + F(n-1) + Fn
 Ft: totale kracht (in N)
 Fn: kracht van kracht n (in N)
 
@@ -59,6 +63,7 @@ Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaa
 Bij constante g:
 	Fz = M * g
 Fz = zwaartekracht (in N)
+M: massa (in kilogram)
 g = gravitatie (in m/(s^2))
 
 Bij constante l:
@@ -72,6 +77,7 @@ Bij constante V:
 	Fd = -c * V
 Fd = dempkracht (in N)
 c = dempingconstante (in Ns/m)
+V: snelheid (in m/s)
 
 
 Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele redelijk eenvoudig te vinden parameters nodig: bij zwaartekracht word de massa van de particle gebruikt, en een constante gravitatie. Voor de veerkracht wordt de veerkrachtconstante, een getal dat de rustlengte van de veer bepaalt en de lengte van de veer (die weer met pythagoras en de posities berekent kan worden) gebruikt. Krachten zoals deze zijn exact uit te rekenen voor elk moment. Omdat deze krachten (binnen de limieten van computers) exact uitgerekend kunnen worden met alleen bekende variabelen zullen deze krachten voor de rest van dit artikel 'deterministische krachten' genoemd worden.
@@ -79,10 +85,15 @@ Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele
 
 Normaalkracht en verwante krachten (zoals hydraulische druk en drijfkracht) zijn echter niet deterministisch. Deze soort krachten ontstaan namelijk om een correcte staat te handhaven (meerdere objecten mogen niet de zelfde ruimte innemen bijvoorbeeld). Dit betekent dat de kracht niet direct gevonden kan worden: eerst moeten alle andere krachten bekend zijn, waarna berekent kan worden welke kracht daar tegenover gezet moet worden om een correcte staat te handhaven. Als een object echter onderhevig is het exact uitrekenen van de krachten logischerwijs niet mogelijk aangezien beide krachten kennis over de andere nodig hebben om een volledig resultaat te kunnen leveren.
 
-Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; Eerst verplaatsten we de particles door alle 'deterministische krachten' en de beginsnelheid toe te passen (dit heet projecteren). Daarna benaderen we een correcte staat zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie. De eindsnelheden van de particles na t zijn te berekenen met de vorige positie, vorige snelheid en de tussenliggende tijd t. Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
+Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; Eerst verplaatsten we de particles door alle 'deterministische krachten' en de beginsnelheid toe te passen (dit noemen we projecteren projecteren). Daarna benaderen we een correcte staat zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie (S1). Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
 
 Bij constante a:
 	S1 = S0 + V0 * t + 1/2 * a * t^2
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+V0: vorige snelheid (in m/s)
+t: tijdsinterval (in s)
+a: acceleratie (in m/s^2)
 
 Bij constante a:
 	V1 = V0 + a * t
@@ -93,13 +104,18 @@ We schrijven de eerste formule om naar een formule die a als resultaat geeft:
 
 bij constante a:
 	a = 2  * (S1 - S0 - V0 * t) / t^2
+a: acceleratie (in m/s^2)
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+V0: vorige snelheid (in m/s)
+t: tijdsinterval (in s)
 
 Nu kunnen we deze substitueren in de tweede formule, na vereenvoudiging geeft dit:
 
 bij constante a:
 	V1 = 2 * (S1 - S0) / t - V0	
 
-Dit betekent dat we S1 en V1 uit kunnen rekenen zonder individuele normaalkrachten te hoeven onderzoeken.
+Dit betekent dat we S1 en V1 uit kunnen rekenen zonder dat de acceleraties bekend hoeven te zijn, zolang we de eindposities (S1) kunnen benaderen.
 
 Om de normaalkrachten te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is (dit systeem is gescheiden van het systeem dat de deterministische krachten beschrijft). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaafd moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner wordt dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedrukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
 
@@ -134,28 +150,41 @@ mn: de massa van particle n (in kg)
 
 Aan dit voorbeeld is goed te zien waarom een normale formule niet altijd volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout. Merk ook op dat de waarde van E altijd voldoet aan E >= 0.
 
-We gaan nu proberen te zorgen dat alle constraints gehandhaafd worden. Het is echter belangrijk dat constraints niet en één keer gehandhaafd worden, anders zouden we er namelijk impliciet van uitgegaan worden dat de invloed van constraints op elkaar verwaarloost kan worden. Vaak is het echter zo dat meerdere particles een constraint delen, en dat beide zo constraints veel invloed op elkaar hebben. Om dit probleem op te lossen worden alle constraints gedeeltelijk gehandhaaft, door het gedeeltelijk handhaven te herhalen word de fout steeds vermindert. Om te zorgen dat alle constraints evenveel prioriteit krijgen word de fout van een constraint vermenigvuldigd met een factor (f) die voor alle constraints gelijk is, om te bepalen hoever een constraint opgelost moet worden:
+Nu gaan we proberen te zorgen dat alle constraints gehandhaafd worden. Het is echter belangrijk dat constraints niet en één keer gehandhaafd worden, anders zouden we er namelijk impliciet van uitgegaan worden dat de invloed van constraints op elkaar verwaarloost kan worden. Vaak is het echter zo dat meerdere particles een constraint delen, en dat beide zo constraints veel invloed op elkaar hebben. Om dit probleem op te lossen worden alle constraints gedeeltelijk gehandhaaft, door het gedeeltelijk handhaven te herhalen word de fout steeds vermindert. Om te zorgen dat alle constraints evenveel prioriteit krijgen word de fout van een constraint vermenigvuldigd met een factor (f) die voor alle constraints gelijk is, om te bepalen hoever een constraint opgelost moet worden:
 
 //vertel ook over lim E -> 0 ? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	Er = E * f
-Er: hoeveel de fout verminderd moet worden (in m*kg)
+Er: hoeveel de fout van de constraint verminderd moet worden (in m*kg)
 E: fout van de constraint (in m*kg)
 f: factor (zonder eenheid) die voldoet aan 0 < f <= 1
 
-/*
-relativePosition = getPosition(particle1) - getPosition(particle2)
-	//vector die van particle1 naar particle2 wijst
-displacementLength = relativePosition.getLength() - length
-	//de afstand waarmee beide particles van elkaar af verplaatst moeten worden
-displacementLength = displacementLength * f
-vector displacementVector = relativePosition;
-	//vector representing the displacement of particle2 relative to particle1
-displacementVector = displacementVector / |displacementVector|
-displacementVector = displacementVector * displacementLength
-displace(particle1, displacementVector * -1 / (1 + getParticle(particle1).getMass() / getParticle(particle2).getMass()))
-displace(particle2, displacementVector * 1 / (1 + getParticle(particle2).getMass() / getParticle(particle1).getMass()))
-*/
+
+Nu kan de verplaatsing van de particles berekent worden:
+
+	vector relativePosition = S2 - S1;
+	//vector pointing from particle1 to particle2 with unit length
+	
+	float distance = |relativePosition|
+	relativePosition = relativePosition / |relativePosition|
+	
+	float displacement1;
+	float displacement2;
+	//floats representing how far both vectors have to be moved outward
+	
+	if (distance < length) {
+		displacement1 = 0.5 * Er / m1
+		displacement2 = 0.5 * Er / m2
+	} else {
+		displacement1 = - 0.5 * Er / m1
+		displacement2 = - 0.5 * Er / m2
+	}
+	
+	dS1 = -1 * relativePosition * displacement1
+	dS2 = +1 * relativePosition * displacement2
+
+
+
 
 Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
 
