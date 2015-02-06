@@ -103,23 +103,40 @@ Dit betekent dat we S1 en V1 uit kunnen rekenen zonder individuele normaalkracht
 
 Om de normaalkrachten te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is (dit systeem is gescheiden van het systeem dat de deterministische krachten beschrijft). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaafd moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner wordt dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedrukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
 
-Om dit probleem goed op te lossen is het praktisch om uit te kunnen rekenen hoe 'incorrect' een bepaalde staat is. Als we de constraints op willen lossen proberen we deze waarde dus te verlagen. De fout van één constraint is de minimale som van alle afstanden die door de particles afgelegd moeten worden om de constraint te handhaven. Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme (formules volstaan niet om deze waarden uit te rekenen) te geven die de fout van een constraint levert. Ter illustratie zal ik een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
+Om dit probleem goed op te lossen is het praktisch om uit te kunnen rekenen hoe 'incorrect' een bepaalde staat is. Als we de constraints op willen lossen proberen we deze waarde dus te verlagen. We definieren de fout (E) van een constraint als de massa van de particles maal de afstand die deze particles af moeten leggen om de constraint te handhaven:
 
-if (d < |Sparticle1 - Sparticle2|) {
-	//als de waarde van d groter is dan de afstand tussen particle1 en particle2 wordt deze code uitgevoerd:
-	E = 0
-} else {
-	//als de waarde van d niet groter is dan de afstand tussen particle1 en particle2 wordt deze code uitgevoerd:
-	E = d - |Sparticle1 - Sparticle2|
-}
+	E = dS1 * m1 + dS2 * m2 ... dSn * mn
+E: fout (in m*kg)
+dSn: benodigde verandering van positie van particle n (in m)
+mn: massa van particle n (in kg)
+
+Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme (formules volstaan niet om deze waarden uit te rekenen) te geven die de fout van een constraint levert. Toch zal ik ter illustratie zal ik een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles exact gelijk moet zijn aan de waarde d:
+
+	E = 2 * ||S1 - S2| - d| * m1 / (1 + m1 / m2)
 E: fout (in m)
 d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
-|Sparticle1 - Sparticle2|: de afstand tussen particle1 en particle2 (in m)
+|Sn - Sn2|: de afstand tussen particle n en particle n2 (in m)
+mn: de massa van particle n (in kg)
 
-Aan dit voorbeeld is goed te zien waarom een normale formule niet volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout, namelijk het verschil tussen d en de onderlinge afstand. bedenk dat E in geen geval een negatieve waarde aan kan nemen.
+//leg ook m1 * S1 = m2 * S2 uit (hoe de formule is gemaakt)? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+Het volgende algoritme is voor een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
+
+	if (|Sn - Sn2| > d) {
+		E = 0
+	} else {
+		E = 2 * ||S1 - S2| - d| * m1 / (1 + m1 / m2)
+	}
+E: fout (in m)
+d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
+|Sn - Sn2|: de afstand tussen particle n en particle n2 (in m)
+mn: de massa van particle n (in kg)
+
+Aan dit voorbeeld is goed te zien waarom een normale formule niet altijd volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout. Merk ook op dat de waarde van E altijd voeldoet aan E >= 0.
 
 We gaan nu proberen te zorgen dat alle constraints gehandhaafd worden. Het is echter belangrijk dat constraints niet en één keer gehandhaafd worden. Als constraints in één keer opgelost zouden worden zou er impliciet van uitgegaan worden dat andere constraints geen invloed hebben op de constraint in kwestie. Vaak is het echter zo dat meerdere particles een constraint delen, en dat beide constraints veel invloed op elkaar hebben. Om te zorgen dat constraints wel zo veel mogelijk gehandhaafd worden word het handhaven van alle constraints enkele keren herhaald. Om te zorgen dat alle constraints evenveel prioriteit krijgen word de fout van een constraint vermenigvuldigd met een factor (f) die voor alle constraints gelijk is, en waarvan de waarde tussen de 0 en 1 ligt. Alweer zal ik het voorbeeld geven van de afstandsconstraint om te demonstreren hoe dit in zijn werking kan gaan:
 
+/*
 relativePosition = getPosition(particle1) - getPosition(particle2)
 	//vector die van particle1 naar particle2 wijst
 displacementLength = relativePosition.getLength() - length
@@ -131,6 +148,7 @@ displacementVector = displacementVector / |displacementVector|
 displacementVector = displacementVector * displacementLength
 displace(particle1, displacementVector * -1 / (1 + getParticle(particle1).getMass() / getParticle(particle2).getMass()))
 displace(particle2, displacementVector * 1 / (1 + getParticle(particle2).getMass() / getParticle(particle1).getMass()))
+*/
 
 Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
 
