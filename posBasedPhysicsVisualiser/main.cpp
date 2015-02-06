@@ -107,13 +107,14 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode
             keys[key] = true;
             if (key == GLFW_KEY_UP) {
                 timeScale *= 2;
-            }
-            if (key == GLFW_KEY_DOWN) {
+            } else if (key == GLFW_KEY_DOWN) {
                 timeScale /= 2;
-            }
-            if (key == GLFW_KEY_P) {
+            } else if (key == GLFW_KEY_P) {
                 paused = !paused;
+            } else if (key == GLFW_KEY_R) {
+                timeScale = 1.0f;
             }
+
         } else if(action == GLFW_RELEASE) {
             keys[key] = false;
         }
@@ -541,9 +542,9 @@ void displayInstanceList() {
 
 void loadWorld() {
 
-    mySimulator.setFullIterationsNumber(70);
-    mySimulator.setRelaxationIterationsNumber(3);
-    mySimulator.setRelaxationCoefficient(0.3f);
+    mySimulator.setFullIterationsNumber(10);             //50
+    mySimulator.setRelaxationIterationsNumber(3);       //3
+    mySimulator.setRelaxationCoefficient(0.3f);         //0.3
 
     cout << "initialize particlePool..." << endl;
     {
@@ -883,8 +884,18 @@ void update() {
     if (!paused) {
         cout << "simulating..." << endl;
 
+        if (deltaTime > 1.0f / 45.0f) {
+            deltaTime = 1.0f / 45.0f;
+        }
+
+        double simulationTime = glfwGetTime();
+
         //mySimulator.simulate(&myWorldstate, (float)deltaTime * timeScale);
         mySimulator.simulate(&myWorldstate, timeScale / 60.0f);
+
+        simulationTime = glfwGetTime() - simulationTime;
+
+        cout << "simulationTime: " << simulationTime << "simulations/second: " << 1 / simulationTime << endl;
     }
 
     cout << "updating object positions..." << endl;
