@@ -51,7 +51,7 @@ float distanceconstraint::getError() const {
 
     float distance = (getPosition(particle1) - getPosition(particle2)).getLength();
 
-    tempError = 2 * getMass(particle1) * fabs((distance - length) / (1 + getMass(particle1) / getMass(particle2)));
+    tempError = 2 * fabs((distance - length) * getMass(particle1) / (1 + getMass(particle1) / getMass(particle2)));
 
     switch (myType) {
         case greater:
