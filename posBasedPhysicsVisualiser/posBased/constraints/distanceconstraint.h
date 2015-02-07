@@ -12,7 +12,7 @@ class distanceconstraint : public constraint {
         void changeIndex(const int& oldIndex, const int& newIndex);
     protected:
         void virtualResolveConstraint(const float& resolveError);
-        virtual float virtualGetError() const;
+        float getError() const;
     private:
         enum distanceConstraintType {
             equality,

@@ -17,8 +17,7 @@ void positionconstraint::virtualResolveConstraint(const float& resolveError) {
     displace(particle, tempVector);
 }
 
-float positionconstraint::virtualGetError() const {
-    return 0;
+float positionconstraint::getError() const {
     return getMass(particle) * (getPosition(particle) - position).getLength();
 }
 

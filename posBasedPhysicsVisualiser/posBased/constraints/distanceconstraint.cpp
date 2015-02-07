@@ -46,7 +46,7 @@ void distanceconstraint::virtualResolveConstraint(const float& resolveError) {
     displace(particle2, relativePosition * displacement2 * +1);
 }
 
-float distanceconstraint::virtualGetError() const {
+float distanceconstraint::getError() const {
     float tempError = 0;
 
     float distance = (getPosition(particle1) - getPosition(particle2)).getLength();

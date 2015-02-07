@@ -12,7 +12,7 @@ void constraint::resolveConstraint(const float& relaxationCoeficient, particlePo
     inBuffer = newInBuffer;
     outBuffer = newOutBuffer;
 
-    float error = virtualGetError();
+    float error = getError();
 
     if (error != error || error < 0) {
         std::cout << "\nA CONSTRAINT WENT ROGUE!!!\n\n";
@@ -24,14 +24,6 @@ void constraint::resolveConstraint(const float& relaxationCoeficient, particlePo
 
     inBuffer = nullptr;
     outBuffer = nullptr;
-}
-
-float constraint::getError(particlePool* const buffer) {
-    inBuffer = buffer;
-
-    return virtualGetError();
-
-    inBuffer = nullptr;
 }
 
 int constraint::getPoolSize() const {

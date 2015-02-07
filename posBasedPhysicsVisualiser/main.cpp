@@ -221,7 +221,7 @@ GLuint LoadShaders(const char * vertex_file_path,const char * fragment_file_path
 
 asset* loadTriangle() {
     if (triangle == nullptr) {
-        //cout << "loading triangle..." << endl;
+        cout << "loading triangle..." << endl;
 
         triangle = new asset;
 
@@ -257,14 +257,14 @@ asset* loadTriangle() {
 }
 
 void deleteTriangle() {
-    //cout << "deleting triangle..." << endl;
+    cout << "deleting triangle..." << endl;
     delete triangle;
     triangle = nullptr;
 }
 
 asset* loadSphere() {
     if (sphere == nullptr) {
-        //cout << "loading sphere..." << endl;
+        cout << "loading sphere..." << endl;
 
         sphere = new asset;
 
@@ -385,7 +385,7 @@ asset* loadSphere() {
 }
 
 void deleteSphere() {
-    //cout << "deleting sphere..." << endl;
+    cout << "deleting sphere..." << endl;
     delete sphere;
     triangle = nullptr;
 }
@@ -490,18 +490,18 @@ void deleteInstanceList() {
 void initialezeInstanceList(const int& newLength) {
     //if the new length isn't the old length, delete the list and make a one with the good size
     if (instanceListLength != newLength) {
-        //cout << "wiping instanceList to reinitialize..." << endl;
+        cout << "wiping instanceList to reinitialize..." << endl;
         deleteInstanceList();
-        //cout << "initializing instanceList..." << endl;
+        cout << "initializing instanceList..." << endl;
         instanceListLength = newLength;
         instanceList = new instance* [instanceListLength];
         //make shure the list only contains nullptrs
-        //cout << "clearing instanceList..." << endl;
+        cout << "clearing instanceList..." << endl;
         for (int i = 0; i < instanceListLength; i++) {
             instanceList[i] = nullptr;
         }
     } else {
-        //cout << "clearing InstanceList..." << endl;
+        cout << "clearing InstanceList..." << endl;
         //delete any instances stored with the list and set them to nullptrs
         for (int i = 0; i < instanceListLength; i++) {
             if (instanceList[i] != nullptr) {
@@ -513,13 +513,13 @@ void initialezeInstanceList(const int& newLength) {
 }
 
 void setInstanceList(const worldstate& newWorldState) {
-    //cout << "getting a particlePool&..." << endl;
+    cout << "getting a particlePool&..." << endl;
     const particlePool& tempParticlePool = newWorldState.getParticlePool();
 
-    //cout << "preparing the instanceList..." << endl;
+    cout << "preparing the instanceList..." << endl;
     initialezeInstanceList(tempParticlePool.getParticlePoolSize());
 
-    //cout << "copying values..." << endl;
+    cout << "copying values..." << endl;
     for (int i = 0; i < instanceListLength; i++) {
         if (tempParticlePool.isActive(i)) {
             instanceList[i] = new instance;
@@ -546,7 +546,7 @@ void loadWorld() {
     mySimulator.setRelaxationIterationsNumber(3);       //3
     mySimulator.setRelaxationCoefficient(0.3f);         //0.3
 
-    //cout << "initialize particlePool..." << endl;
+    cout << "initialize particlePool..." << endl;
     {
     particlePool tempParticlePool;
     tempParticlePool = myWorldstate.getParticlePool();
@@ -554,7 +554,7 @@ void loadWorld() {
     myWorldstate.setParticlePool(tempParticlePool);
     }
 
-    //cout << "initializing particles..." << endl;
+    cout << "initializing particles..." << endl;
 
     particle tempParticle;
     tempParticle.setMass(0.25);
@@ -879,10 +879,11 @@ void loadWorld() {
 void update() {
     //updating of time values and clearing the screen is already done.
 
-    //cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
+    cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
 
     if (!paused) {
-        //cout << "simulating..." << endl;
+        cout << "simulating..." << endl;
+
         if (deltaTime > 1.0f / 45.0f) {
             deltaTime = 1.0f / 45.0f;
         }
@@ -894,14 +895,14 @@ void update() {
 
         simulationTime = glfwGetTime() - simulationTime;
 
-        //cout << "simulationTime: " << simulationTime << "simulations/second: " << 1 / simulationTime << endl
+        cout << "simulationTime: " << simulationTime << "simulations/second: " << 1 / simulationTime << endl;
     }
 
-    //cout << "updating object positions..." << endl;
+    cout << "updating object positions..." << endl;
     setInstanceList(myWorldstate);
 
     // Render
-    //cout << "rendering..." << endl;
+    cout << "rendering..." << endl;
     moveCamera();
 
     camera = projection * view;
@@ -910,7 +911,7 @@ void update() {
 
 // The MAIN function, from here we start our application and run our Program/Game loop
 int main() {
-    //cout << "initializing graphics..." << endl;
+    cout << "initializing graphics..." << endl;
     // Init GLFW
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -955,7 +956,7 @@ int main() {
 
     projection = glm::perspective(70.0f, windowWidth / (float)windowHeight, 0.1f, 100.0f);
 
-    //cout << "loading world..." << endl;
+    cout << "loading world..." << endl;
     loadWorld();
 
     beginTime = glfwGetTime();
@@ -963,54 +964,28 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    //cout << endl << "running..." << endl;
-
-
-    int iterationNumber = 0;
-
-    ofstream myfile;
-    myfile.open ("logs/myLog.txt", ios::out | ios::trunc);
-    if (myfile.is_open()) {
-        cout << "myFile is open!" << endl;
-        myfile << "Data:" << endl << endl;
-    } else {
-        cout << "myFile is NOT open!!!!" << endl;
-    }
-
-
+    cout << endl << "running..." << endl;
 
     // Game loop
     while(!glfwWindowShouldClose(window))     {
         // Check and call events
         glfwPollEvents();
 
-        //cout << "updating time..." << endl;
+        cout << "updating time..." << endl;
         lastTime = currentTime;
         currentTime = glfwGetTime() - beginTime;
         deltaTime = currentTime - lastTime;
 
-        //cout << "clearing buffers..." << endl;
+        cout << "clearing buffers..." << endl;
         // Clear the buffers
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
         // Update
-        //cout << "'update'" << endl;
-        #if true
-            update();
-        #endif
+        cout << "'update'" << endl;
+        update();
 
-        #if false
-            mySimulator.relaxConstraints(&myWorldstate, 1);
-
-            if (myfile.is_open()) {
-                myfile << iterationNumber << "\t\t" << mySimulator.getError(&myWorldstate) << endl;
-            }
-
-            iterationNumber += 1;
-        #endif
-
-        //cout << endl;
+        cout << endl;
         // Swap the buffers
         glfwSwapBuffers(window);
     }
@@ -1019,8 +994,6 @@ int main() {
 
     deleteTriangle();
     deleteSphere();
-
-    myfile.close();
 
     glfwTerminate();
     return 0;
