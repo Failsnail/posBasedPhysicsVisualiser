@@ -29,34 +29,37 @@ V0: vorige snelheid (in m/s)
 a: acceleratie (in m/s^2)
 t: tijdsinterval (in s)
 
-Met deze formules kunnen we een nieuwe positie en snelheid uitrekenen. De nieuwe snelheid word in de particles opgeslagen, en word de keer daarop gebruikt als vorige positie en vorige snelheid. De twee onbekenden die overblijven zijn a en t. t staat voor de tijd die is verstreken over het interval dat we willen simuleren. t kan handmatig op een bepaalde waarde vastgesteld worden (bijvoorbeeld bij het simuleren van constructies of filmscènes) omdat de simulator simpelweg een bepaald interval als invoer nodig heeft, of deze kan dynamisch berekend worden met de volgende formule:
+Met deze formules kunnen we een nieuwe positie en snelheid uitrekenen. De nieuwe posities en snelheden worden bij de particles opgeslagen, en worden de keer daarop gebruikt voor de vorige positie en vorige snelheid. De twee onbekenden die overblijven om dit uit te kunnen rekenen zijn a en t. t staat voor de tijd die is verstreken over het interval dat we willen simuleren. Bij applicaties waar de duur van het simuleren ten opzichte van de tijd die in de simulatie verstrijkt niet van groot belang is (bij het berekenen van constructies, of voor films) kan handmatig op een bepaalde waarde vastgesteld worden. Als de tijdverloop in de simulatie wel bepaald moet worden aan de hand van de tijdverloop in het echt (zoals bij spellen, waar de tijd buiten en in het spel gelijk moet lopen) kan t dynamisch berekend worden met de volgende formule:
 
 	t = t1 - t0
 t: tijdsinterval (in s)
 t1: huidige tijd (in s)
 t0: vorige tijd (in s)
 
-Deze formule word gebruikt bij toepassingen waar het belangrijk is dat de tijd binnen de simulatie gekoppeld word met de tijd van de echte wereld, bijvoorbeeld bij spellen. 
 
-De andere onbekende, a, kan berekend worden met de tweede wet van newton:
+De andere onbekende, a, kan berekend worden met de tweede wet van Newton:
 
 	a = Ft / M
 a: versnelling (in m/(s^2))
 Ft: totale kracht (in Newton of N)
 M: massa (in kilogram)
 
-Deze wet verbind alle krachten en massa's in ons systeem met de acceleratie, zo is deze wet van onschatbare waarde. Er is hiermee echter een belangrijk probleem: de krachten, massa's en dus ook de acceleratie zijn momentopnamen, maar de acceleratie moet later gebruikt worden op een tijdsinterval. Om te zorgen dat a niet 'veroudert' over t mag t niet groter zijn dan 0, maar t mag ook niet gelijk zijn aan 0, want als dat het gaval zou zijn zou geen tijd verstrijken. Deze twee vereisten gecombineerd betekenen dat de simulatie perfect zal zijn bij lim -> t = 0.  Helaas is de rekenkracht van computers beperkt, en kan de wiskunde hier geen uitweg bieden. Dit betekent dat de resultaten van de simulatie logischerwijs niet perfect kunnen zijn (dit komt overigens ook door de beperkte precisie van getallen die door computers gebruikt worden). De beste (en waarschijnlijk) enige oplossing om natuurlijke correctheid te bewaren is om lim t -> 0 te benaderen door t zo klein mogelijk te maken als mogelijk. Gelukkig is de fout die hierdoor geïntroduceerd word klein genoeg om in veel gevallen te verwaarlozen. Voor de rest van het verslag wordt a om deze reden voor constant aangenomen.
+Deze wet verbind alle krachten en massa's in ons systeem met de acceleratie, zo is deze wet van onschatbare waarde. Er is hiermee echter een belangrijk probleem: de krachten, massa's en dus ook de acceleratie zijn momentopnamen, maar de acceleratie moet later gebruikt worden op een tijdsinterval. Dit betekent dat we voor de berekeningen verplicht zijn aan te nemen dat a constant is over t, terwijl dit in het echt niet het geval hoeft te zijn.
 
-Om de acceleratie uit te rekenen hebben we dus de totale kracht die op de particle staat nodig, en de massa van de particle. Net zoals de positie en snelheid is de massa een van de attributen van de particle, welke dus al opgeslagen is en alleen nog maar uitgelezen hoeft te worden. Het berekenen van de totale kracht op een particle is simpelweg de som van alle individuele krachten die op de particle werken, opgeteld:
+Om te zorgen dat a zo min mogelijk 'veroudert' proberen we t zo klein mogelijk te maken (liefst zelfs gelijk aan 0), maar anderzijts mag t niet gelijk zijn aan 0, want in dat geval zou geen tijd verstrijken en krijgen we geen resultaat. Wiskudig betekent dit dat de simulatie perfect is als lim t-> 0, wat in essentie betekent dat t gelijk is aan 0, maar dat de berekeningen zich niet gedragen alsof er geen tijd verstrijkt. Omdat we dit niet kunnen berijken kunnen de resultaten van de simulatie logischerwijs niet perfect zijn. Om het beste resultaat te krijgen moeten we lim t -> benaderen. Dit kan door t zo klein te maken als mogelijk.
+
+
+De formule om de acceleratie mee uit te rekenen heeft de totale kracht die op de particle staat, en de massa van de particle nodig. Net zoals de positie en snelheid is de massa een van de attributen van de particles, deze is dus opgeslagen en hoeft alleen gelezen te worden. Het berekenen van de totale kracht op een particle is simpelweg de som van alle individuele krachten die op de particle werken:
 
 bij n krachten:
-	Ft = F1 + F2 + ...  + F(n-1) + Fn
+	Ft = F1 + F2 + ... + F(n-1) + Fn
 Ft: totale kracht (in N)
 Fn: kracht van kracht n (in N)
 
+
 Resterend is het berekenen van deze individuele krachten. Er zijn verschillende fenomenen die krachten opwekken, bijvoorbeeld:
 
-zwaartekracht, veerkracht, dempkracht, hydraulische en pneumatische druk, wrijving, normaalkracht (de kracht die objecten op elkaar uitoefenen als ze tegen elkaar 'gedrukt' worden), adhesie, cohesie, magnetisme, drijfkracht etc. etc.
+zwaartekracht, veerkracht, dempkracht, hydraulische en pneumatische druk, wrijving, normaalkracht, adhesie, cohesie, magnetisme, drijfkracht etc. etc.
 
 Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo geldt bij zwaartekracht, veerkracht en dempkracht bijvoorbeeld dat:
 
@@ -121,7 +124,8 @@ Om de normaalkrachten te kunnen handhaven hebben we eerst een systeem nodig om d
 
 Om dit probleem goed op te lossen is het praktisch om uit te kunnen rekenen hoe 'incorrect' een bepaalde staat is. Als we de constraints op willen lossen proberen we deze waarde dus te verlagen. We definieren de fout (E) van een constraint als de massa van de particles maal de afstand die deze particles af moeten leggen om de constraint te handhaven:
 
-	E = dS1 * m1 + dS2 * m2 ... dSn * mn
+Bij n particles:
+	E = dS1 * m1 + dS2 * m2 + ...  + dS(n-1) * m(n-1) + dSn * mn
 E: fout (in m*kg)
 dSn: benodigde verandering van positie van particle n (in m)
 mn: massa van particle n (in kg)
@@ -134,7 +138,7 @@ d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
 |Sn - Sn2|: de afstand tussen particle n en particle n2 (in m)
 mn: de massa van particle n (in kg)
 
-//leg ook m1 * S1 = m2 * S2 uit (hoe de formule is gemaakt)? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//leg ook m1 * S1 = m2 * S2 uit (hoe de formule is opgestelt)? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 Het volgende algoritme is voor een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
 
@@ -186,7 +190,7 @@ Nu kan de verplaatsing van de particles berekent worden:
 
 
 
-Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
+//Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
 
 
 Globale werking:
