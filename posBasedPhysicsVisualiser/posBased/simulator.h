@@ -17,7 +17,10 @@ class simulator {
         simulator();
         virtual ~simulator();
         void simulate(worldstate* providedWorld, timeUnit deltaTime);
-        void relaxConstraints(worldstate* providedWord, const int& iterations = 20);
+        void relaxConstraints(worldstate* providedWord, const int& iterations);
+
+        float getError(worldstate* providedWorld);
+
         void setFullIterationsNumber(const int& newFullIterationsNumber);
         void setProjectionIterationsNumber(const int& newProjectionIterationsNumber);
         void setRelaxationIterationsNumber(const int& newRelaxationIterationsNumber);
@@ -35,6 +38,9 @@ class simulator {
         particlePool tP;        //state after projection
         particlePool t1;        //state after relaxation
         particlePool tBuffer;   //temporal buffer
+
+        particlePool tError;
+
     private:
         int fullIterationsNumber = 1;
         int projectionIterationsNumber = 1;

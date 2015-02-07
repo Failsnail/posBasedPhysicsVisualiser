@@ -33,6 +33,21 @@ void simulator::relaxConstraints(worldstate* providedWord, const int& iterations
     world = nullptr;
 }
 
+float simulator::getError(worldstate* providedWorld) {
+    world = providedWorld;
+
+    tError = world->getParticlePool();
+
+    float tempError = 0;
+    for (int i = 0; i < world->getConstraintPoolSize(); i++) {
+        if (world->getConstraint(i) != nullptr) {
+            tempError += world->getConstraint(i)->getError(&tError);
+        }
+    }
+    world = nullptr;
+    return tempError;
+}
+
 void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
     world = providedWorld;
 
@@ -106,7 +121,7 @@ void simulator::Relax(const float& resolveCoeficient, const int& iterations) {  
     for (int i = 0; i < iterations; i++) {
         tBuffer = t1;
 
-        //put this loop in worldstate!
+        //put this loop in worldstate (?)
         for (int i = 0; i < world->getConstraintPoolSize(); i++) {
             if (world->getConstraint(i) != nullptr) {
                 world->getConstraint(i)->resolveConstraint(resolveCoeficient, &tBuffer, &t1);
