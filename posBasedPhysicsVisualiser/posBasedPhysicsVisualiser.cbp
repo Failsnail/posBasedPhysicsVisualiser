@@ -33,6 +33,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="../todo.txt" />
 		<Unit filename="demos/pulley.txt" />
 		<Unit filename="demos/scale.txt" />
 		<Unit filename="demos/simple.txt" />
