@@ -8,7 +8,7 @@ simulator::~simulator() {
 
 }
 
-void simulator::simulate(worldstate* providedWorld, timeUnit deltaTime) {
+void simulator::simulate(worldstate& providedWorld, timeUnit deltaTime) {
     if (deltaTime <= 0) {
         std::cout << "ERROR! the deltaTime provided for the simulator is invalid!" << std::endl;
         return;
@@ -21,8 +21,8 @@ void simulator::simulate(worldstate* providedWorld, timeUnit deltaTime) {
     }
 }
 
-void simulator::relaxConstraints(worldstate* providedWord, const int& iterations) {
-    world = providedWord;
+void simulator::relaxConstraints(worldstate& providedWord, const int& iterations) {
+    world = &providedWord;
 
     t1 = world->getParticlePool();
 
@@ -33,8 +33,8 @@ void simulator::relaxConstraints(worldstate* providedWord, const int& iterations
     world = nullptr;
 }
 
-void simulator::virtualSimulate(worldstate* providedWorld, timeUnit deltaTime) {
-    world = providedWorld;
+void simulator::virtualSimulate(worldstate& providedWorld, timeUnit deltaTime) {
+    world = &providedWorld;
 
     tP = t0 = world->getParticlePool();
 

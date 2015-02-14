@@ -16,8 +16,8 @@ class simulator {
     public:
         simulator();
         virtual ~simulator();
-        void simulate(worldstate* providedWorld, timeUnit deltaTime);
-        void relaxConstraints(worldstate* providedWord, const int& iterations = 20);
+        void simulate(worldstate& providedWorld, timeUnit deltaTime);
+        void relaxConstraints(worldstate& providedWord, const int& iterations = 20);
         void setFullIterationsNumber(const int& newFullIterationsNumber);
         void setProjectionIterationsNumber(const int& newProjectionIterationsNumber);
         void setRelaxationIterationsNumber(const int& newRelaxationIterationsNumber);
@@ -25,7 +25,7 @@ class simulator {
     protected:
         worldstate* world;
 
-        void virtualSimulate(worldstate* providedWorld, timeUnit deltaTime);
+        void virtualSimulate(worldstate& providedWorld, timeUnit deltaTime);
 
         void project(timeUnit deltaTime);
         void Relax(const float& resolveCoeficient, const int& iterations);

@@ -873,7 +873,7 @@ void loadWorld() {
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
-    mySimulator.relaxConstraints(&myWorldstate, 500);
+    mySimulator.relaxConstraints(myWorldstate, 500);
 }
 
 void update() {
@@ -891,7 +891,7 @@ void update() {
         double simulationTime = glfwGetTime();
 
         //mySimulator.simulate(&myWorldstate, (float)deltaTime * timeScale);
-        mySimulator.simulate(&myWorldstate, timeScale / 60.0f);
+        mySimulator.simulate(myWorldstate, timeScale / 60.0f);
 
         simulationTime = glfwGetTime() - simulationTime;
 
