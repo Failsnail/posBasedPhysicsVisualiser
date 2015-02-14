@@ -47,10 +47,7 @@ void simulator::virtualSimulate(worldstate& providedWorld, timeUnit deltaTime) {
 
     tP = t0 = world->getParticlePool();
 
-    timeUnit tempTime = deltaTime / projectionIterationsNumber;
-    for (int i = 0; i < projectionIterationsNumber; i++) {
-        project(tempTime);
-    }
+    project(projectionIterationsNumber, deltaTime);
 
     t1 = tP;
 
@@ -93,21 +90,24 @@ void simulator::setRelaxationCoefficient(const float& newRelaxationCoefficient) 
     }
 }
 
-void simulator::project(timeUnit deltaTime) {       //writes results to tP
-    tP.clearAcceleration();
-    tBuffer = tP;
+void simulator::project(const int& iterations, const timeUnit& deltaTime) {       //writes results to tP
+    timeUnit tempTime = deltaTime / projectionIterationsNumber;
+    for (int i = 0; i < projectionIterationsNumber; i++) {
+        tP.clearAcceleration();
+        tBuffer = tP;
 
-    //put this loop in worldstate!
-    for (int i = 0; i < world->getSoftforcePoolSize(); i++) {
-        if (world->getSoftforce(i) != nullptr) {
-            world->getSoftforce(i)->applySoftforce(tBuffer, tP);
+        //put this loop in worldstate!
+        for (int i = 0; i < world->getSoftforcePoolSize(); i++) {
+            if (world->getSoftforce(i) != nullptr) {
+                world->getSoftforce(i)->applySoftforce(tBuffer, tP);
+            }
         }
-    }
 
-    //put this loop somewhere else too
-    for (int index = 0; index < t0.getParticlePoolSize(); index++) {
-        tP.setPosition(index, tP.getPosition(index) + tP.getVelocity(index) * deltaTime + tP.getAcceleration(index) * 0.5 * deltaTime * deltaTime);
-        tP.setVelocity(index, tP.getVelocity(index) + tP.getAcceleration(index) * deltaTime);
+        //put this loop somewhere else too
+        for (int index = 0; index < t0.getParticlePoolSize(); index++) {
+            tP.setPosition(index, tP.getPosition(index) + tP.getVelocity(index) * tempTime + tP.getAcceleration(index) * 0.5 * tempTime * tempTime);
+            tP.setVelocity(index, tP.getVelocity(index) + tP.getAcceleration(index) * tempTime);
+        }
     }
 }
 

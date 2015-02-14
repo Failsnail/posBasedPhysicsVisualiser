@@ -30,7 +30,7 @@ class simulator {
 
         void virtualSimulate(worldstate& providedWorld, timeUnit deltaTime);
 
-        void project(timeUnit deltaTime);
+        void project(const int& iterations, const timeUnit& deltaTime);
         void Relax(const float& resolveCoeficient, const int& iterations);
         void integrate(timeUnit deltaTime);
 

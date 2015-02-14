@@ -20,9 +20,10 @@ class constraint {
         void resolveConstraint(const float& relaxationCoeficient, particlePool& newInBuffer, particlePool& newOutBuffer);
         virtual bool getUsingParticle(const int& index) const =0;
         virtual void changeIndex(const int& oldIndex, const int& newIndex) =0;
+        float getError(particlePool& newInBuffer);
     protected:
         virtual void virtualResolveConstraint(const float& resolveError) =0;
-        virtual float getError() const =0;
+        virtual float virtualGetError() const =0;
     //subclass sandbox:
         int getPoolSize() const;
         vectorType getPosition(const int& particleIndex) const;

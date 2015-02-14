@@ -11,7 +11,7 @@ class positionconstraint : public constraint {
         void changeIndex(const int& oldIndex, const int& newIndex);
     protected:
         void virtualResolveConstraint(const float& resolveError);
-        float getError() const;
+        float virtualGetError() const;
     private:
         int particle;
         vectorType position;
