@@ -8,9 +8,9 @@ softforce::~softforce() {
 
 }
 
-void softforce::applySoftforce(particlePool* const newInBuffer, particlePool* newOutBuffer) {
-    inBuffer = newInBuffer;
-    outBuffer = newOutBuffer;
+void softforce::applySoftforce(particlePool& newInBuffer, particlePool& newOutBuffer) {
+    inBuffer = &newInBuffer;
+    outBuffer = &newOutBuffer;
 
     virtualApplySoftforce();
 

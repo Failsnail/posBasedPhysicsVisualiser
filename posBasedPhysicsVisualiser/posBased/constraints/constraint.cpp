@@ -8,9 +8,9 @@ constraint::~constraint() {
 
 }
 
-void constraint::resolveConstraint(const float& relaxationCoeficient, particlePool* const newInBuffer, particlePool* newOutBuffer) {
-    inBuffer = newInBuffer;
-    outBuffer = newOutBuffer;
+void constraint::resolveConstraint(const float& relaxationCoeficient, particlePool& newInBuffer, particlePool& newOutBuffer) {
+    inBuffer = &newInBuffer;
+    outBuffer = &newOutBuffer;
 
     float error = getError();
 

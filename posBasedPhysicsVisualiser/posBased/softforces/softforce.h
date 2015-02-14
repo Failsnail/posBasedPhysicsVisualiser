@@ -17,7 +17,7 @@ class softforce {
     public:
         softforce();
         virtual ~softforce();
-        void applySoftforce(particlePool* const newInBuffer, particlePool* newOutBuffer);
+        void applySoftforce(particlePool& newInBuffer, particlePool& newOutBuffer);
         virtual bool getUsingParticle(const int& index) const =0;
         virtual void changeIndex(const int& oldIndex, const int& newIndex) =0;
     protected:

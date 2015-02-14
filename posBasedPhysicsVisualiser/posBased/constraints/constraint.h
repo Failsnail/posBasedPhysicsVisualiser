@@ -17,7 +17,7 @@ class constraint {
     public:
         constraint();
         virtual ~constraint();
-        void resolveConstraint(const float& relaxationCoeficient, particlePool* const newInBuffer, particlePool* newOutBuffer);
+        void resolveConstraint(const float& relaxationCoeficient, particlePool& newInBuffer, particlePool& newOutBuffer);
         virtual bool getUsingParticle(const int& index) const =0;
         virtual void changeIndex(const int& oldIndex, const int& newIndex) =0;
     protected:

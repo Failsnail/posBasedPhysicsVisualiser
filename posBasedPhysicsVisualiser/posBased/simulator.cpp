@@ -33,6 +33,15 @@ void simulator::relaxConstraints(worldstate& providedWord, const int& iterations
     world = nullptr;
 }
 
+float simulator::getError(worldstate& providedWorld) {
+    world = &providedWorld;
+
+    //TODO
+    return 0;
+
+    world = nullptr;
+}
+
 void simulator::virtualSimulate(worldstate& providedWorld, timeUnit deltaTime) {
     world = &providedWorld;
 
@@ -91,7 +100,7 @@ void simulator::project(timeUnit deltaTime) {       //writes results to tP
     //put this loop in worldstate!
     for (int i = 0; i < world->getSoftforcePoolSize(); i++) {
         if (world->getSoftforce(i) != nullptr) {
-            world->getSoftforce(i)->applySoftforce(&tBuffer, &tP);
+            world->getSoftforce(i)->applySoftforce(tBuffer, tP);
         }
     }
 
@@ -109,7 +118,7 @@ void simulator::Relax(const float& resolveCoeficient, const int& iterations) {  
         //put this loop in worldstate!
         for (int i = 0; i < world->getConstraintPoolSize(); i++) {
             if (world->getConstraint(i) != nullptr) {
-                world->getConstraint(i)->resolveConstraint(resolveCoeficient, &tBuffer, &t1);
+                world->getConstraint(i)->resolveConstraint(resolveCoeficient, tBuffer, t1);
             }
         }
     }
