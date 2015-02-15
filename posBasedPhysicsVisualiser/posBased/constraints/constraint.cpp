@@ -40,26 +40,33 @@ float constraint::getError(particlePool& newInBuffer) {
 }
 
 int constraint::getPoolSize() const {
+    assert(inBuffer != nullptr);
     return inBuffer->getParticlePoolSize();
 }
 
 vectorType constraint::getPosition(const int& particleIndex) const {
+    assert(inBuffer != nullptr);
     return inBuffer->getPosition(particleIndex);
 }
 
 unit constraint::getDistance(const int& particleIndex1, const int& particleIndex2) const {
+    assert(inBuffer != nullptr);
     return (getPosition(particleIndex1) - getPosition(particleIndex2)).getLength();
 }
 
 const particle constraint::getParticle(const int& particleIndex) const {
+    assert(inBuffer != nullptr);
     return inBuffer->getParticle(particleIndex);
 }
 
 float constraint::getMass(const int& particleIndex) const {
+    assert(inBuffer != nullptr);
     return inBuffer->getMass(particleIndex);
 }
 
 void constraint::displace(const int& particleIndex, const vectorType& displacement) {
+    assert(inBuffer != nullptr);
+    assert(outBuffer != nullptr);
     outBuffer->setPosition(particleIndex, outBuffer->getPosition(particleIndex) + displacement);
 }
 

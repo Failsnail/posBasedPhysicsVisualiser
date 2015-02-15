@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include <assert.h>
+
 #include "particles/particle.h"
 #include "particles/particlepool.h"
 #include "vector/vector2d.h"

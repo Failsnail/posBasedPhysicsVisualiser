@@ -95,6 +95,9 @@ simulator mySimulator;
 instance** instanceList = nullptr;
 int instanceListLength = 0;
 
+int iterationNumber = 0;
+
+ofstream myfile;
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -873,7 +876,7 @@ void loadWorld() {
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
-    mySimulator.relaxConstraints(myWorldstate, 500);
+    //mySimulator.relaxConstraints(myWorldstate, 500);
 }
 
 void update() {
@@ -882,6 +885,7 @@ void update() {
     cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
 
     if (!paused) {
+        #if true
         cout << "simulating..." << endl;
 
         if (deltaTime > 1.0f / 45.0f) {
@@ -896,6 +900,14 @@ void update() {
         simulationTime = glfwGetTime() - simulationTime;
 
         cout << "simulationTime: " << simulationTime << "simulations/second: " << 1 / simulationTime << endl;
+        #endif
+
+        #if true
+        myfile << iterationNumber << "\t\t" << mySimulator.getError(myWorldstate) << "\n";
+        iterationNumber += 1;
+
+        //mySimulator.relaxConstraints(myWorldstate, 1);
+        #endif
     }
 
     cout << "updating object positions..." << endl;
@@ -964,6 +976,15 @@ int main() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
 
+    myfile.open ("logs/myLog.txt", ios::out | ios::trunc);
+    if (myfile.is_open()) {
+        cout << "myFile is open!" << endl;
+        myfile << "Data:" << endl << endl;
+    } else {
+        cout << "myFile is NOT open!!!!" << endl;
+    }
+
+
     cout << endl << "running..." << endl;
 
     // Game loop
@@ -994,6 +1015,8 @@ int main() {
 
     deleteTriangle();
     deleteSphere();
+
+    myfile.close();
 
     glfwTerminate();
     return 0;

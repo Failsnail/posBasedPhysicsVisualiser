@@ -34,12 +34,32 @@ void simulator::relaxConstraints(worldstate& providedWord, const int& iterations
 }
 
 float simulator::getError(worldstate& providedWorld) {
+    std::cout << "getError\n";
+    //ergens in deze method crashed het programma
+
     world = &providedWorld;
 
-    //TODO
-    return 0;
+    t1 = world->getParticlePool();
+
+    std::cout << "check?\n";
+
+    float tempError = 0;
+    constraint* tempConstraint;
+
+    for (int i = 0; i < world->getConstraintPoolSize(); i++) {
+        tempConstraint = world->getConstraint(i);
+        if (tempConstraint != nullptr) {
+            tempError += tempConstraint->getError(t1);
+        }
+    }
+
+    std::cout << "check?\n";
 
     world = nullptr;
+
+    std::cout << "error succesfully found!\n";
+
+    return tempError;
 }
 
 void simulator::virtualSimulate(worldstate& providedWorld, timeUnit deltaTime) {

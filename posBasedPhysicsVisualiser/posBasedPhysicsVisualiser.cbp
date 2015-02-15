@@ -39,6 +39,7 @@
 		<Unit filename="demos/simple.txt" />
 		<Unit filename="demos/string.txt" />
 		<Unit filename="fragmentshader.glsl" />
+		<Unit filename="logs/myLog.txt" />
 		<Unit filename="main.cpp" />
 		<Unit filename="posBased/constraints/constraint.cpp" />
 		<Unit filename="posBased/constraints/constraint.h" />

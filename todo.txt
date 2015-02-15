@@ -1,1 +1,1 @@
-implement a getError method in the simulator class
+seems like everything is done!

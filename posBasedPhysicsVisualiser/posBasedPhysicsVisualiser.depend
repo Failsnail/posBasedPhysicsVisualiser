@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1423941321 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
+1424000328 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\main.cpp
 	<iostream>
 	<stdio.h>
 	<string>
@@ -80,9 +80,10 @@
 	"particles/particlePool.h"
 	"vector/vector2d.h"
 
-1423938958 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.h
+1424000300 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.h
 	<cmath>
 	<iostream>
+	<assert.h>
 	"particles/particle.h"
 	"particles/particlepool.h"
 	"vector/vector2d.h"
@@ -100,7 +101,7 @@
 1423939174 c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\positionconstraint.h
 	"constraint.h"
 
-1423941291 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.cpp
+1424000368 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\constraint.cpp
 	"constraint.h"
 
 1423940872 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\constraints\distanceconstraint.cpp
@@ -115,7 +116,7 @@
 1422186611 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\particles\particlepool.cpp
 	"particlepool.h"
 
-1423941291 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.cpp
+1424032676 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\simulator.cpp
 	"simulator.h"
 
 1423932656 source:c:\programmeren koen\github\posbasedphysicsvisualiser\posbasedphysicsvisualiser\posbased\softforces\softforce.cpp
