@@ -1,15 +1,24 @@
+opbouw:
+doel van het project
+belang van het doel
+aanpak (deelvragen en bronnen)
+resultaat
+
+
+
 doel van het project:
-het samenstellen, implementeren, en testen van een systeem dat de bewegingen van objecten simuleert.
+het samenstellen van een systeem dat de bewegingen van objecten simuleert. Om de eigenschappen van het systeem te onderzoeken is het systeem ook geimplementeert.
 
 
-
+belang van het onderzoek:
 In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospellen is het soms gewenst om een simulatie van de natuurwetten te kunnen gebruiken om bijvoorbeeld voorspellingen te kunnen maken over hoe een constructie zich zal gedragen. Bij film en spellen zijn simulaties een uitkomst omdat deze goedkoop zijn en veel vrijheid geven. Er zit echter een duidelijk verschil in de gevraagde eigenschappen van de simulatie voor deze velden; waar de werktuigbouw graag heeft dat simulaties natuurkundig accuraat zijn, maar de computationele kosten niet van groot belang. Cinematografie, en zeker spellen hechten niet zo veel waarde aan precisie van de simulatie, zo lang deze realistisch overkomt. De computatione kosten zijn echter van groot belang bij spellen omdat computers simpelweg beperkte middelen hebben, welke ook nog verdeeld moeten worden met andere systemen. Onderzoek doen naar methoden om dergelijke natuurkunde te simuleren kan leiden tot nieuwe methoden met nieuwe eigenschappen. Moderne simulatie methoden gekoppeld met krachtige computers kunnen al indrukwekkende resultaten geven, maar er is nog veel te winnen.
 
+aanpak:
+deelvragen:
 
+bronnen:
 
-
-Het simuleren van bewegingen van objecten:
-
+het simuleren van bewegingen van objecten:
 Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. Om de simulatie flexibel en wiskundig eenvoudig te houden worden objecten opgeslagen als punt met als attributen: een positie, snelheid en massa, deze punten worden 'particle', meervoud 'particles' genoemd. Om toch objecten met vormen moeilijkere dan punten te kunnen gebruiken kunnen we meerdere punten met elkaar verbinden (later in het verslag wordt hier verder op ingegaan). Een paar handige eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren zonder dat alle wiskunde die hier normaal aan verbonden zijn vereist is. Bovendien kunnen interne krachten (binnen het object) goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten buigen of breken.
 
 Beweging staat voor de verandering van de positie van een object. Het ultieme doel van de simulator is het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd (t). De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Merk op dat de omschrijving van snelheid en acceleratie puur wiskundig is. Met deze theorie zijn onder andere de volgende formules te vormen:

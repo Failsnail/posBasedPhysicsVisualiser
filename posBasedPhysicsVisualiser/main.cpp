@@ -95,9 +95,13 @@ simulator mySimulator;
 instance** instanceList = nullptr;
 int instanceListLength = 0;
 
+//temporairy variables:
 int iterationNumber = 0;
-
 ofstream myfile;
+
+float lastError = INFINITY;
+float currentError;
+
 
 // Is called whenever a key is pressed/released via GLFW
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
@@ -562,310 +566,177 @@ void loadWorld() {
     particle tempParticle;
     tempParticle.setMass(0.25);
 
-    tempParticle.setPosition(vectorType(8, 4));
+    tempParticle.setPosition(vectorType(0, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle1 = myWorldstate.addParticle(tempParticle);
 
-
-    tempParticle.setMass(18); //weight 1
-    tempParticle.setPosition(vectorType(4.25, 5.5));
+    tempParticle.setPosition(vectorType(1, 1));
     tempParticle.setVelocity(vectorType(0, 0));
     particle2 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setMass(0.25);
-
-    tempParticle.setPosition(vectorType(2, 5));
+    tempParticle.setPosition(vectorType(2, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle3 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(3, 5));
+    tempParticle.setPosition(vectorType(3, 1));
     tempParticle.setVelocity(vectorType(0, 0));
     particle4 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(4, 5));
+    tempParticle.setPosition(vectorType(4, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle5 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(5, 5));
+    tempParticle.setPosition(vectorType(5, 1));
     tempParticle.setVelocity(vectorType(0, 0));
     particle6 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(6, 5));
+    tempParticle.setPosition(vectorType(6, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle7 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(7, 5));
+    tempParticle.setPosition(vectorType(7, 1));
     tempParticle.setVelocity(vectorType(0, 0));
     particle8 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(8, 5));
+    tempParticle.setPosition(vectorType(8, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle9 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(9, 5));
+    tempParticle.setPosition(vectorType(9, 1));
     tempParticle.setVelocity(vectorType(0, 0));
     particle10 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(10, 5));
+    tempParticle.setPosition(vectorType(10, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle11 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(11, 5));
+
+    //weights:
+
+    tempParticle.setMass(1);        //left end (D = 5)
+    tempParticle.setPosition(vectorType(0, -2));
     tempParticle.setVelocity(vectorType(0, 0));
     particle12 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(11, 4));
+    tempParticle.setMass(5);        //left middle (D = 3)
+    tempParticle.setPosition(vectorType(2, -2));
     tempParticle.setVelocity(vectorType(0, 0));
     particle13 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(11, 3));
+    tempParticle.setMass(1);        //right middle (D = 3)
+    tempParticle.setPosition(vectorType(8, -2));
     tempParticle.setVelocity(vectorType(0, 0));
     particle14 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(11, 2));
+    tempParticle.setMass(3);        //right end (D = 5)
+    tempParticle.setPosition(vectorType(10, -2));
     tempParticle.setVelocity(vectorType(0, 0));
     particle15 = myWorldstate.addParticle(tempParticle);
-
-    tempParticle.setPosition(vectorType(11, 1));
-    tempParticle.setVelocity(vectorType(0, 0));
-    particle16 = myWorldstate.addParticle(tempParticle);
-
-    tempParticle.setPosition(vectorType(11, 0));
-    tempParticle.setVelocity(vectorType(0, 0));
-    particle17 = myWorldstate.addParticle(tempParticle);
-
-    tempParticle.setPosition(vectorType(11, -1));
-    tempParticle.setVelocity(vectorType(0, 0));
-    particle18 = myWorldstate.addParticle(tempParticle);
-
-
-    tempParticle.setMass(10);   //weight 2
-    tempParticle.setPosition(vectorType(11, 0));
-    tempParticle.setVelocity(vectorType(0, 0));
-    particle19 = myWorldstate.addParticle(tempParticle);
 
 
     constraint* myConstraint;
 
-    myConstraint = new positionconstraint(particle3, vectorType(2, 5));
+    myConstraint = new positionconstraint(particle6, vectorType(5, 1));
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new positionconstraint(particle1, vectorType(8, 4));
+    //myConstraint = new positionconstraint(particle2, vectorType(1, -1));
+    //myWorldstate.addConstraint(myConstraint);
+    //myConstraint = nullptr;
+
+
+    myConstraint = new distanceconstraint(particle1, particle2, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-
-    int distanceConstraintType = 1;
-
-    myConstraint = new distanceconstraint(particle3, particle4, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle2, particle3, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle4, particle5, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle3, particle4, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle5, particle6, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle4, particle5, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle6, particle7, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle5, particle6, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle7, particle8, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle6, particle7, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle8, particle9, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle7, particle8, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle9, particle10, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle8, particle9, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle10, particle11, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle9, particle10, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle11, particle12, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle12, particle13, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle13, particle14, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle14, particle15, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle15, particle16, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle16, particle17, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle17, particle18, 1, distanceConstraintType);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle18, particle19, 1, distanceConstraintType);
+    myConstraint = new distanceconstraint(particle10, particle11, root2, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
 
-    float radius = 1;
-
-    myConstraint = new distanceconstraint(particle3, particle1, radius, 2);
+    myConstraint = new distanceconstraint(particle1, particle3, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle4, particle1, radius, 2);
+    myConstraint = new distanceconstraint(particle3, particle5, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle5, particle1, radius, 2);
+    myConstraint = new distanceconstraint(particle5, particle7, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle6, particle1, radius, 2);
+    myConstraint = new distanceconstraint(particle7, particle9, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle7, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle8, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle9, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle10, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle11, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle12, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle13, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle14, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle15, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle16, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle17, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle18, particle1, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle19, particle1, radius, 2);
+    myConstraint = new distanceconstraint(particle9, particle11, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
 
-    float otherRadius = 1;
-
-    myConstraint = new distanceconstraint(particle3, particle2, radius, 2);
+    myConstraint = new distanceconstraint(particle2, particle4, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle4, particle2, radius, 2);
+    myConstraint = new distanceconstraint(particle4, particle6, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle5, particle2, radius, 2);
+    myConstraint = new distanceconstraint(particle6, particle8, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle6, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle7, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle8, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle9, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle10, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle11, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle12, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle13, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle14, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle15, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle16, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle17, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle18, particle2, radius, 2);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle19, particle2, radius, 2);
+    myConstraint = new distanceconstraint(particle8, particle10, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
 
-    myConstraint = new distanceconstraint(particle1, particle2, radius + otherRadius, 2);
+    myConstraint = new distanceconstraint(particle1, particle12, 2.0f, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle3, particle13, 2.0f, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle9, particle14, 2.0f, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle11, particle15, 2.0f, 1);
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
@@ -885,7 +756,7 @@ void update() {
     cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
 
     if (!paused) {
-        #if true
+        #if false
         cout << "simulating..." << endl;
 
         if (deltaTime > 1.0f / 45.0f) {
@@ -903,10 +774,26 @@ void update() {
         #endif
 
         #if true
-        myfile << iterationNumber << "\t\t" << mySimulator.getError(myWorldstate) << "\n";
+        particlePool tempPool = myWorldstate.getParticlePool();
+
+        mySimulator.setRelaxationCoefficient(iterationNumber / 10000.0f);
+
+        mySimulator.relaxConstraints(myWorldstate, 20);
+
+        currentError = mySimulator.getError(myWorldstate);
+
+        myfile << iterationNumber / 10000.0f << "\t\t" << currentError << "\t\t" << currentError / lastError << "\n";
         iterationNumber += 1;
 
-        //mySimulator.relaxConstraints(myWorldstate, 1);
+        setInstanceList(myWorldstate);
+        displayInstanceList();
+
+        myWorldstate.setParticlePool(tempPool);
+
+        if (iterationNumber > 10000) {
+            glfwSetWindowShouldClose(window, GL_TRUE);
+        }
+
         #endif
     }
 
@@ -918,7 +805,7 @@ void update() {
     moveCamera();
 
     camera = projection * view;
-    displayInstanceList();
+    //displayInstanceList();        //THIS SHOULD BE HERE, TEMPORAIRILLY MOVED
 }
 
 // The MAIN function, from here we start our application and run our Program/Game loop
@@ -984,6 +871,9 @@ int main() {
         cout << "myFile is NOT open!!!!" << endl;
     }
 
+    mySimulator.setRelaxationIterationsNumber(0);
+    mySimulator.simulate(myWorldstate, 0.5f);
+    lastError = mySimulator.getError(myWorldstate);
 
     cout << endl << "running..." << endl;
 

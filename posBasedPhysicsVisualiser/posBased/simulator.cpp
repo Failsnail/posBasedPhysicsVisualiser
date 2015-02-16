@@ -81,7 +81,7 @@ void simulator::virtualSimulate(worldstate& providedWorld, timeUnit deltaTime) {
 }
 
 void simulator::setFullIterationsNumber(const int& newFullIterationsNumber) {
-    if (newFullIterationsNumber > 0) {
+    if (newFullIterationsNumber >= 0) {
         fullIterationsNumber = newFullIterationsNumber;
     } else {
         fullIterationsNumber = 1;
@@ -89,7 +89,7 @@ void simulator::setFullIterationsNumber(const int& newFullIterationsNumber) {
 }
 
 void simulator::setProjectionIterationsNumber(const int& newProjectionIterationsNumber) {
-    if (newProjectionIterationsNumber > 0) {
+    if (newProjectionIterationsNumber >= 0) {
         projectionIterationsNumber = newProjectionIterationsNumber;
     } else {
         projectionIterationsNumber = 1;
@@ -97,7 +97,7 @@ void simulator::setProjectionIterationsNumber(const int& newProjectionIterations
 }
 
 void simulator::setRelaxationIterationsNumber(const int& newRelaxationIterationsNumber) {
-    if (newRelaxationIterationsNumber > 0) {
+    if (newRelaxationIterationsNumber >= 0) {
         relaxationIterationsNumber = newRelaxationIterationsNumber;
     } else {
         relaxationIterationsNumber = 1;

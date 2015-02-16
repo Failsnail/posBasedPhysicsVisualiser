@@ -315,4 +315,4 @@
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
-    mySimulator.relaxConstraints(&myWorldstate, 500);
+    mySimulator.relaxConstraints(myWorldstate, 500);
