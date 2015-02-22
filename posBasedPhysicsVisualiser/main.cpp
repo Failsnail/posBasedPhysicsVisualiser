@@ -756,7 +756,7 @@ void update() {
     cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
 
     if (!paused) {
-        #if false
+        #if true
         cout << "simulating..." << endl;
 
         if (deltaTime > 1.0f / 45.0f) {
@@ -773,7 +773,7 @@ void update() {
         cout << "simulationTime: " << simulationTime << "simulations/second: " << 1 / simulationTime << endl;
         #endif
 
-        #if true
+        #if false
         particlePool tempPool = myWorldstate.getParticlePool();
 
         mySimulator.setRelaxationCoefficient(iterationNumber / 10000.0f);
@@ -805,7 +805,7 @@ void update() {
     moveCamera();
 
     camera = projection * view;
-    //displayInstanceList();        //THIS SHOULD BE HERE, TEMPORAIRILLY MOVED
+    displayInstanceList();        //THIS SHOULD BE HERE, TEMPORAIRILLY MOVED  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }
 
 // The MAIN function, from here we start our application and run our Program/Game loop
@@ -871,9 +871,9 @@ int main() {
         cout << "myFile is NOT open!!!!" << endl;
     }
 
-    mySimulator.setRelaxationIterationsNumber(0);
-    mySimulator.simulate(myWorldstate, 0.5f);
-    lastError = mySimulator.getError(myWorldstate);
+    //mySimulator.setRelaxationIterationsNumber(0);
+    //mySimulator.simulate(myWorldstate, 0.5f);
+    //lastError = mySimulator.getError(myWorldstate);
 
     cout << endl << "running..." << endl;
 

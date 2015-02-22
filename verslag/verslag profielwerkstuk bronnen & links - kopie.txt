@@ -6,7 +6,7 @@ jacobsen:
 http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
 position based dynamics:
 http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
-hierarchical position based dynamics:
+hierarchical position based dynamics:	(?)
 http://matthias-mueller-fischer.ch/publications/hpbd.pdf
 rest van artikelen op tijdlijst...
 

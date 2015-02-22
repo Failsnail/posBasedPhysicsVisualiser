@@ -15,8 +15,14 @@ In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospell
 
 aanpak:
 deelvragen:
+real-time (?)
+optimalizaties (multithreaden, gpu acceleratie, cache coherence)
+stabiliteit simulatie
+optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
+fouten -> geloofwaardigheid
 
 bronnen:
+
 
 het simuleren van bewegingen van objecten:
 Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. Om de simulatie flexibel en wiskundig eenvoudig te houden worden objecten opgeslagen als punt met als attributen: een positie, snelheid en massa, deze punten worden 'particle', meervoud 'particles' genoemd. Om toch objecten met vormen moeilijkere dan punten te kunnen gebruiken kunnen we meerdere punten met elkaar verbinden (later in het verslag wordt hier verder op ingegaan). Een paar handige eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren zonder dat alle wiskunde die hier normaal aan verbonden zijn vereist is. Bovendien kunnen interne krachten (binnen het object) goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten buigen of breken.
