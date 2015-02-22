@@ -17,6 +17,7 @@ class vector2D {
         void setY(const unit& newY);
         void set(const unit& newX, const unit& newY);
         void clear();
+        unit dot(const vector2D& otherVector) const;
         vector2D operator + (const vector2D& otherVector) const;
         vector2D operator - (const vector2D& otherVector) const;
         vector2D operator * (const unit& factor) const;

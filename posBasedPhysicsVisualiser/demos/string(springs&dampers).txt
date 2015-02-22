@@ -1,0 +1,112 @@
+    mySimulator.setFullIterationsNumber(50);             //50
+    mySimulator.setRelaxationIterationsNumber(3);       //3
+    mySimulator.setRelaxationCoefficient(0.3f);         //0.3
+
+    cout << "initialize particlePool..." << endl;
+    {
+    particlePool tempParticlePool;
+    tempParticlePool = myWorldstate.getParticlePool();
+    tempParticlePool.initialize(40);
+    myWorldstate.setParticlePool(tempParticlePool);
+    }
+
+    cout << "initializing particles..." << endl;
+
+    particle tempParticle;
+    tempParticle.setMass(0.25);
+
+    tempParticle.setPosition(vectorType(0, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle1 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(1, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle2 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(2, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle3 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(3, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle4 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(4, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle5 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(5, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle6 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(6, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle7 = myWorldstate.addParticle(tempParticle);
+
+
+    constraint* myConstraint;
+
+    myConstraint = new positionconstraint(particle1, vectorType(0, 0));
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+
+    softforce* mySoftforce;
+
+    float springStiffness = 50;
+
+    mySoftforce = new spring(particle1, particle2, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle2, particle3, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle3, particle4, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle4, particle5, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle5, particle6, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle6, particle7, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+
+    float damperStiffness = 150;
+
+    mySoftforce = new damper(particle1, particle2, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle2, particle3, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle3, particle4, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle4, particle5, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle5, particle6, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle6, particle7, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+
+    mySoftforce = new gravity(9.81, vectorType(0, -1));
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;

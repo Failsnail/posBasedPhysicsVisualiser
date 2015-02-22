@@ -14,9 +14,11 @@ void constraint::resolveConstraint(const float& relaxationCoeficient, particlePo
 
     float error = getError(*inBuffer);
 
+    /*
     if (error != error || error < 0) {
         std::cout << "\nA CONSTRAINT WENT ROGUE!!!\n\n";
     }
+    */
 
     if (error > 0) {
         virtualResolveConstraint(error * relaxationCoeficient);

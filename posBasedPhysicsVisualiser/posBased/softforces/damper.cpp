@@ -1,17 +1,16 @@
-#include "spring.h"
+#include "damper.h"
 
-spring::spring(const int& newParticle1, const int& newParticle2, unit newLength, float newStiffness) {
+damper::damper(const int& newParticle1, const int& newParticle2, float newStiffness) {
     particle1 = newParticle1;
     particle2 = newParticle2;
-    length = newLength;
     stiffness = newStiffness;
 }
 
-spring::~spring() {
+damper::~damper() {
     //dtor
 }
 
-bool spring::getUsingParticle(const int& index) const {
+bool damper::getUsingParticle(const int& index) const {
     bool tempBool = false;
     if (particle1 == index) {
         tempBool = true;
@@ -22,7 +21,7 @@ bool spring::getUsingParticle(const int& index) const {
     return tempBool;
 }
 
-void spring::changeIndex(const int& oldIndex, const int& newIndex) {
+void damper::changeIndex(const int& oldIndex, const int& newIndex) {
     if (particle1 == oldIndex) {
         particle1 = newIndex;
     }
@@ -31,16 +30,16 @@ void spring::changeIndex(const int& oldIndex, const int& newIndex) {
     }
 }
 
-void spring::virtualApplySoftforce() {
+void damper::virtualApplySoftforce() {
+    vectorType relativeVelocity = getVelocity(particle1) - getVelocity(particle2);
+        //velocity of particle1 relative to particle2
+
     vectorType relativePosition = getPosition(particle2) - getPosition(particle1);
-        //vector pointing from particle1 to particle2 with unit length
-    float distance = relativePosition.getLength();
     relativePosition = relativePosition.normalize();
+        //unit vector of the position of particle2 relative to particle1
 
-    float force;
-        //float representing the force pushing the two particles outward
-
-    force = (length - distance) * stiffness;
+    float force = stiffness * relativePosition.dot(relativeVelocity);
+        //force with wich the particles should be pushed outward
 
     applyForce(particle1, relativePosition * force * -1);
     applyForce(particle2, relativePosition * force * +1);

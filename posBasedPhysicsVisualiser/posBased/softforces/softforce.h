@@ -28,6 +28,7 @@ class softforce {
         unit getDistance(const int& particleIndex1, const int& particleIndex2) const;
         const particle getParticle(const int& particleIndex) const;
         float getMass(const int& particleIndex) const;
+        vectorType getVelocity(const int& particleIndex) const;
 
         void applyForce(const int& particleIndex, vectorType force);
     private:

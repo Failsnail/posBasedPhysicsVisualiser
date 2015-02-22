@@ -28,7 +28,7 @@ void distanceconstraint::virtualResolveConstraint(const float& resolveError) {
     vectorType relativePosition = getPosition(particle2) - getPosition(particle1);
         //vector pointing from particle1 to particle2 with unit length
     float distance = relativePosition.getLength();
-    relativePosition.normalize();
+    relativePosition = relativePosition.normalize();
 
     float displacement1;
     float displacement2;
