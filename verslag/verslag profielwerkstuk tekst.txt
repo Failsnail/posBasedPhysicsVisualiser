@@ -17,17 +17,30 @@ In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospell
 
 aanpak:
 
+
+hoofdvraag:
+	hoe werkt een systeem dat de bewegingen van objecten simuleert?
+	
 deelvragen:
+	wat betekent 'bewegen'?
+	wat betekent 'objecten'?
+	welk gedeelte van bestaande natuurkunde kan gebruikt worden om bewegingen te simuleren?
+	hoe kunnen we dit gebruiken om bewegingen te simuleren?
+		bewegingsformules
+		krachten
+			deterministische krachten
+			normaalkrachten
+	welke fouten zitten er in de natuurkunde die het systeem gebruikt? (t > 0, E > 0, floating-point precision)
+	hoe significant zijn deze fouten?
+
+
+/*
 snelheid van simuleren (real-time ?)
 optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
 stabiliteit simulatie
 optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
 fouten -> geloofwaardigheid
-
-
-
-
-
+*/
 
 
 het simuleren van bewegingen van objecten:
@@ -185,7 +198,7 @@ E: fout van de constraint (in m*kg)
 f: factor (zonder eenheid) die voldoet aan 0 < f <= 1
 
 
-Nu kan de verplaatsing van de particles berekent worden:
+Nu kan de verplaatsing van de particles berekent worden met:
 
 	vector relativePosition = S2 - S1;
 	//vector pointing from particle1 to particle2 with unit length
