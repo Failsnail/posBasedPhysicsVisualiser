@@ -47,7 +47,18 @@ Tijd is een grootheid die XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Snelheid is de eerste afgeleide van Positie over tijd, dit zorgt er voor dat snelheid net als positie een vectorgrootheid is. De Letter die gebruikt word om de grootheid snelheid aan te duiden is V, en de eenheid is m/s.
 Acceleratie is de tweede afgeleide van Positie over tijd, hierdoor geld net als voor snelheid dat acceleratie een vectorgrootheid is. De letter om acceleratie aan te duiden is a, de eenheid voor snelheid is m/s^2.
 
-//BESCHRIJF DE TWEEDE WET VAN  NEWTON EN HET BEREKENEN VAN KRACHTEN
+Verder biedt klassieke mechanica de grootheden massa en kracht. De aanduiding voor massa is m, en de eenheid is kilogram (of afgekort: kg). De aanduiding voor kracht is F, en de eenheid is Newton (of afgekort: N), kracht is een vectorgrootheid.
+Er word van de lezer verwacht enige voorkennis over deze begrippen te hebben.
+De tweede wet van Newton stelt het volgende:
+
+	F = m * a
+
+De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welke tegenovergesteld is in richting en gelijk in magnitude. Dit kunnen we noteren als:
+
+	F1 = - F2
+
+Bovendien bestudeert klassieke mechanica het veroorzaken van krachten.
+//VERDER!!!
 
 
 hoe kunnen we dit gebruiken om bewegingen te simuleren?
