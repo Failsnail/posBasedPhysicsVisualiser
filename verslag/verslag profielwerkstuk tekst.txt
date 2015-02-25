@@ -16,14 +16,17 @@ In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospell
 
 
 aanpak:
-
+http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
+position based dynamics:
+http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
+Unified Particle Physics for Real-Time Applications:
+http://mmacklin.com/uppfrta_preprint.pdf
 
 hoofdvraag:
 	hoe werkt een systeem dat de bewegingen van objecten simuleert?
 	
 deelvragen:
 	wat betekent 'bewegen'?
-	wat betekent 'objecten'?
 	welk gedeelte van bestaande natuurkunde kan gebruikt worden om bewegingen te simuleren?
 	hoe kunnen we dit gebruiken om bewegingen te simuleren?
 		bewegingsformules
@@ -33,14 +36,59 @@ deelvragen:
 	welke fouten zitten er in de natuurkunde die het systeem gebruikt? (t > 0, E > 0, floating-point precision)
 	hoe significant zijn deze fouten?
 
+deelvragen:
+wat betekent 'bewegen'?
+Bewegen is het veranderen van de posities en rotaties van objecten over tijd.
 
-/*
-snelheid van simuleren (real-time ?)
-optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
-stabiliteit simulatie
-optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
-fouten -> geloofwaardigheid
-*/
+welk gedeelte van bestaande natuurkunde kan gebruikt worden om bewegingen te simuleren?
+De klassieke mechanica is een veld binnen de natuurkunde dat de bewegingen van objecten bestudeert. Dit veld van de natuurkunde biedt de volgende inzichten:
+Positie is een vectorgrootheid, deze word over het algemeen aangeduid met de letter S. De eenheid die we voor positie zullen gebruiken is meter (of afgekort: m).
+Tijd is een grootheid die XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX. De letter voor de grootheid tijd is t, de eenheid is seconde (of afgekort: s)
+Snelheid is de eerste afgeleide van Positie over tijd, dit zorgt er voor dat snelheid net als positie een vectorgrootheid is. De Letter die gebruikt word om de grootheid snelheid aan te duiden is V, en de eenheid is m/s.
+Acceleratie is de tweede afgeleide van Positie over tijd, hierdoor geld net als voor snelheid dat acceleratie een vectorgrootheid is. De letter om acceleratie aan te duiden is a, de eenheid voor snelheid is m/s^2.
+
+//BESCHRIJF DE TWEEDE WET VAN  NEWTON EN HET BEREKENEN VAN KRACHTEN
+
+
+hoe kunnen we dit gebruiken om bewegingen te simuleren?
+Omdat snelheid en acceleratie puur wiskundig gedefinieert zijn mogen we wiskunde over afgeleiden en primitiven op deze grootheden loslaten. Als we de verandering van V over t berekenen aan de hand van a geeft dit:
+
+	V1 = V0 + a * t
+als a constant is.
+
+Als we deze formule weer gebruiken om de verandering van P over t te beschrijven krijgen we:
+
+	P1 = P0 + V0 * t + 1/2 * a * t^2
+als a constant is.
+
+
+
+
+
+bewegingsformules
+krachten
+deterministische krachten
+normaalkrachten
+welke fouten zitten er in de natuurkunde die het systeem gebruikt? (t > 0, E > 0, floating-point precision)
+hoe significant zijn deze fouten?
+
+resultaten:
+	snelheid van simuleren (real-time ?)
+	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
+	stabiliteit simulatie
+	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
+	fouten -> geloofwaardigheid
+
+
+
+
+
+
+
+
+
+
+
 
 
 het simuleren van bewegingen van objecten:
