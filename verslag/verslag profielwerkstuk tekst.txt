@@ -1,6 +1,9 @@
 notes:
 verander het verslag zelf om minder uitleg te geven over hoe alles in elkaar zit; verplaats deze uitleg naar de aanpak. Zorg dat het verslag een beknopte, duidelijke uitleg is voor mensen die WEL voorkennis hebben, de rest is voor mensen zonder voorkennis.
 
+verander constraint relaxation in constraint projection, aangezien dit de vakterm lijkt te zijn
+projection moet veranderd worden in ???-integration
+
 
 opbouw:
 doel van het project
@@ -20,6 +23,7 @@ In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospell
 
 
 aanpak:
+Jacobsen:
 http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
 position based dynamics:
 http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
@@ -64,12 +68,36 @@ De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welk
 	F1 = - F2
 
 Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn voor alle bekende krachten duidelijke definities opgesteld, en bij een groot aantal is een formule gevonden om de kracht uit te kunnen rekenen.
-//VERDER OVER KRACHTEN!!!
+//VERDER OVER (NORMAAl-)KRACHTEN!!!
 
 
 Hoe hebben anderen het simuleren van bewegingen aangepakt?
-Het simuleren van bewegingen onder invloed van natuurkunde is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt (zie Real Time Physics Class Notes), elke met andere eigenschappen. De meeste methoden hebben echter een paar grote problemen; het simuleren van situaties met meerdere verschijnselen (denk aan een combinatie van vloeistoffen, vaste objecten en kleding), aangezien ze voor elk verschijnsel een andere techniek gebruiken om alleen dat verschijnsel te simuleren. Om verschillende verschijnselen tegelijkertijd te laten werken moet een manier gevonden worden om de verschillen tussen de methoden te overbruggen, wat over het algemeen lijd tot systeemen met meerdere natuurkundige fouten. Een ander groot probleem zijn acceleraties. Veel fenomenen zijn te benaderen door acceleraties uit te rekenen 
-(aan de hand van krachten), maar normaalkrachten zijn hierin moeilijk voor te stellen.
+//maak dit duidelijker of maak duidelijk dat meer kennis over het onderwerp nodig is om alles goed te begrijpen
+Het simuleren van bewegingen onder invloed van natuurkunde is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt (zie Real Time Physics Class Notes), elke met andere eigenschappen. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om het gedrag tussen stoffen die in andere categorien vallen te berekenen. Bovendien geeft dit over het algemeen een natuurkundige fout. Een ander groot probleem zijn normaalkrachten aangezien simulatoren over het algemeen gebruik maken van snelheden en acceleraties, maar normaalkrachten direct uitwerken op posities.
+
+Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de gebruikelijke technieken. Het tweede punt is geaddresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om normaalkrachten direct op posities uit te oefenen gebruikt hij een Verlet-integratie schema, wat betekent dat in plaats van de positie en snelheid de positie en de vorige positie opgeslagen worden samen met de verstreken tijd tussen deze twee posities. De snelheid van de particles is impliciet opgeslagen aangezien we deze kunnen uitrekenen met de volgende formule:
+
+bij constante V:
+	V = (S1 - S0) / t0
+	
+
+Om de nieuwe positie uit te rekenen word deze formule samengenomen met de volgende formule:
+
+	S2 = S1 + V * t1 + a * t1 * t1
+	
+Merk op dat de acceleratie volgens de bewegingsformules met 1/2 vermenigvuldigd moet worden, wat in dit geval niet gebeurt. Hieronder zal uitgelegt worden waarom dit niet gebeurt. Samengenomen krijgen we de volgende formule:
+
+	S2 = S1 + (S1 - S0) / t0 * t1 + a * t1 * t1
+
+Deze methode om nieuwe posities uit te rekenen wordt Verlet-integration genoemt. Dit systeem is interessant doordat de snelheid impliciet word opgeslagen door de posities aangezien dit betekent dat we de huidige posities aan kunnen passen (om normaalkrachten te handhaven), terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, echter worden acceleraties gebruikt, dus V is niet constant, dus wiskundig gezien is de methode niet correct. Gelukkig is dit probleem redelijk eenvoudig op te lossen, zoals gedaan werd door andere onderzoekers.
+
+//CONSTRAINT PROJECTION!!!
+
+In 'Position Based Dynamics' wordt het idee van het Verlet-integration scheme overgenomen, hoewel hier gekozen word om na elke simulatiestap de snelheden van de particles uit te rekenen, om ze expliciet op te slaan. Als de nieuwe gespeculeerde posities berekend worden word deze snelheid gebruikt met de vorige positie, het resultaat is identiek aan Verlet-integratie. De reden dat de onderzoekers deze keuze maakten was vooral dat het in bepaalde gevallen handig was om de snelheid direct te kunnen gebruiken of manipuleren. Voor mijn toepassing heeft dit echter nog een ander voordeel; hierdoor is het namelijk mogelijk om de formules te veranderen zodat het niet meer nodig is om uit te gaan van constante snelheid, later ga ik verder in op de formules die ik gebruikt heb.
+
+//introduceer de toevoegingen van position based dynamics (opslaan van snelheden ipv. verlet integration)
+
+//Leg uit hoe nvidia flex puntmassa's gebruikt om rotaties te omzeilen en om te zorgen dat alle objecten binnen één representatie vallen.
 
 hoe kunnen we dit gebruiken om bewegingen te simuleren?	//NEENEENEENEE, dit hoort pas in het verslag!
 Omdat snelheid en acceleratie puur wiskundig gedefinieert zijn mogen we wiskunde over afgeleiden en primitiven op deze grootheden loslaten. Als we de verandering van V over t berekenen aan de hand van a geeft dit:
