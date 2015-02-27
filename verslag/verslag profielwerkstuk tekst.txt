@@ -5,6 +5,11 @@ verander constraint relaxation in constraint projection, aangezien dit de vakter
 projection moet veranderd worden in ???-integration
 
 
+Over het simuleren van algemene natuurkundige effecten, gebaseerd op klassieke mechanica.
+
+	What I cannot create, I do not understand.
+	- Richard Feynman
+
 opbouw:
 doel van het project
 belang van het doel
@@ -68,7 +73,7 @@ De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welk
 	F1 = - F2
 
 Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn voor alle bekende krachten duidelijke definities opgesteld, en bij een groot aantal is een formule gevonden om de kracht uit te kunnen rekenen.
-//VERDER OVER (NORMAAl-)KRACHTEN!!!
+//VERDER OVER (NORMAAL-)KRACHTEN!!!
 
 
 Hoe hebben anderen het simuleren van bewegingen aangepakt?
@@ -79,7 +84,6 @@ Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radic
 
 bij constante V:
 	V = (S1 - S0) / t0
-	
 
 Om de nieuwe positie uit te rekenen word deze formule samengenomen met de volgende formule:
 
@@ -89,7 +93,7 @@ Merk op dat de acceleratie volgens de bewegingsformules met 1/2 vermenigvuldigd 
 
 	S2 = S1 + (S1 - S0) / t0 * t1 + a * t1 * t1
 
-Deze methode om nieuwe posities uit te rekenen wordt Verlet-integration genoemt. Dit systeem is interessant doordat de snelheid impliciet word opgeslagen door de posities aangezien dit betekent dat we de huidige posities aan kunnen passen (om normaalkrachten te handhaven), terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, echter worden acceleraties gebruikt, dus V is niet constant, dus wiskundig gezien is de methode niet correct. Gelukkig is dit probleem redelijk eenvoudig op te lossen, zoals gedaan werd door andere onderzoekers.
+Deze methode om nieuwe posities uit te rekenen wordt Verlet-integration genoemt. Dit systeem is interessant doordat de snelheid impliciet word opgeslagen door de posities aangezien dit betekent dat we de huidige posities aan kunnen passen (om normaalkrachten te handhaven), terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, echter worden acceleraties gebruikt wat betekent dat V is niet constant, dus wiskundig gezien is de methode niet correct. Gelukkig is dit probleem redelijk eenvoudig op te lossen, zoals gedaan werd door andere onderzoekers.
 
 //CONSTRAINT PROJECTION!!!
 
