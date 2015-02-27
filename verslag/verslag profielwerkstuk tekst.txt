@@ -4,8 +4,13 @@ verander het verslag zelf om minder uitleg te geven over hoe alles in elkaar zit
 verander constraint relaxation in constraint projection, aangezien dit de vakterm lijkt te zijn
 projection moet veranderd worden in ???-integration
 
+zorg dat ALLEEN over positie, snelheid of acceleratie en tijdsinterval gesproken word als in S, V, a en t.
+zorg ook dat de afkortingen niet in de tekst voorkomen.
 
-Over het simuleren van algemene natuurkundige effecten, gebaseerd op klassieke mechanica.
+
+TITEL!!!
+
+Het simuleren van algemene natuurkundige effecten gebaseerd op klassieke mechanica.
 
 	What I cannot create, I do not understand.
 	- Richard Feynman
@@ -78,30 +83,35 @@ Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn v
 
 Hoe hebben anderen het simuleren van bewegingen aangepakt?
 //maak dit duidelijker of maak duidelijk dat meer kennis over het onderwerp nodig is om alles goed te begrijpen
-Het simuleren van bewegingen onder invloed van natuurkunde is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt (zie Real Time Physics Class Notes), elke met andere eigenschappen. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om het gedrag tussen stoffen die in andere categorien vallen te berekenen. Bovendien geeft dit over het algemeen een natuurkundige fout. Een ander groot probleem zijn normaalkrachten aangezien simulatoren over het algemeen gebruik maken van snelheden en acceleraties, maar normaalkrachten direct uitwerken op posities.
+Het simuleren van bewegingen onder invloed van natuurkunde is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt (zie Real Time Physics Class Notes), elke met andere eigenschappen. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om het gedrag tussen stoffen die in andere categorien vallen te berekenen. Bovendien geeft dit over het algemeen een natuurkundige fout. Een ander groot probleem zijn normaalkrachten aangezien simulatoren over het algemeen gebruik maken van snelheden en acceleraties, maar normaalkrachten direct werken op posities.
 
-Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de gebruikelijke technieken. Het tweede punt is geaddresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om normaalkrachten direct op posities uit te oefenen gebruikt hij een Verlet-integratie schema, wat betekent dat in plaats van de positie en snelheid de positie en de vorige positie opgeslagen worden samen met de verstreken tijd tussen deze twee posities. De snelheid van de particles is impliciet opgeslagen aangezien we deze kunnen uitrekenen met de volgende formule:
+//leg beknopt de normale techniek uit
+
+Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de gebruikelijke technieken. Het tweede punt is geaddresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om normaalkrachten direct op posities uit te oefenen gebruikt hij constraints en een Verlet-integratieschema. Verlet-integration betekent dat de huidige positie, de vorige positie en de tussenliggende tijd opgeslagen worden, in plaats van de huidige positie en huidige snelheid wat meestal gedaan wordt. De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen uitrekenen met de volgende formule:
 
 bij constante V:
 	V = (S1 - S0) / t0
 
-Om de nieuwe positie uit te rekenen word deze formule samengenomen met de volgende formule:
+Om de nieuwe (gespeculeerde) positie uit te rekenen word deze formule samengenomen met de volgende formule:
 
-	S2 = S1 + V * t1 + a * t1 * t1
+	S2 = S1 + V * t1 + a * t1^2
 	
-Merk op dat de acceleratie volgens de bewegingsformules met 1/2 vermenigvuldigd moet worden, wat in dit geval niet gebeurt. Hieronder zal uitgelegt worden waarom dit niet gebeurt. Samengenomen krijgen we de volgende formule:
+Merk op dat de acceleratie volgens de bewegingsformules met 1/2 vermenigvuldigd moet worden, wat hier niet gebeurt. Hieronder zal uitgelegt worden waarom dit niet gebeurt. Samengenomen krijgen we de volgende formule:
 
-	S2 = S1 + (S1 - S0) / t0 * t1 + a * t1 * t1
+	S2 = S1 + (S1 - S0) / t0 * t1 + a * t1^2
 
-Deze methode om nieuwe posities uit te rekenen wordt Verlet-integration genoemt. Dit systeem is interessant doordat de snelheid impliciet word opgeslagen door de posities aangezien dit betekent dat we de huidige posities aan kunnen passen (om normaalkrachten te handhaven), terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, echter worden acceleraties gebruikt wat betekent dat V is niet constant, dus wiskundig gezien is de methode niet correct. Gelukkig is dit probleem redelijk eenvoudig op te lossen, zoals gedaan werd door andere onderzoekers.
+Dit verlet-integratieschema is interessant omdat de snelheid impliciet word opgeslagen in de posities, waardoor we de huidige posities aan kunnen passen terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, wat niet klopt aangezien acceleraties gebruikt worden, de methode is wiskundig gezien dus niet correct. Later in het verslag zal ik met een oplossing voor dit probleem komen (aan de hand van een aanpassing voorgestelt door andere onderzoekers).
 
-//CONSTRAINT PROJECTION!!!
+Nu we de gespeculeerde positie hebben kunnen we de normaalkrachten hierop uit laten werken. Omdat we nu niet geinterreseert zijn in acceleraties maar in posities moeten we normaalkrachten anders berekenen dan andere krachten. Aangezien normaalkrachten ontstaan als voorwerpen tegen elkaar gedrukt worden om te voorkomen dat ze dezelfde ruimte innemen is het het meest voor de hand liggent om normaalkrachten te representeren als bepaalde voorwaarden waar de posities van objecten aan moeten voldoen. Deze voorwaardes worden 'constraints' genoemd. Om normaalkrachten uit te oefenen kijken we welke constraints geschonden zijn, en passen de posities van de objecten simpelweg aan zodat de constraint niet meer geschonden word. In de praktijk komen een aantal moeilijkheden voor, zo kan het verplaatsen van objecten ervoor zorgen dat een andere constraint juist geschonden word. Ook kan het dat twee constraints een object grofweg dezelfde richting in duwen, wat ervoor kan zorgen dat het object te ver weggeduwd word. De details en oplossingen van deze problemen worden later behandeld. Tot dat punt mag de lezer er van uit gaan dat alle constraints tijdens deze stap op natuurkundig correcte wijze opgelost worden.
 
-In 'Position Based Dynamics' wordt het idee van het Verlet-integration scheme overgenomen, hoewel hier gekozen word om na elke simulatiestap de snelheden van de particles uit te rekenen, om ze expliciet op te slaan. Als de nieuwe gespeculeerde posities berekend worden word deze snelheid gebruikt met de vorige positie, het resultaat is identiek aan Verlet-integratie. De reden dat de onderzoekers deze keuze maakten was vooral dat het in bepaalde gevallen handig was om de snelheid direct te kunnen gebruiken of manipuleren. Voor mijn toepassing heeft dit echter nog een ander voordeel; hierdoor is het namelijk mogelijk om de formules te veranderen zodat het niet meer nodig is om uit te gaan van constante snelheid, later ga ik verder in op de formules die ik gebruikt heb.
+In 'Position Based Dynamics' wordt het idee van het Verlet-integration scheme overgenomen, hoewel hier gekozen word om de snelheden van de particles na elke simulatiestap uit te rekenen en ze expliciet op te slaan. Bij het berekenen van de nieuwe gespeculeerde posities is het resultaat identiek aan Verlet-integratie, de wiskundig fout is dus nog steeds aanwezig. Door de snelheid expliciet op te slaan wordt het mogelijk de snelheden aan te passen zonder de posities te hoeven veranderen. Voor mijn toepassing heeft dit echter nog een voordeel; hierdoor is het namelijk mogelijk om de wiskundige fout die eerder aangeduid was te verwijderen.
 
-//introduceer de toevoegingen van position based dynamics (opslaan van snelheden ipv. verlet integration)
+In 'Unified Particle Physics for Real-Time Applications' word het systeem voorgestelt in 'Position Based Dynamics' uitgebreid met als hoofddoel te zorgen dat het systeem toegepast kan worden op een verschillende typen stoffen binnen hetzelfde systeem. Door alle objecten op te slaan in 'particles' of puntmassa's, aangezien zowel vaste stoffen, elastische/vervormbare stoffen, vloeistoffen, gassen en doek regrepresenteert kunnen worden door groepen particles met onderlinge relaties. Aangezien alle particles in het zelfde systeem vallen kunnen ze op elkaar reageren ongeacht het type stof dat ze representeren. Bovendien word de wiskunde vereenvoudigt door het feit dat particles geen rotaties hebben, terwijl rotaties van objecten nog steeds op natuurkundig correcte manieren gesimuleert kunnen worden door particles met elkaar te verbinden met constraints.
 
-//Leg uit hoe nvidia flex puntmassa's gebruikt om rotaties te omzeilen en om te zorgen dat alle objecten binnen één representatie vallen.
+De ideeen die ik heb overgenomen zijn de volgende:
+	Verlet-integratie met expliciete snelheid
+	constraint projection
+	objecten representeren door (groepen) particles
 
 hoe kunnen we dit gebruiken om bewegingen te simuleren?	//NEENEENEENEE, dit hoort pas in het verslag!
 Omdat snelheid en acceleratie puur wiskundig gedefinieert zijn mogen we wiskunde over afgeleiden en primitiven op deze grootheden loslaten. Als we de verandering van V over t berekenen aan de hand van a geeft dit:
@@ -337,5 +347,5 @@ Nu kan de verplaatsing van de particles berekent worden met:
 //Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
 
 
-Globale werking:
+Globale werking:	//is niet meer nodig aangezien de verwijzingen aan het begin al een groot gedeelte uitleggen!
 Onderweg zijn een paar gedeeltes veranderd, dus ik zal een keer de uiteindelijke, globale werking uitleggen. Naast de oorspronkelijke snelheid en positie van de particles hebben we de acceleratie van de particles nodig om iets over de eindpositie te kunnen zeggen. De acceleratie word bepaalt door de totale kracht op de particles, wat op zijn beurt de som is van alle individuele krachten die op de particle werken. Al deze krachten moeten dus benaderd worden. Omdat er een groot verschil zit tussen twee groepen krachten (deterministische krachten & constriants) moet het benaderen van de nieuwe positie in twee stappen verdeeld worden; eerst worden de deterministische krachten bepaalt, en worden toegepast op de posities van de particles samen met de beginsnelheid. Daarna worden de constraints toegepast. Dit gebeurt door alle constriants voor een bepaald gedeelte op te lossen, en dit te herhalen. Bij elke herhaling daalt fout in de constriants. We weten nu de positie van de particles nadat de oorspronkelijke snelheid, de deterministische krachten, en de constraints toegepast zijn. Dit is onze eindpositie. Voor de volgende simulatie moet echter een beginsnelheid vastgesteld worden, deze kan berekend worden aan de hand van de beginsnelheid, beginpositie, en de eindsnelheid.
