@@ -8,6 +8,8 @@ zorg ook dat de afkortingen niet in de tekst voorkomen.
 verander 'deterministische kracht' in niet-contactkracht
 verander 'normaalkracht' op enkele punten in contactkracht, en geef in de uitleg van contactkracht aan dat spankracht hier ook onder kan vallen
 
+controlleer of het nieuwe 0 = vorig, 1 = huidig, 2 = volgende overal goed gebruikt wordt
+
 
 
 TITEL!!!
@@ -58,15 +60,19 @@ wat betekent 'bewegen'?
 Bewegen is het veranderen van de posities en rotaties van objecten over tijd.
 
 welk gedeelte van bestaande natuurkunde kan gebruikt worden om bewegingen te simuleren?
-De klassieke mechanica is een veld binnen de natuurkunde dat de bewegingen van objecten bestudeert. Dit veld van de natuurkunde biedt de volgende inzichten:
-Positie is een vectorgrootheid, deze word over het algemeen aangeduid met de letter S. De eenheid die we voor positie zullen gebruiken is meter (of afgekort: m).
+Aangezien het bestuderen van bewegingen een belangrijk onderdeel is van natuurkunde kunnen we een aantal inzichten overnemen voor gebruik in de simulator. Het veld van de natuurkunde dat over bewegingen van objecten gaat (onder normale omstandigheden) is klassieke mechanica.
+
+//zet hier nog een zin die de gegevens mooi introduceert + verander de zinnen in een tabel?
+De volgende grootheden en bijbehorende eenheden zijn overgenomen uit het SI:
+Positie is een vectorgrootheid, welke over het algemeen aangeduid word met de letter S. De eenheid die we voor positie zullen gebruiken is meter (of afgekort: m).
 Tijd wordt als grootheid met de letter t aangeduid, de eenheid voor tijd is seconde (of afgekort: s)
 Snelheid is de eerste afgeleide van Positie over tijd, dit betekent dat snelheid net als positie een vectorgrootheid is. De Letter die gebruikt word om de grootheid snelheid aan te duiden is V, en de eenheid is m/s.
 Acceleratie is de tweede afgeleide van Positie over tijd, net als positie en snelheid is acceleratie een vectorgrootheid. De letter om acceleratie aan te duiden is a, de eenheid voor snelheid is m/s^2.
 
-Verder biedt klassieke mechanica de grootheden massa en kracht. De aanduiding voor massa is m, de eenheid is kilogram (of afgekort: kg). De aanduiding voor kracht is F, en de eenheid is Newton (of afgekort: N), kracht is een vectorgrootheid.
+Massa is afgekort m, de eenheid is kilogram (of afgekort: kg). De aanduiding voor kracht is F, en de eenheid is Newton (of afgekort: N), kracht is een vectorgrootheid.
 
-De tweede wet van Newton stelt het volgende:
+Bovendien biedt de klassieke mechanica de volgende formules:
+De tweede wet van Newton:
 
 	Ft = m * a
 Ft: totale kracht (in N)
@@ -77,11 +83,11 @@ De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welk
 
 	F1 = - F2
 F1: kracht 1 (in N)
-F1: kracht 1 (in N)
+F2: kracht 2 (in N)
 
 Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn voor alle bekende krachten duidelijke definities opgesteld, en bij een groot aantal is dan ook een formule gevonden om de kracht te kunnen berekenen. 
 
-Omdat verschillende krachten op verschillende manieren ontstaan kunnen de krachten opgedeeld worden in twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
+Omdat verschillende krachten op verschillende manieren ontstaan is het voor het maken van een simulator practisch de krachten op te delen in twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
 
 	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
 
@@ -93,9 +99,9 @@ Wrijvingskrachten zijn een andere uitzondering. Wrijvingskrachten zijn namelijk 
 
 
 Hoe hebben anderen het simuleren van bewegingen aangepakt?
-Het simuleren van bewegingen onder invloed van natuurkunde is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt (zie Real Time Physics Class Notes), elke met andere eigenschappen. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om onderling gedrag tussen verschillende stoffen uit andere categorieën te simuleren. Bovendien geeft dit over het algemeen een natuurkundige fout. Een ander groot probleem zijn normaalkrachten, aangezien simulatoren over het algemeen gebruik maken van snelheden en acceleraties, maar normaalkrachten direct werken op posities.
+Het simuleren van bewegingen is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt met uiteenlopende eigenschappen. 'Real Time Physics Class Notes' geeft een kleine greep uit de methodes die compitutioneel snel genoeg zijn om interactief te werken. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om onderling gedrag tussen verschillende stoffen die in andere categorieën vallen te simuleren. Bovendien geeft deze koppeling over het algemeen een grote natuurkundige fout. Een ander groot probleem zijn contactkrachten, aangezien simulatoren krachten over het algemeen toepassen op snelheden of acceleraties, maar contactkrachten direct werken op posities.
 
-Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de de meeste bekende technieken. Het probleem om normaalkrachten goed te simuleren is geadresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om normaalkrachten direct op posities uit te oefenen stelt hij voor constraints en een Verlet-integratieschema te gebruiken. Verlet-integration betekent dat de huidige positie, de vorige positie en de tijd tussen deze posities opgeslagen worden, terwijl het gangbaar is om de huidige positie en snelheid uit te rekenen. De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen uitrekenen met de volgende formule:
+Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de de meeste bekende technieken. Het probleem om contactkrachten goed te simuleren is geadresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om contactkrachten direct op posities uit te oefenen stelt hij voor constraints en een Verlet-integratieschema te gebruiken. Verlet-integratie betekent dat de huidige positie, de vorige positie en de tijd tussen deze posities opgeslagen worden, terwijl het gangbaar is om de huidige positie en huidige snelheid bij te houden. De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen berekenen met de volgende formule:
 
 bij constante V:
 	V = (S1 - S0) / t0
@@ -124,7 +130,7 @@ t0: tijdsinterval tussen S0 en S1 (in s)
 t1: tijdsinterval tussen S1 en S2 (in s)
 a: acceleratie (in m/s^2)
 
-Dit verlet-integratieschema is interessant omdat de snelheid impliciet word opgeslagen in de posities, waardoor we de huidige posities aan kunnen passen terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, wat niet klopt aangezien acceleraties toch gebruikt worden, de methode is wiskundig gezien dus niet correct. Later in het verslag zal ik met een oplossing voor dit probleem komen (aan de hand van een aanpassing voorgestelt door andere onderzoekers).
+Dit verlet-integratieschema is interessant omdat de snelheid impliciet word opgeslagen in de posities, waardoor we de huidige posities aan kunnen passen terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, wat niet klopt aangezien acceleraties toch gebruikt worden. De methode is wiskundig gezien dus niet correct. Later in het verslag zal ik met een oplossing voor dit probleem komen (aan de hand van een aanpassing voorgestelt door andere onderzoekers).
 
 Nu de gespeculeerde positie bekend is kunnen de normaalkrachten hierop werken. Omdat we nu niet geinterreseert zijn in acceleraties maar in posities moeten we normaalkrachten anders berekenen dan andere krachten. Aangezien normaalkrachten ontstaan als voorwerpen tegen elkaar gedrukt worden om te voorkomen dat ze dezelfde ruimte innemen is het het meest voor de hand liggend om normaalkrachten te representeren als bepaalde voorwaarden waar de posities van objecten aan moeten voldoen. Deze voorwaarden worden 'constraints' genoemd. Om normaalkrachten uit te oefenen kijken we welke constraints geschonden zijn, en passen de posities van de objecten simpelweg aan zodat de constraint niet meer geschonden word. In de praktijk komen een aantal moeilijkheden voor, zo kan het verplaatsen van objecten ervoor zorgen dat een andere constraint juist geschonden word. Ook kan het dat twee constraints een object grofweg dezelfde richting in duwen, wat ervoor kan zorgen dat het object te ver weggeduwd word. De details en oplossingen van deze problemen worden later behandeld. Tot dat punt mag de lezer er van uit gaan dat alle constraints tijdens deze stap op natuurkundig correcte wijze opgelost worden.
 
@@ -162,17 +168,17 @@ Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten
 Bij simuleren van bewegingen zijn we geïnteresseert in het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd. De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Zowel positie, snelheid en acceleratie zijn vectorgrootheden. Merk op dat de omschrijving van snelheid en acceleratie puur een wiskundige omschrijving is. Met deze theorie zijn onder andere de volgende formules te vormen:
 
 Bij constante acceleratie:
-	V1 = V0 + a * t
+	V2 = V1 + a * t
+V2: volgende snelheid (in m/s)
 V1: huidige snelheid (in m/s)
-V0: vorige snelheid (in m/s)
 a: acceleratie (in m/s^2)
 t: tijdsinterval (in s)
 
 Bij constante a:
-	S1 = S0 + V0 * t + 1/2 * a * t^2
+	S2 = S1 + V1 * t + 1/2 * a * t^2
+S2: volgende positie (in m)
 S1: huidige positie (in m)
-S0: vorige positie (in m)
-V0: vorige snelheid (in m/s)
+V1: huidige snelheid (in m/s)
 t: tijdsinterval (in s)
 a: acceleratie (in m/s^2)
 
@@ -180,8 +186,8 @@ Met deze formules kunnen we een nieuwe positie en snelheid uitrekenen na een tij
 
 	t = t1 - t0
 t: tijdsinterval (in s)
-t1: huidige tijd (in s)
-t0: vorige tijd (in s)
+t1: tijd voor huidige simulatie (in s)
+t0: tijd voor vorige simulatie (in s)
 
 
 De andere onbekende, a, kan berekend worden met de tweede wet van Newton:
@@ -235,69 +241,77 @@ Om de kracht die deze soorten krachten genereren uit te rekenen zijn maar enkele
 
 Normaalkracht en verwante krachten (zoals hydraulische druk en drijfkracht) zijn echter niet deterministisch. Deze soort krachten ontstaan namelijk om een correcte staat te handhaven (meerdere objecten mogen niet de zelfde ruimte innemen bijvoorbeeld). Dit betekent dat de kracht niet direct gevonden kan worden: eerst moeten alle andere krachten bekend zijn, waarna berekent kan worden welke kracht daar tegenover gezet moet worden om een correcte staat te handhaven. Als een object echter onderhevig is het exact uitrekenen van de krachten logischerwijs niet mogelijk aangezien beide krachten kennis over de andere nodig hebben om een volledig resultaat te kunnen leveren.
 
-Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; Eerst verplaatsten we de particles door alle 'deterministische krachten' en de beginsnelheid toe te passen (dit noemen we projecteren projecteren). Daarna benaderen we een correcte staat zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie (S1). Omdat we uitgaan van een constante a kunnen we V1 berekenen met de volgende formules:
+Omdat al bleek dat de krachten het gevolg zijn van het handhaven van een correcte staat kunnen we het probleem ook anders aanpakken; Eerst verplaatsten we de particles door alle 'deterministische krachten' en de beginsnelheid toe te passen (dit noemen we projecteren projecteren). Daarna benaderen we een correcte staat zonder de normaalkrachten uit te rekenen. De posities die de particles na deze operatie hebben is resultaat van zowel de deterministische krachten als van de normaalkrachten, dus gelijk aan de eindpositie (S2). Omdat we uitgaan van een constante a kunnen we V2 berekenen met de volgende formules:
 
 Bij constante a:
-	S1 = S0 + V0 * t + 1/2 * a * t^2
+	S2 = S1 + V1 * t + 1/2 * a * t^2
+S2: volgende positie (in m)
 S1: huidige positie (in m)
-S0: vorige positie (in m)
-V0: vorige snelheid (in m/s)
+V1: huidige snelheid (in m/s)
 t: tijdsinterval (in s)
 a: acceleratie (in m/s^2)
 
 Bij constante a:
-	V1 = V0 + a * t
-V: snelheid (in m/s)
-a: acceleratie
+	V2 = V1 + a * t
+V2: volgende snelheid (in m/s)
+V1: huidige snelheid (in m/s)
+a: acceleratie (in m/s^2)
+t: tijdsinterval (in s)
 
 We schrijven de eerste formule om naar een formule die a als resultaat geeft:
 
 bij constante a:
-	a = 2  * (S1 - S0 - V0 * t) / t^2
+	a = 2  * (S2 - S1 - V1 * t) / t^2
 a: acceleratie (in m/s^2)
+S2: volgende positie (in m)
 S1: huidige positie (in m)
-S0: vorige positie (in m)
-V0: vorige snelheid (in m/s)
+V1: huidige snelheid (in m/s)
 t: tijdsinterval (in s)
 
 Nu kunnen we deze substitueren in de tweede formule, na vereenvoudiging geeft dit:
 
 bij constante a:
-	V1 = 2 * (S1 - S0) / t - V0	
+	V2 = 2 * (S2 - S1) / t - V1
+V2: volgende snelheid (in m/s)
+S2: volgende positie (in m)
+S1: huidige positie (in m)
+t: tijdsinterval (in s)
+V1: huidige snelheid (in m/s)
 
-Dit betekent dat we S1 en V1 uit kunnen rekenen zonder dat de acceleraties bekend hoeven te zijn, zolang we de eindposities (S1) kunnen benaderen.
+Dit betekent dat we S2 en V2 uit kunnen rekenen zonder dat de acceleratie bekend hoeft te zijn, zolang we de eindpositie (S2) kunnen benaderen.
 
 Om de normaalkrachten te kunnen handhaven hebben we eerst een systeem nodig om duidelijk te kunnen bepalen of een staat 'correct' is (dit systeem is gescheiden van het systeem dat de deterministische krachten beschrijft). Dit doen we door relaties tussen particles op te stellen die we 'constraints' of 'beperkingen' noemen. Een constraint omschrijft een eigenschap van de staat van de particles die gehandhaafd moet blijven. Een voorbeeld van een constraint is een afstandsconstraint: om te zorgen dat twee particles niet te dicht bij elkaar komen kunnen we bepalen dat de afstand tussen twee particles niet kleiner mag worden dan een bepaalde waarde die voor de constraint bepaald is. Als de afstand kleiner wordt dan deze waarde beschouwen we de constraint als geschonden. Afstandsconstraints kunnen ook voorkomen in andere vormen, bijvoorbeeld een afstandsconstraint waar de afstand gelijk moet zijn aan een bepaalde waarde. Deze worden gebruikt om de relaties tussen particles in een object vast te stellen, aangezien deze samengedrukt mogen worden, maar ook niet uit elkaar getrokken mogen worden.
 
 Om dit probleem goed op te lossen is het praktisch om uit te kunnen rekenen hoe 'incorrect' een bepaalde staat is. Als we de constraints op willen lossen proberen we deze waarde dus te verlagen. We definiëren de fout (E) van een constraint als de massa van de particles maal de afstand die deze particles af moeten leggen om de constraint te handhaven:
 
 Bij n particles:
-	E = dS1 * m1 + dS2 * m2 + ...  + dS(n-1) * m(n-1) + dSn * mn
-E: fout (in m*kg)
-dSn: benodigde verandering van positie van particle n (in m)
-mn: massa van particle n (in kg)
+	E = P[1]m * P[1]dS+ P[2]m * P[2]dS + ...  + P[n-1]m  * P[n-1]dS + P[n]m * P[n]dS
+E: fout (in kg*m)
+P[n]m: massa van particle n (in kg)
+P[n]dS: benodigde verandering van positie van particle n (in m)
+
 
 Omdat er veel verschillende soorten constraints mogelijk zijn is het helaas niet mogelijk om een alomvattende algoritme (formules volstaan niet om deze waarden uit te rekenen) te geven die de fout van een constraint levert. Toch zal ik ter illustratie zal ik een voorbeeld geven; een algoritme die de fout geeft van een afstandsconstraint waar de afstand tussen twee particles exact gelijk moet zijn aan de waarde d:
 
-	E = 2 * ||S1 - S2| - d| * m1 / (1 + m1 / m2)
+	E = 2 * ||P[1]S - P[2]S| - d| * P[1]m / (1 + P[1]m / P[2]m)
 E: fout (in m)
 d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
-|Sn - Sn2|: de afstand tussen particle n en particle n2 (in m)
-mn: de massa van particle n (in kg)
+P[n]S: positie van particle n (in m)
+P[n]m: de massa van particle n (in kg)
 
-//leg ook m1 * S1 = m2 * S2 uit (hoe de formule is opgesteld)? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//leg ook P[1]m * P[1]dS = P[2]m * P[2]dS uit (hoe de formule is opgesteld)? <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-Het volgende algoritme is voor een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
+Het volgende algoritme geeft de fout voor een afstandsconstraint waar de afstand tussen twee particles groter moet zijn dan de waarde d:
 
-	if (|Sn - Sn2| > d) {
+	if (|P[1]S - P[2]S| > d) {
 		E = 0
 	} else {
-		E = 2 * ||S1 - S2| - d| * m1 / (1 + m1 / m2)
+		E = 2 * ||P[1]S - P[2]S| - d| * P[1]m / (1 + P[1]m / P[2]m)
 	}
 E: fout (in m)
 d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
-|Sn - Sn2|: de afstand tussen particle n en particle n2 (in m)
-mn: de massa van particle n (in kg)
+P[n]S: positie van particle n (in m)
+P[n]m: de massa van particle n (in kg)
 
 Aan dit voorbeeld is goed te zien waarom een normale formule niet altijd volstaat om E uit te rekenen; zolang de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en is het resultaat 0 (want er is geen fout). Als de onderlinge afstand echter kleiner is dan d is er wel sprake van een fout. Merk ook op dat de waarde van E altijd voldoet aan E >= 0.
 
@@ -312,6 +326,8 @@ f: factor (zonder eenheid) die voldoet aan 0 < f <= 1
 
 
 Nu kan de verplaatsing van de particles berekent worden met:
+
+//VERANDER NAAR NIEUWE NOTATIE!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	vector relativePosition = S2 - S1;
 	//vector pointing from particle1 to particle2 with unit length

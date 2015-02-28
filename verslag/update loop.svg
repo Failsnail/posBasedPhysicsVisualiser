@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.087499999"
-     inkscape:cx="895.76752"
+     inkscape:cx="3241.3755"
      inkscape:cy="-2818.4118"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -141,16 +141,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-5"
-       width="2194.7651"
+       width="1726.1937"
        height="258.59912"
-       x="-3714.5254"
+       x="-3531.6682"
        y="4765.1611"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-47"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(-2057.8753,4371.4181)"><flowRegion
+       transform="translate(-1875.0182,4371.4181)"><flowRegion
          id="flowRegion4172-32"><rect
            id="rect4174-9"
            width="2614.2749"
@@ -158,7 +158,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4176-2">Bereken nieuwe P en V</flowPara></flowRoot>    <g
+         id="flowPara4176-2">Bereken S2 en V2</flowPara></flowRoot>    <g
        id="g4195-52"
        transform="matrix(0,1,-1,0,-2626.6831,5780.7648)">
       <path
@@ -177,16 +177,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3"
-       width="2389.0508"
+       width="2491.908"
        height="258.59912"
-       x="5005.4746"
+       x="4959.7603"
        y="4228.0181"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(6662.1249,3834.2753)"><flowRegion
+       transform="translate(6616.4106,3834.2753)"><flowRegion
          id="flowRegion4172-8-8"><rect
            id="rect4174-62-1"
            width="4259.9893"
@@ -194,7 +194,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6">Bereken gespeculeerde P</flowPara></flowRoot>    <g
+         id="flowPara4443-6">Bereken gespeculeerde S2</flowPara></flowRoot>    <g
        id="g4195-3-79"
        transform="matrix(0,1,-1,0,6253.3171,5243.622)">
       <path
@@ -249,16 +249,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-6"
-       width="1749.0507"
+       width="1120.4794"
        height="258.59912"
-       x="5405.4746"
+       x="5679.7603"
        y="5490.8755"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-0"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(7062.1249,5097.1325)"><flowRegion
+       transform="translate(7336.4106,5097.1325)"><flowRegion
          id="flowRegion4172-8-8-6"><rect
            id="rect4174-62-1-5"
            width="4259.9893"
@@ -266,7 +266,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-83">Bereken nieuwe V</flowPara></flowRoot>    <g
+         id="flowPara4443-6-83">Bereken V2</flowPara></flowRoot>    <g
        id="g4195-3-79-9"
        transform="matrix(0,1,-1,0,6253.3171,6506.4792)">
       <path
@@ -285,16 +285,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-7"
-       width="2560.4795"
+       width="2629.051"
        height="258.59912"
-       x="4959.7603"
+       x="4891.189"
        y="4839.4468"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-5-1"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(6616.4107,4445.7039)"><flowRegion
+       transform="translate(6547.8393,4445.7039)"><flowRegion
          id="flowRegion4172-8-8-9-8"><rect
            id="rect4174-62-1-7-4"
            width="4259.9893"
@@ -302,7 +302,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-7">Projecteer constraints op P</flowPara></flowRoot>    <g
+         id="flowPara4443-6-8-7">Projecteer constraints op S2</flowPara></flowRoot>    <g
        id="g4195-3-79-6-1"
        transform="matrix(0,1,-1,0,6253.3172,5855.0506)">
       <path
@@ -321,16 +321,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-9"
-       width="4194.7651"
+       width="3589.0508"
        height="258.59912"
-       x="4262.6177"
+       x="4434.0464"
        y="2948.0181"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-5-5"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(5919.2677,2554.2751)"><flowRegion
+       transform="translate(6090.6963,2554.2751)"><flowRegion
          id="flowRegion4172-8-8-9-7"><rect
            id="rect4174-62-1-7-5"
            width="4259.9893"
@@ -338,19 +338,19 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-4">Bereken krachten (behalve normaalkrachten)</flowPara></flowRoot>    <rect
+         id="flowPara4443-6-8-4">Bereken Ft (behalve normaalkrachten)</flowPara></flowRoot>    <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-7"
-       width="1703.3364"
+       width="1063.3364"
        height="258.59912"
-       x="-3497.3823"
+       x="-3188.8108"
        y="3508.0181"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-9"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(-1840.7323,3114.2752)"><flowRegion
+       transform="translate(-1532.1609,3114.2752)"><flowRegion
          id="flowRegion4172-8-5"><rect
            id="rect4174-62-7"
            width="2614.2749"
@@ -358,7 +358,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-63">Bereken krachten</flowPara></flowRoot>    <g
+         id="flowPara4443-63">Bereken Ft</flowPara></flowRoot>    <g
        id="g4195-3-3"
        transform="matrix(0,1,-1,0,-2638.1117,4527.8652)">
       <path
@@ -377,16 +377,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-7-4"
-       width="1337.6222"
+       width="903.33649"
        height="258.59912"
-       x="-3348.811"
+       x="-3074.5254"
        y="2872.2612"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-9-9"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(-1692.1609,2478.5184)"><flowRegion
+       transform="translate(-1417.8752,2478.5184)"><flowRegion
          id="flowRegion4172-8-5-6"><rect
            id="rect4174-62-7-6"
            width="2614.2749"
@@ -394,7 +394,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-63-8">Vorige P en V</flowPara></flowRoot>    <g
+         id="flowPara4443-63-8">S1 en V1</flowPara></flowRoot>    <g
        id="g4195-3-79-6-9"
        transform="matrix(0,1,-1,0,6253.317,3962.1509)">
       <path
@@ -413,16 +413,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-9-8"
-       width="1337.6223"
+       width="891.90778"
        height="258.59912"
-       x="5554.0459"
+       x="5759.7603"
        y="2317.9756"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-5-5-7"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(7210.6961,1924.2326)"><flowRegion
+       transform="translate(7416.4104,1924.2326)"><flowRegion
          id="flowRegion4172-8-8-9-7-4"><rect
            id="rect4174-62-1-7-5-2"
            width="4259.9893"
@@ -430,10 +430,10 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-4-7">Vorige P en V</flowPara></flowRoot>    <rect
+         id="flowPara4443-6-8-4-7">S1 en V1</flowPara></flowRoot>    <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-62"
-       width="2389.0508"
+       width="2480.4792"
        height="258.59912"
        x="-200.24014"
        y="4446.6553"
@@ -450,7 +450,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-6">Bereken gespeculeerde P</flowPara></flowRoot>    <g
+         id="flowPara4443-6-6">Bereken gespeculeerde S2</flowPara></flowRoot>    <g
        id="g4195-3-79-7"
        transform="matrix(0,1,-1,0,1047.6026,5462.2591)">
       <path
@@ -505,7 +505,7 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-7-1"
-       width="2560.4795"
+       width="2674.7651"
        height="258.59912"
        x="-245.95401"
        y="5058.084"
@@ -522,7 +522,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-7-7">Projecteer constraints op P</flowPara></flowRoot>    <g
+         id="flowPara4443-6-8-7-7">Projecteer constraints op S2</flowPara></flowRoot>    <g
        id="g4195-3-79-6-1-8"
        transform="matrix(0,1,-1,0,1047.6027,6073.6877)">
       <path
@@ -541,16 +541,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-9-3"
-       width="4194.7651"
+       width="3577.6223"
        height="258.59912"
-       x="-943.09686"
+       x="-817.38257"
        y="3166.6553"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-5-5-75"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(713.55317,2772.9123)"><flowRegion
+       transform="translate(839.26746,2772.9123)"><flowRegion
          id="flowRegion4172-8-8-9-7-42"><rect
            id="rect4174-62-1-7-5-7"
            width="4259.9893"
@@ -558,7 +558,7 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-4-1">Bereken krachten (behalve normaalkrachten)</flowPara></flowRoot>    <g
+         id="flowPara4443-6-8-4-1">Bereken Ft (behalve normaalkrachten)</flowPara></flowRoot>    <g
        id="g4195-3-79-6-9-5"
        transform="matrix(0,1,-1,0,1047.6025,4180.788)">
       <path
@@ -577,16 +577,16 @@
     <rect
        style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:13.69999981;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4158-8-3-5-9-8-4"
-       width="2217.6223"
+       width="891.90796"
        height="258.59912"
-       x="-97.382729"
+       x="565.47443"
        y="2525.1841"
        ry="0" />
     <flowRoot
        xml:space="preserve"
        id="flowRoot4170-26-3-5-5-7-0"
        style="font-style:normal;font-weight:normal;font-size:180px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(1559.2673,2131.4412)"><flowRegion
+       transform="translate(2222.1245,2131.4412)"><flowRegion
          id="flowRegion4172-8-8-9-7-4-1"><rect
            id="rect4174-62-1-7-5-2-8"
            width="4259.9893"
@@ -594,5 +594,5 @@
            x="-1620.2847"
            y="397.78336"
            style="font-size:180px" /></flowRegion><flowPara
-         id="flowPara4443-6-8-4-7-2">Vorige P en P  daarvoor</flowPara></flowRoot>  </g>
+         id="flowPara4443-6-8-4-7-2">S0 en S1</flowPara></flowRoot>  </g>
 </svg>
