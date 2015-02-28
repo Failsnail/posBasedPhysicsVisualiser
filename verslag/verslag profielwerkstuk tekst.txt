@@ -1,8 +1,6 @@
 notes:
-verander het verslag zelf om minder uitleg te geven over hoe alles in elkaar zit; verplaats deze uitleg naar de aanpak. Zorg dat het verslag een beknopte, duidelijke uitleg is voor mensen die WEL voorkennis hebben, de rest is voor mensen zonder voorkennis.
-
 verander constraint relaxation in constraint projection, aangezien dit de vakterm lijkt te zijn
-projection moet veranderd worden in ???-integration
+projection moet veranderd worden gespeculeerde posities simuleren
 
 zorg dat ALLEEN over positie, snelheid of acceleratie en tijdsinterval gesproken word als in S, V, a en t.
 zorg ook dat de afkortingen niet in de tekst voorkomen.
@@ -13,11 +11,13 @@ verander 'normaalkracht' op enkele punten in contactkracht, en geef in de uitleg
 
 
 TITEL!!!
+Kerbal physics program
 
 Het simuleren van algemene natuurkundige effecten gebaseerd op klassieke mechanica.
 
 	What I cannot create, I do not understand.
 	- Richard Feynman
+
 
 opbouw:
 doel van het project
@@ -33,18 +33,10 @@ het samenstellen en testen van een systeem dat de bewegingen van objecten simule
 
 
 belang van het onderzoek:
-In toepassingen als werktuigbouwkunde, constructie, cinematografie en videospellen is het soms gewenst om een simulatie van de natuurwetten te kunnen gebruiken om bijvoorbeeld voorspellingen te kunnen maken over hoe een constructie zich zal gedragen. Bij film en spellen zijn simulaties een uitkomst omdat deze goedkoop zijn en veel vrijheid geven. Er zit echter een duidelijk verschil in de gevraagde eigenschappen van de simulatie voor deze velden; waar de werktuigbouw graag heeft dat simulaties natuurkundig accuraat zijn, maar de computationele kosten niet van groot belang. Cinematografie, en zeker spellen hechten niet zo veel waarde aan precisie van de simulatie, zo lang deze realistisch overkomt. De computatione kosten zijn echter van groot belang bij spellen omdat computers simpelweg beperkte middelen hebben, welke ook nog verdeeld moeten worden met andere systemen. Onderzoek doen naar methoden om dergelijke natuurkunde te simuleren kan leiden tot nieuwe methoden met nieuwe eigenschappen. Moderne simulatiemethoden gekoppeld met krachtige computers kunnen al indrukwekkende resultaten geven, maar er is nog veel te winnen.
+Soms is het nuttig om een simulatie van de natuurwetten te kunnen maken. Bijvoorbeeld om voorspellingen te maken over hoe een constructie zich zal gedragen onder bepaalde omstandigheden, voor films om de mogelijkheden te vergroten of juist de kosten te drukken, of bij spellen om de geloofwaardigheid van de spelwereld te vergroten. Helaas bestaat er nog geen simulatiemethode die perfect werkt voor al deze toepassingen in alle situaties, meestal hebben systemen zelfs maar één specialiteit: of ze zijn in staat de krachten en bewegingen in constructies door te rekenen, of ze kunnen de stroming van vloeistoffen goed benaderen, of ze zijn snel genoeg om in spellen gebruikt te worden. Als een boot ontworpen word kan dit betekenen dat er twee verschillende simulaties nodig zijn: een voor de constructie van de boot zelf, en een andere voor de stroming van het water over de romp. Hoewel het soms mogelijk is om de resultaten van de simulatoren met elkaar uit te wisselen is het resultaat vaak ver van perfect of zelfs onbruikbaar. Door onderzoek te doen naar nieuwe simulatietechnieken worden hopelijk nieuwe systemen met nieuwe, betere eigenschappen ontdekt. Ik dit onderzoek heb ik geprobeert een systeem te ontwikkelen dat in staat is om een grote verscheidenheid aan stoffen met onderlinge interactie te simuleren, zonder van de natuurkundige correctheid van het geheel af te doen.
 
 
 aanpak:
-Jacobsen:
-http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
-position based dynamics:
-http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
-Unified Particle Physics for Real-Time Applications:
-http://mmacklin.com/uppfrta_preprint.pdf
-Real Time Physics Class Notes:
-http://matthias-mueller-fischer.ch/realtimephysics/coursenotes.pdf
 
 hoofdvraag:
 	hoe werkt een systeem dat de bewegingen van objecten simuleert?
@@ -89,18 +81,15 @@ F1: kracht 1 (in N)
 
 Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn voor alle bekende krachten duidelijke definities opgesteld, en bij een groot aantal is dan ook een formule gevonden om de kracht te kunnen berekenen. 
 
-//Dit heb ik gedeeltelijk zelf bedacht, moet het hier dan staan? Het moet in ieder geval VOOR de introductie van Jacobsen...
-Omdat verschillende krachten op verschillende manieren ontstaan heb ik de krachten opgedeeld in twee groepen; de contactkrachten, en de niet-contactkrachten. De definitie van contactkrachten is als volgt:
+Omdat verschillende krachten op verschillende manieren ontstaan kunnen de krachten opgedeeld worden in twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
 
-	Contactkrachten zijn krachten die puur ontstaan door ruimtelijke beperkingen aan de posities van objecten.
+	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
 
-Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Uit de definitie volgt dat contactkrachten altijd direct invloed hebben op de positie van objecten (want ruimtelijke beperkingen), terwijl alle andere krachten invloed hebben op de snelheden van objecten. 
+Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Uit de definitie volgt dat contactkrachten altijd direct invloed hebben op de positie van objecten (want ruimtelijke beperkingen), terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan dan ook concrete formules om de kracht uit te rekenen.
 
-//MAAK DIT STUKJE MOOI EN LEG UIT WAAROM: CONTACTKRACHTEN -> S  TERWIJL: NIET-CONTACTKRACHTEN -> a
-//contactkrachten veranderen S en niet-contactkrachten veranderen V, aangezien V inherent tijdsgebonden is kan deze ook afgeleid worden?  bedenk ook dat contactkrachten als impulsen behandeld kunnen worden...
+Een bijzonder geval is trekkracht, waarvan het vaak practisch is (maar natuurkundig gezien niet geheel correct) om deze beschouwen als een contactkracht aangezien de bindingen die door trekkrachten omschreven worden ongelofelijk stijf kunnen zijn. Bij zeer stijve relaties die berekend worden als niet-contactkracht geeft een simulator over het algemeen instabiele resultaten. Door de stijfheid als oneindig groot te beschouwen kunnen ze als contactkracht beschouwd worden, wat de stabiliteit aanzienlijk verhoogd.
 
-
-Enige voorkennis over deze begrippen en formules word van de lezer verwacht, hetzelfde geld voor kennis van algebra, vectorwiskunde, intergreren en primitiveren.
+Wrijvingskrachten zijn een andere uitzondering. Wrijvingskrachten zijn namelijk geen fundamentele krachten, maar een gevolg van meerdere krachten op kleine tot zeer kleine schaal. Hierdoor is de enige goede manier om wrijvingskracht te simuleren om alle verschillende krachten die bij elkaar 'wrijvingskracht' genoemd worden apart te simuleren. Dit blijkt in de praktijk echter zeer moeilijk te zijn, met name door de kleine schaal waar de krachten op spelen.
 
 
 Hoe hebben anderen het simuleren van bewegingen aangepakt?
@@ -148,15 +137,12 @@ De ideeen die ik heb overgenomen zijn de volgende:
 	constraint projection
 	objecten representeren door (groepen) particles, waar particles puntmassa's zijn
 
-welke fouten zitten er in de natuurkunde die het systeem gebruikt? (t > 0, E > 0, floating-point precision)
-hoe significant zijn deze fouten?
-
 resultaten:
 	snelheid van simuleren (real-time ?)
 	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
 	stabiliteit simulatie
 	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
-	fouten -> geloofwaardigheid
+	fouten (t > 0, E > 0, floating-point precision) -> geloofwaardigheid & natuurkundige precisie
 
 
 
@@ -170,7 +156,7 @@ resultaten:
 
 
 
-het simuleren van bewegingen van objecten:
+Het simuleren van bewegingen van objecten:
 Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. 'Unified Particle Physics for Real-Time Applications' stelt voor om particles te gebruiken, meerdere particles met elkaar verbonden om objecten met complexe vormen voor te stellen worden . Dit maakt de simulatie wiskundig eenvoudig en bovendien zeer flexibel, om deze redenen nemen we deze methode over. De particles krijgen bij onze implementatie de volgende attributen: positie, snelheid, acceleratie en massa. Een andere goede eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren terwijl de complexe wiskunde en de practische problemen die normaal met rotaties gepaart gaan niet voorkomen. Bovendien kunnen interne krachten (binnen het object) met deze methode goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten buigen of breken.
 
 Bij simuleren van bewegingen zijn we geinterreseert in het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd. De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Zowel positie, snelheid en acceleratie zijn vectorgrootheden. Merk op dat de omschrijving van snelheid en acceleratie puur een wiskundige omschrijving is. Met deze theorie zijn onder andere de volgende formules te vormen:
@@ -356,3 +342,18 @@ Nu kan de verplaatsing van de particles berekent worden met:
 
 Globale werking:	//is niet meer nodig aangezien de verwijzingen aan het begin al een groot gedeelte uitleggen!
 Onderweg zijn een paar gedeeltes veranderd, dus ik zal een keer de uiteindelijke, globale werking uitleggen. Naast de oorspronkelijke snelheid en positie van de particles hebben we de acceleratie van de particles nodig om iets over de eindpositie te kunnen zeggen. De acceleratie word bepaalt door de totale kracht op de particles, wat op zijn beurt de som is van alle individuele krachten die op de particle werken. Al deze krachten moeten dus benaderd worden. Omdat er een groot verschil zit tussen twee groepen krachten (deterministische krachten & constriants) moet het benaderen van de nieuwe positie in twee stappen verdeeld worden; eerst worden de deterministische krachten bepaalt, en worden toegepast op de posities van de particles samen met de beginsnelheid. Daarna worden de constraints toegepast. Dit gebeurt door alle constriants voor een bepaald gedeelte op te lossen, en dit te herhalen. Bij elke herhaling daalt fout in de constriants. We weten nu de positie van de particles nadat de oorspronkelijke snelheid, de deterministische krachten, en de constraints toegepast zijn. Dit is onze eindpositie. Voor de volgende simulatie moet echter een beginsnelheid vastgesteld worden, deze kan berekend worden aan de hand van de beginsnelheid, beginpositie, en de eindsnelheid.
+
+
+References:
+
+Jakobsen T. 2001, 'Advanced Character Physics', www.gamasutra.com
+http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
+
+Müller M., Heidelberger B., Hennix M., Ratcliff J., 2006, 'Position Based Dynamics', Proceedings of Virtual Reality Interactions and Physical Simulations (VRIPhys), pp 71-80, Madrid, November 6-7
+http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
+
+Macklin M., Müller M., Chentanez N., Kim T., 2014, 'Unified Particle Physics for Real-Time Applications', ACM Transactions on Graphics (SIGGRAPH 2014), 33(4)
+http://mmacklin.com/uppfrta_preprint.pdf
+
+Müller M., Stam J., James D., Thürey N., 2008, 'Real Time Physics Class Notes', ACM SIGGRAPH 2008 classes Article No. 88 
+http://matthias-mueller-fischer.ch/realtimephysics/coursenotes.pdf
