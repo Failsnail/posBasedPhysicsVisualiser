@@ -11,7 +11,7 @@ verander 'normaalkracht' op enkele punten in contactkracht, en geef in de uitleg
 
 controlleer of het nieuwe 0 = vorig, 1 = huidig, 2 = volgend overal goed gebruikt wordt
 
-
+Berekeningen voor afstandsconstraint in apendix
 
 TITEL!!!
 Kerbal physics program
@@ -94,7 +94,7 @@ Het simuleren van bewegingen is een veel bestudeerd gebied. Er zijn dan ook veel
 
 Enkele onderdelen zijn vrijwel gelijk bij alle simulatiemethoden. Om tijdsverloop te kunnen simuleren word de tijd opgedeelt in kleine tijdsintervallen. Bij een bekende staat van de te simuleren objecten word een tijdsinterval bepaald die gesimuleert moet worden, waarna de simulator de staat van de objecten na dit tijdsinterval kan benaderen. Deze nieuwe staat kan nu weer gebruikt worden als beginstaat voor een nieuw tijdsinterval.
 
-Een groot aantal simulatoren maken gebruik van krachten, aangezien XXXXXXXXXXXXXXXXXXXXXXXXXXXX. Om de krachten te koppelen aan de posities word de tweede wet van Newton gebruikt in de volgende vorm:
+Een groot aantal simulatoren maken gebruik van krachten, aangezien veel over krachten bekend is en in veel gevallen bruikbaar zijn. Om de krachten te koppelen aan de posities word de tweede wet van Newton gebruikt in de volgende vorm:
 
 	a = Ft / M
 a: versnelling (in m/(s^2))
@@ -113,19 +113,6 @@ Fn: kracht van kracht n (in N)
 De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om onderling gedrag tussen verschillende stoffen die in andere categorieën vallen te simuleren. Bovendien geeft deze koppeling over het algemeen een grote natuurkundige fout. Een ander groot probleem zijn normaalkrachtenkrachten, aangezien er geen concrete formule is om normaalkrachten uit te kunnen rekenen.
 
 Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de de meeste bekende technieken. Het probleem om normaalkrachtenkrachten goed te simuleren is geadresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om normaalkrachten en andere zeer stijve krachten te simuleren wordt gekozen om niet te proberen de kracht zelf te benaderen, maar juist het resultaat dat de kracht op de posities heeft. De reden hiervoor was dat het resultaat van de simulatie zo veel stabieler wordt, niet om natuurkundige correctheid te berijken. Toch valt er natuurkundig iets te zeggen voor het idee, met enkele aanpassingen blijkt het zelfs zeer geschikt te zijn om op natuurkundig accurate wijze normaalkrachten te simuleren. In het verslag zelf zal toelichting geveven worden over de natuurkundige achtergrond van dit idee.
-
-//zet er nog bij dat het natuurkundige idee van mij komt, zonder plagiaat te plegen op het practische idee natuurlijk
-
-Omdat verschillende krachten op verschillende manieren ontstaan kan het practisch zijn de krachten op te delen in groepen, in dit geval verdelen we alle krachten in de volgende twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
-
-	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
-
-Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Uit de definitie volgt dat contactkrachten altijd direct invloed hebben op de positie van objecten (want ruimtelijke beperkingen), terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan dan ook concrete formules om de kracht uit te rekenen.
-
-Wrijvingskracht lijkt op het eerste gezicht een uitzondering te zijn. Wrijvingskracht is namelijk geen fundamentele kracht, maar een gevolg van meerdere krachten op kleine tot zeer kleine schaal. Hieronder vallen zowel contactkrachten (normaalkrachten op oneffen oppervlakten) als niet-contactkrachten. De enige goede manier om wrijvingskracht te simuleren om alle verschillende krachten die bij elkaar 'wrijvingskracht' genoemd worden los van elkaar te simuleren. Dit blijkt in de praktijk echter zeer moeilijk te zijn, met name door de kleine schaal waar de krachten op spelen.
-
-Zeer stijve krachten zijn ook een speciaale gevallen aangezien ze geen echte contactkrachten zijn, maar het gedrag wel lijkt op dat van contactkrachten. Omdat het simuleren van zeer stijve krachten vaak instabiliteit oplevert kan het een uitkomst bieden om de stijfheid als oneindig beschouwen, waardoor de kracht als contactkracht gezien kan worden. Trekkrachten zijn voorbeelden van krachten die zeer stijf kunnen zijn. In 'Advanced Character Physics' worden naast normaalkrachten ook trekkrachten als contactkrachten gesimuleerd.
-
 
 Om contactkrachten direct op posities uit te oefenen wordt in 'Advanced Character Physics' voorgesteld een Verlet-integratieschema in combinatie met constraints te gebruiken. Verlet-integratie betekent dat de huidige positie, de vorige positie en de tijd tussen deze posities opgeslagen worden (het is gangbaar om de huidige positie en huidige snelheid op te slaan). De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen berekenen met de volgende formule:
 
@@ -174,17 +161,176 @@ De ideeën die ik heb overgenomen zijn de volgende:
 
 
 
-
-
-
 Het simuleren van bewegingen van objecten:
+abstractie voor objecten:
 Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. 'Unified Particle Physics for Real-Time Applications' stelt voor om particles te gebruiken, meerdere particles jkunnen met elkaar verbonden om objecten met complexe vormen voor te stellen worden. Dit maakt de simulatie wiskundig eenvoudig en bovendien zeer flexibel, om deze redenen nemen we deze methode over. De particles krijgen bij onze implementatie de volgende attributen: positie, snelheid, acceleratie en massa. Een andere goede eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren terwijl de complexe wiskunde en de practische problemen die normaal met rotaties gepaard gaan niet voorkomen. Bovendien kunnen interne krachten (binnen het object) met deze methode goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten op accurate wijze buigen of breken.
 
+
+scheiding der krachten:
 Omdat verschillende krachten op verschillende manieren ontstaan hebben we alle krachten opgedeeld in twee groepen, de contactkrachten en de niet-contactkrachten. De definitie van contactkrachten is als volgt:
 
 	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
 
-Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Omdat de ruimtelijke beperkingen gehandhaafd moeten blijven blijkt uit de definitie dat contactkrachten een direct effect hebben op de posities van objecten, terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan dan ook concrete formules om de kracht uit te rekenen.
+Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Omdat de ruimtelijke beperkingen gehandhaafd moeten blijven blijkt uit de definitie dat contactkrachten een direct effect hebben op de posities van objecten, terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan concrete formules om de kracht uit te rekenen.
+
+Een uitzondering op deze regel is wrijvingskracht, aangezien dit geen fundamentele kracht is, maar een gevolg is van meerdere soorten krachten op kleine tot zeer kleine schaal. Een van deze krachten is de normaalkracht. Aangezien de formule die normaal gebruikt word om wrijving te benaderen gebruik maakt van de normaalkracht maar zelf een niet-normaalkracht is, kan deze helaas niet goed geimplementeert worden in deze simulator. De simulator is wel in staat de krachten die bij elkaar 'wrijvingskracht' genoemd worden te simuleren, maar door de kleine schaal waarop deze krachten werken zal zeer veel compitutionele kracht vereist zijn om goede resultaten te krijgen.
+
+Een ander bijzonder geval zijn zeer stijve relaties, zoals trekkrachten in vaste objecten. Zeer stijve relaties geven over het algemeen namelijk instabiele resultaten als te weinig compitutionele kracht gebruikt wordt. Als te weinig compitutionele kracht voor handen is kan het nuttig zijn om de relaties als perfect stijf te beschouwen. In dat geval kunnen de relaties namelijk als contactkracht beschouwd kunnen worden, wat stabielere resultaten geeft.
+
+
+Niet-contactkrachten:
+Omdat contactkrachten en niet-contactkrachten op een structureel andere manier werken is het nodig om beide typen krachten te te simuleren op een manier die recht doet aan de wijze waarop de kracht werkt. Niet-contanckrachten kunnen gebruikt worden zoals krachten over het algemeen gebruikt worden; aan de hand van de formules van de niet-contactkrachten en de staat van alle objecten (positie, snelheid en massa) worden de krachten uitgerekent. Dan word voor elke particle de totale niet-contactkracht uitgerekent als som van alle individuele niet-contactkrachten. Dit kan als volgt genoteert worden:
+
+bij n krachten:
+	Ft = F1 + F2 + ... + F(n-1) + Fn
+Ft: totale kracht (in N)
+Fn: kracht van kracht n (in N)
+
+waarna de totale niet-contactkracht in de tweede wet van Newton wordt ingevuld om de acceleratie uit te rekenen:
+
+	a = Ft / M
+a: versnelling (in m/(s^2))
+Ft: totale kracht (in Newton of N)
+M: massa (in kilogram)
+
+
+contactkrachten:
+'Advanced Character Physics' stelt voor om contactkrachten voor te stellen als beperkingen aan de posities van objecten, welke 'constraints' genoemd worden. Om contaactkrachten toe te passen worden de posities van de particles aangepast zodat de constraint gehandhaaft is. De enige (echte) contactkracht is de normaalkracht, hierom zal ik alleen algoritmes geven om de normaalkracht als constraint te implementeren. De naam van de constraint die normaalkrachten voortelt is de afstandsconstraint. Afstandsconstraints definieren de minimale afstand tussen twee particles om niet met elkaar te overlappen.
+
+Als we contraints oplossen is het eerst handig om te kunnen meten in welke mate constraints geschonden zijn. De grootheid die we hiervoor introduceren is 'fout' met als afkorting E (naar error). De eenheid van de fout is kg * m. Voor elke constraint kan berekend worden hoe de individuele particles verplaatst moeten worden om de constraint te handhaven. Aan de hand van deze verplaatsing kan de fout als volgt berekend worden:
+
+Bij n particles:
+	E = P[1]m * |P[1]dS| + P[2]m * |P[2]dS| + ...  + P[n-1]m  * |P[n-1]dS| + P[n]m * |P[n]dS|
+E: fout van de constraint (in kg*m)
+P[n]m: massa van particle n (in kg)
+|P[n]dS|: benodigde afstand waarover particle n verplaatst moet worden (in m)
+
+Bij afstandsconstraints gebruiken we het volgende algoritme om de fout te berekenen:
+
+	if (|P[1]S - P[2]S| > d) {
+		E = 0
+	} else {
+		E = 2 * ||P[1]S - P[2]S| - d| * P[1]m / (1 + P[1]m / P[2]m)
+	}
+E: fout (in m)
+d: afstand die de particles minimaal tot elkaar horen te hebben (in m)
+P[n]S: positie van particle n (in m)
+P[n]m: de massa van particle n (in kg)
+
+In de appendix wordt toegelicht hoe deze formule opgestelt is.
+
+Een normale formule volstaat niet om E uit te rekenen, want eigenlijk zijn er twee verschillende formules om E uit te rekenen; als de onderlinge afstand tussen de particles groter is dan d is de constraint gehandhaafd, en dus is E = 0. Als de onderlinge afstand kleiner is dan d is er wel sprake van een fout, welke berekent wordt met E = 2 * ||P[1]S - P[2]S| - d| * P[1]m / (1 + P[1]m / P[2]m). Merk ook op dat de waarde van E altijd voldoet aan E >= 0.
+
+Nu gaan we proberen te zorgen dat alle constraints gehandhaafd worden. Het is echter belangrijk dat constraints niet en één keer gehandhaafd worden, anders zouden we er namelijk impliciet van uitgegaan worden dat de invloed van constraints op elkaar verwaarloost kan worden. Vaak is het echter zo dat meerdere particles een constraint delen, en dat beide constraints zo veel invloed op elkaar hebben. Om dit probleem op te lossen worden alle constraints meerdere keren gedeeltelijk gehandhaafd. Door het gedeeltelijk handhaven te herhalen word de fout steeds vermindert tot deze de 0 m * kg benadert. Hoe veel een constraint gehandhaafd moet worden wordt gegeven met de volgende formule:
+
+	Er = E * f
+Er: hoeveel de fout van de constraint verminderd moet worden (in m*kg)
+E: fout van de constraint (in m*kg)
+f: factor (zonder eenheid) die voldoet aan 0 < f <= 1
+
+Nu kan de verplaatsing van de particles berekent worden met:
+
+	relativePosition = P[2]S - P[1]S;
+	relativeDirection = relativePosition / |relativePosition|
+	P[1]dS = -0.5 * relativeDirection  * Er / P[1]m
+	P[2]dS = +0.5 * relativeDirection * Er / P[2]m
+relativePosition: positie van particle 2 ten opzichte van particle 1 (in m)
+relativeDirection: de richting van particle1 naar particle2 (in m)
+P[n]S: positie van particle n (in m)
+Er: hoeveel de fout van de constraint verminderd moet worden (in m*kg)
+P[n]m: de massa van particle n (in kg)
+
+In de appendix wordt toegelicht hoe deze formule opgestelt is.
+
+
+Bewegingsformules:
+Naast de posities van de objecten zijn de snelheden ook verandert door de normaalkrachten, omdat de normaalkrachten alleen de posities beinvloed hebben moeten de snelheden nog aangepast worden. Om dit te berijken gebruikt 'Advanced Character Physics' een Verlet-integgraschema. Wat inhoud dat de volgende positie van objecten wordt uitgerekend met de volgende formule:
+
+	S2 = S1 + (S1 - S0) / t0 * t1 + 1/2 * a * t1^2
+S2: gespeculeerde volgende positie (in m)
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+t0: tijdsinterval tussen S0 en S1 (in s)
+t1: tijdsinterval tussen S1 en S2 (in s)
+a: acceleratie (in m/s^2)
+
+In deze formule staat de acceleratie voor de acceleratie die veroorzaakt wordt door de niet-contactkrachten. Door Verlet-integratie te gebruiken kan is het niet nodig om een snelheid uit te rekenen. Door de gespeculeerde volgende posities uit te rekenen met de bovenstaande formule, en de constraints daarna op deze gespeculeerde posities te projecteren word de resulterende volgende positie uitgerekend. De huidige posities worden de volgende simulatiestap gebruikt als vorige positie, en de resulterende volgende positie wordt gebruikt als huidige positie. In een aantal gevallen is het echter nuttig om tot snelheden te kunnen beschikken. 
+
+In 'Position Based Dynamics' wordt voorgesteld de snelheid expliciet op te slaan. De volgende formules kunnen daarvoor gebruikt worden:
+
+bij constante V:
+	V1 = (S1 - S0) / t0
+V: huidige snelheid (in m/s)
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+t0: tijdsinterval tussen S0 en S1 (in s)
+
+En de gespeculeerde volgende positie wordt berekent met de volgende bewegingsformule:
+
+bij constante a:
+	S2 = S1 + V1 * t1 + 1/2 * a * t1^2
+S2: gespeculeerde volgende positie (in m)
+S1: huidige positie (in m)
+V1: huidigesnelheid (in m/s)
+t1: tijdsinterval tussen S1 en S2 (in s)
+a: acceleratie (in m/s^2)
+
+Deze twee formules geven exact dezelfde gespeculeerde volgende positie als de formule van het Verlet-integratie geeft. Wat hier snel duidelijk wordt is dat er een wiskundige fout in het spel is, aangezien een constante snelheid aangenomen wordt, maar de aanwezigheid van een acceleratie aangeeft dat dit niet altijd het geval is. De formule om de huidige snelheid uit te rekenen kan omgeschreven worden zodat deze niet meer uit hoeft te gaan van een constante snelheid, dit leidt tot de volgende formule:
+
+bij constante a:
+	V1 = 2 * (S1 - S0) / t0 - V0
+V1: huidige snelheid (in m/s)
+S1: huidige positie (in m)
+S0: vorige positie (in m)
+t0: tijdsinterval tussen S0 en S1 (in s)
+V0: vorige snelheid (in m/s)
+
+De formule voor de gespeculeerde volgende positie blijft het zelfde.
+
+
+resultaten:
+	snelheid van simuleren (real-time ?)
+	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
+	stabiliteit simulatie
+	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
+	fouten (t > 0, E > 0, floating-point precision) -> geloofwaardigheid & natuurkundige precisie
+
+
+
+Appendix:
+
+Berekeningen voor afstandsconstraint:
+
+Broncode voor het testen van de resultaten:
+https://github.com/Failsnail/PositionBasedPhysics
+
+
+
+Referenties:
+
+Jakobsen T. 2001, 'Advanced Character Physics', www.gamasutra.com
+http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
+
+Müller M., Heidelberger B., Hennix M., Ratcliff J., 2006, 'Position Based Dynamics', Proceedings of Virtual Reality Interactions and Physical Simulations (VRIPhys), pp 71-80, Madrid, November 6-7
+http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
+
+Macklin M., Müller M., Chentanez N., Kim T., 2014, 'Unified Particle Physics for Real-Time Applications', ACM Transactions on Graphics (SIGGRAPH 2014), 33(4)
+http://mmacklin.com/uppfrta_preprint.pdf
+
+Müller M., Stam J., James D., Thürey N., 2008, 'Real Time Physics Class Notes', ACM SIGGRAPH 2008 classes Article No. 88 
+http://matthias-mueller-fischer.ch/realtimephysics/coursenotes.pdf
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 Met deze theorie zijn onder andere de volgende formules te vormen:
 
@@ -237,11 +383,15 @@ zwaartekracht, veerkracht, dempkracht, hydraulische en pneumatische druk, wrijvi
 
 Al deze krachten ontstaan op andere manier, hoewel enkele nauw verwant aan elkaar zijn. Voor een aantal van deze krachten zijn formules opgesteld waarmee ze berekend kunnen worden. Zo geldt bij zwaartekracht, veerkracht en dempkracht bijvoorbeeld dat:
 
+zwaartekracht:
+
 Bij constante g:
 	Fz = M * g
 Fz = zwaartekracht (in N)
 M: massa (in kilogram)
 g = gravitatie (in m/(s^2))
+
+veerkracht:
 
 Bij constante l:
 	Fv = k * (l - lr)
@@ -249,6 +399,8 @@ Fv = veerkracht (in N)
 k = krachtconstante (in N/m)
 l = lengte van de veer (in m)
 lr = lengte van de veer bij rust (in m)
+
+dempkracht:
 
 Bij constante V:
 	Fd = -c * V
@@ -345,58 +497,16 @@ Er: hoeveel de fout van de constraint verminderd moet worden (in m*kg)
 E: fout van de constraint (in m*kg)
 f: factor (zonder eenheid) die voldoet aan 0 < f <= 1
 
-
 Nu kan de verplaatsing van de particles berekent worden met:
 
-//VERANDER NAAR NIEUWE NOTATIE!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-	vector relativePosition = S2 - S1;
-	//vector pointing from particle1 to particle2 with unit length
-	
-	float distance = |relativePosition|
-	relativePosition = relativePosition / |relativePosition|
-	
-	float displacement1;
-	float displacement2;
-	//floats representing how far both vectors have to be moved outward
-	
-	if (distance < length) {
-		displacement1 = 0.5 * Er / m1
-		displacement2 = 0.5 * Er / m2
-	} else {
-		displacement1 = - 0.5 * Er / m1
-		displacement2 = - 0.5 * Er / m2
-	}
-	
-	dS1 = -1 * relativePosition * displacement1
-	dS2 = +1 * relativePosition * displacement2
-
+	relativePosition = P[2]S - P[1]S;
+	relativeDirection = relativePosition / |relativePosition|
+	P[1]dS = -0.5 * relativeDirection  * Er / P[1]m
+	P[2]dS = +0.5 * relativeDirection * Er / P[2]m
+relativePosition: positie van particle 2 ten opzichte van particle 1 (in m)
+relativeDirection: de richting van particle1 naar particle2 (in m)
+P[n]S: positie van particle n (in m)
+Er: hoeveel de fout van de constraint verminderd moet worden (in m*kg)
+P[n]m: de massa van particle n (in kg)
 
 //Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
-
-
-resultaten:
-	snelheid van simuleren (real-time ?)
-	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
-	stabiliteit simulatie
-	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
-	fouten (t > 0, E > 0, floating-point precision) -> geloofwaardigheid & natuurkundige precisie
-
-
-Broncode voor het testen van de resultaten:
-https://github.com/Failsnail/PositionBasedPhysics
-
-
-Referenties:
-
-Jakobsen T. 2001, 'Advanced Character Physics', www.gamasutra.com
-http://www.cs.cmu.edu/afs/cs/academic/class/15462-s13/www/lec_slides/Jakobsen.pdf
-
-Müller M., Heidelberger B., Hennix M., Ratcliff J., 2006, 'Position Based Dynamics', Proceedings of Virtual Reality Interactions and Physical Simulations (VRIPhys), pp 71-80, Madrid, November 6-7
-http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf
-
-Macklin M., Müller M., Chentanez N., Kim T., 2014, 'Unified Particle Physics for Real-Time Applications', ACM Transactions on Graphics (SIGGRAPH 2014), 33(4)
-http://mmacklin.com/uppfrta_preprint.pdf
-
-Müller M., Stam J., James D., Thürey N., 2008, 'Real Time Physics Class Notes', ACM SIGGRAPH 2008 classes Article No. 88 
-http://matthias-mueller-fischer.ch/realtimephysics/coursenotes.pdf
