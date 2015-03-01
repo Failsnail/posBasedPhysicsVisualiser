@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="object structure.svg">
+   sodipodi:docname="object structure.svg"
+   inkscape:export-filename="C:\programmeren koen\github\posBasedPhysicsVisualiser\verslag\object structure.png"
+   inkscape:export-xdpi="37.599998"
+   inkscape:export-ydpi="37.599998">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -26,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.24748737"
-     inkscape:cx="-520.42434"
+     inkscape:cx="-1124.4956"
      inkscape:cy="623.99445"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -45,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,8 +59,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140"
-       cx="-330"
-       cy="285.21936"
+       cx="-919.92908"
+       cy="184.2041"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -65,8 +68,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142"
-       cx="-332.85715"
-       cy="285.21936"
+       cx="-922.78625"
+       cy="184.2041"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -74,8 +77,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-3"
-       cx="-862.85712"
-       cy="275.21936"
+       cx="-1452.7863"
+       cy="174.2041"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -83,8 +86,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-4"
-       cx="-865.71429"
-       cy="275.21936"
+       cx="-1455.6434"
+       cy="174.2041"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -92,8 +95,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-1"
-       cx="-725.71429"
-       cy="503.79077"
+       cx="-1315.6434"
+       cy="402.77551"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -101,8 +104,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-9"
-       cx="-728.57147"
-       cy="503.79077"
+       cx="-1318.5006"
+       cy="402.77551"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -110,8 +113,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-7"
-       cx="-462.85718"
-       cy="509.50507"
+       cx="-1052.7863"
+       cy="408.48981"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -119,8 +122,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-49"
-       cx="-465.71436"
-       cy="509.50507"
+       cx="-1055.6434"
+       cy="408.48981"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -128,8 +131,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-5"
-       cx="-200.00003"
-       cy="520.93365"
+       cx="-789.92914"
+       cy="419.9184"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -137,8 +140,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-5"
-       cx="-202.85721"
-       cy="520.93365"
+       cx="-792.78632"
+       cy="419.9184"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -146,8 +149,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-0"
-       cx="-594.28571"
-       cy="275.21933"
+       cx="-1184.2148"
+       cy="174.20407"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -155,8 +158,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-2"
-       cx="-597.14288"
-       cy="275.21933"
+       cx="-1187.072"
+       cy="174.20407"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -164,8 +167,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-9"
-       cx="-68.571434"
-       cy="286.64792"
+       cx="-658.50055"
+       cy="185.63266"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -173,8 +176,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-51"
-       cx="-71.428581"
-       cy="286.64792"
+       cx="-661.35767"
+       cy="185.63266"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -182,8 +185,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-01"
-       cx="51.428555"
-       cy="520.93365"
+       cx="-538.50055"
+       cy="419.9184"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -191,8 +194,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-6"
-       cx="48.571438"
-       cy="520.93365"
+       cx="-541.35767"
+       cy="419.9184"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -200,8 +203,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-14"
-       cx="-988.57147"
-       cy="515.21936"
+       cx="-1578.5006"
+       cy="414.2041"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -209,8 +212,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-93"
-       cx="-991.42859"
-       cy="515.21936"
+       cx="-1581.3577"
+       cy="414.2041"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -218,8 +221,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-54"
-       cx="-851.42859"
-       cy="743.79077"
+       cx="-1441.3577"
+       cy="642.77551"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -227,8 +230,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-7"
-       cx="-854.28571"
-       cy="743.79077"
+       cx="-1444.2148"
+       cy="642.77551"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -236,8 +239,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-541"
-       cx="-594.28571"
-       cy="743.79077"
+       cx="-1184.2148"
+       cy="642.77551"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -245,8 +248,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-78"
-       cx="-597.14288"
-       cy="743.79077"
+       cx="-1187.072"
+       cy="642.77551"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -254,8 +257,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-05"
-       cx="-337.14285"
-       cy="749.50507"
+       cx="-927.07196"
+       cy="648.48981"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -263,8 +266,8 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-8"
-       cx="-340"
-       cy="749.50507"
+       cx="-929.92908"
+       cy="648.48981"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -272,8 +275,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-8"
-       cx="-80.000008"
-       cy="760.93365"
+       cx="-669.92908"
+       cy="659.9184"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -281,15 +284,15 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-22"
-       cx="-82.857124"
-       cy="760.93365"
+       cx="-672.78619"
+       cy="659.9184"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -862.85714,269.50506 c 274.28571,480 262.85714,480 262.85714,480"
+       d="m -1452.7862,168.4898 c 274.2857,480 262.8571,480 262.8571,480"
        id="path4250"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -297,32 +300,32 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m -593.9697,272.52444 c 254.55844,476.792 254.55844,476.792 254.55844,476.792"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1183.8988,171.50918 c 254.55845,476.792 254.55845,476.792 254.55845,476.792"
        id="path4252"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M -327.28942,288.68688 C -84.852814,761.43827 -86.873119,759.41797 -86.873119,759.41797"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -917.21851,187.67162 c 242.4366,472.75139 240.4163,470.73109 240.4163,470.73109"
        id="path4254"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m -985.90888,519.00166 c 131.31983,220.21326 131.31983,220.21326 131.31983,220.21326"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1575.838,417.9864 c 131.3199,220.21326 131.3199,220.21326 131.3199,220.21326"
        id="path4256"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M -72.730983,288.68688 C 48.487322,519.00166 48.487322,519.00166 48.487322,519.00166"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -662.66008,187.67162 C -541.44177,417.9864 -541.44177,417.9864 -541.44177,417.9864"
        id="path4258"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -330,7 +333,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -993.9901,514.96105 c 364.12407,-13.24018 1038.436812,6.06091 1038.436812,6.06091"
+       d="m -1583.9192,413.94579 c 364.1241,-13.24018 1038.43682,6.06091 1038.43682,6.06091"
        id="path4260"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -338,32 +341,32 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m -854.58905,743.25553 c 767.715931,16.16244 769.736236,16.16244 769.736236,16.16244"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1444.5181,642.24027 c 767.71589,16.16244 769.73619,16.16244 769.73619,16.16244"
        id="path4262"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m -866.71088,274.54475 c 791.959592,12.12183 793.979897,14.14213 793.979897,14.14213"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1456.64,173.52949 c 791.95962,12.12183 793.97992,14.14213 793.97992,14.14213"
        id="path4264"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m -991.9698,514.96105 c 125.25892,-240.4163 125.25892,-240.4163 125.25892,-240.4163"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -1581.8989,413.94579 C -1456.64,173.52949 -1456.64,173.52949 -1456.64,173.52949"
        id="path4266"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M -849.55734,736.63143 C -607.08261,283.18915 -607.08261,283.18915 -607.08261,283.18915"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1439.4864,635.61617 c 242.4747,-453.44228 242.4747,-453.44228 242.4747,-453.44228"
        id="path4266-8"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -371,23 +374,23 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -585.90756,737.64155 c 242.4748,-453.44224 242.4748,-453.44224 242.4748,-453.44224"
+       d="M -1175.8367,636.62629 C -933.36185,183.18405 -933.36185,183.18405 -933.36185,183.18405"
        id="path4266-8-2"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M -339.21955,755.70636 C -74.942989,292.39848 -74.942989,292.39848 -74.942989,292.39848"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -929.14864,654.6911 C -664.87208,191.38322 -664.87208,191.38322 -664.87208,191.38322"
        id="path4266-8-6"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M -84.318441,762.66889 C 49.973253,515.75076 49.973253,515.75076 49.973253,515.75076"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -674.24754,661.65363 C -539.95584,414.7355 -539.95584,414.7355 -539.95584,414.7355"
        id="path4266-8-8"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -395,7 +398,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -1183.8989,123.02186 c 196.87817,-316.4456 661.35038,-24.346624 694.56138,-324.4533"
+       d="M -1773.828,22.006604 C -1576.9498,-294.439 -1112.4776,-2.3400198 -1079.2666,-302.4467"
        id="path4330"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -404,7 +407,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 254.16006,154.19651 C 180.31732,-166.2897 -522.52313,98.729494 -489.31213,-201.37719"
+       d="M -335.76903,53.181254 C -409.61177,-267.30496 -1112.4522,-2.2857618 -1079.2412,-302.39245"
        id="path4330-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -413,7 +416,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 65.05586,845.31067 594.3758,1116.0315"
+       d="M -524.87323,744.29541 4.4467058,1015.0162"
        id="path4363"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -421,7 +424,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 66.375681,845.76243 213.15327,855.79789"
+       d="m -523.55341,744.74717 146.77759,10.03546"
        id="path4363-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -430,7 +433,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 65.570701,845.73418 149.17636,949.31227"
+       d="m -524.35839,744.71892 83.60566,103.57809"
        id="path4363-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -440,8 +443,8 @@
     <circle
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4140-54-3"
-       cx="800"
-       cy="1069.505"
+       cx="210.07091"
+       cy="968.48975"
        r="132.85715"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
@@ -449,15 +452,15 @@
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.41902328;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path4142-7-5"
-       cx="797.14288"
-       cy="1069.505"
+       cx="207.21379"
+       cy="968.48975"
        r="19.004778"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M -918.42467,665.34599 -1404.4326,936.5214"
+       d="m -1508.3538,564.33073 -486.0079,271.17541"
        id="path4363-5"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -465,7 +468,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -919.63657,665.7985 -134.76753,10.05231"
+       d="m -1509.5657,564.78324 -134.7675,10.05231"
        id="path4363-0-2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -474,7 +477,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:11;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -918.89747,665.7702 -76.7645,103.75194"
+       d="m -1508.8266,564.75494 -76.7645,103.75194"
        id="path4363-7-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -483,7 +486,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:7.4000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m -1622.8029,725.11271 c 131.3199,220.2133 131.3199,220.2133 131.3199,220.2133"
+       d="m -2212.732,624.09745 c 131.3199,220.2133 131.3199,220.2133 131.3199,220.2133"
        id="path4256-2"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
@@ -493,7 +496,7 @@
        xml:space="preserve"
        id="flowRoot4353-1"
        style="font-style:normal;font-weight:normal;font-size:152.90023804px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="matrix(0.68847552,0,0,0.68847552,-1704.0137,986.82488)"
+       transform="matrix(0.68847552,0,0,0.68847552,-2293.9428,885.80962)"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><flowRegion
@@ -507,7 +510,7 @@
        xml:space="preserve"
        id="flowRoot4353-1-0"
        style="font-style:normal;font-weight:normal;font-size:105.26807404px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(-681.28231,-342.28543)"
+       transform="translate(-1271.2114,-443.30069)"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><flowRegion
@@ -521,7 +524,7 @@
        xml:space="preserve"
        id="flowRoot4353-1-0-2"
        style="font-style:normal;font-weight:normal;font-size:105.26807404px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       transform="translate(546.80027,1255.5459)"
+       transform="translate(-43.128824,1154.5306)"
        inkscape:export-filename="C:\Users\Mare\object structure.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><flowRegion
@@ -531,5 +534,25 @@
            height="393.44623"
            x="-5.3451047"
            y="-28.359127" /></flowRegion><flowPara
-         id="flowPara4488-9-3">Particle</flowPara></flowRoot>  </g>
+         id="flowPara4488-9-3">Particle</flowPara></flowRoot>    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:26.79899979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -2738.5615,469.48922 95.03,-107.04626"
+       id="path4195"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:26.79899979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1138.4797,-720.47049 95.03,-107.04629"
+       id="path4195-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:26.79899979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -1089.9924,1804.9109 95.02995,-107.0463"
+       id="path4195-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:26.79899979;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 635.34813,637.17455 730.37812,530.12829"
+       id="path4195-8"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>
