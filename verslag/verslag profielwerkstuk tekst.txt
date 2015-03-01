@@ -7,8 +7,9 @@ zorg ook dat de afkortingen niet in de tekst voorkomen.
 
 verander 'deterministische kracht' in niet-contactkracht
 verander 'normaalkracht' op enkele punten in contactkracht, en geef in de uitleg van contactkracht aan dat spankracht hier ook onder kan vallen
+//andere naam!!!
 
-controlleer of het nieuwe 0 = vorig, 1 = huidig, 2 = volgende overal goed gebruikt wordt
+controlleer of het nieuwe 0 = vorig, 1 = huidig, 2 = volgend overal goed gebruikt wordt
 
 
 
@@ -60,7 +61,7 @@ wat betekent 'bewegen'?
 Bewegen is het veranderen van de posities en rotaties van objecten over tijd.
 
 welk gedeelte van bestaande natuurkunde kan gebruikt worden om bewegingen te simuleren?
-Aangezien het bestuderen van bewegingen een belangrijk onderdeel is van natuurkunde kunnen we een aantal inzichten overnemen voor gebruik in de simulator. Het veld van de natuurkunde dat over bewegingen van objecten gaat (onder normale omstandigheden) is klassieke mechanica.
+Aangezien het bestuderen van bewegingen een belangrijk onderdeel is van natuurkunde kunnen we een aantal inzichten overnemen voor gebruik in de simulator. Het veld van de natuurkunde dat over bewegingen van objecten (onder normale omstandigheden) gaat heet klassieke mechanica.
 
 //zet hier nog een zin die de gegevens mooi introduceert + verander de zinnen in een tabel?
 De volgende grootheden en bijbehorende eenheden zijn overgenomen uit het SI:
@@ -79,29 +80,54 @@ Ft: totale kracht (in N)
 m: massa (in kg)
 a: acceleratie (in m/s^2)
 
-De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welke tegenovergesteld is in richting en gelijk in magnitude. Dit kunnen we noteren als:
+De derde wet van Newton stelt dat bij elke kracht een andere kracht bestaat welke tegenovergesteld is in richting en gelijk in magnitude. Dit kunnen als volgt noteren:
 
 	F1 = - F2
 F1: kracht 1 (in N)
 F2: kracht 2 (in N)
 
-Bovendien bestudeert klassieke mechanica het veroorzaken van krachten. Zo zijn voor alle bekende krachten duidelijke definities opgesteld, en bij een groot aantal is dan ook een formule gevonden om de kracht te kunnen berekenen. 
+Bovendien bestudeert klassieke mechanica de fenomenen die krachten veroorzaken. Zo zijn voor alle bekende soorten krachten duidelijke definities opgesteld, en bij een groot aantal is dan ook een formule gevonden om de kracht te kunnen berekenen.
 
-Omdat verschillende krachten op verschillende manieren ontstaan is het voor het maken van een simulator practisch de krachten op te delen in twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
+
+Hoe hebben anderen het simuleren van bewegingen aangepakt?
+Het simuleren van bewegingen is een veel bestudeerd gebied. Er zijn dan ook veel verschillende methoden om natuurkunde te simuleren ontwikkelt met uiteenlopende eigenschappen. 'Real Time Physics Class Notes' geeft een kleine greep uit de methodes voor vaste stoffen die compitutioneel snel genoeg zijn om in 'real-time' gebruikt te kunnen worden. 
+
+Enkele onderdelen zijn vrijwel gelijk bij alle simulatiemethoden. Om tijdsverloop te kunnen simuleren word de tijd opgedeelt in kleine tijdsintervallen. Bij een bekende staat van de te simuleren objecten word een tijdsinterval bepaald die gesimuleert moet worden, waarna de simulator de staat van de objecten na dit tijdsinterval kan benaderen. Deze nieuwe staat kan nu weer gebruikt worden als beginstaat voor een nieuw tijdsinterval.
+
+Een groot aantal simulatoren maken gebruik van krachten, aangezien XXXXXXXXXXXXXXXXXXXXXXXXXXXX. Om de krachten te koppelen aan de posities word de tweede wet van Newton gebruikt in de volgende vorm:
+
+	a = Ft / M
+a: versnelling (in m/(s^2))
+Ft: totale kracht (in Newton of N)
+M: massa (in kilogram)
+
+De totale kracht word berekent door de volgende formule:
+
+bij n krachten:
+	Ft = F1 + F2 + ... + F(n-1) + Fn
+Ft: totale kracht (in N)
+Fn: kracht van kracht n (in N)
+
+//GA HIER OP VERDER
+
+De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om onderling gedrag tussen verschillende stoffen die in andere categorieën vallen te simuleren. Bovendien geeft deze koppeling over het algemeen een grote natuurkundige fout. Een ander groot probleem zijn normaalkrachtenkrachten, aangezien er geen concrete formule is om normaalkrachten uit te kunnen rekenen.
+
+Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de de meeste bekende technieken. Het probleem om normaalkrachtenkrachten goed te simuleren is geadresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om normaalkrachten en andere zeer stijve krachten te simuleren wordt gekozen om niet te proberen de kracht zelf te benaderen, maar juist het resultaat dat de kracht op de posities heeft. De reden hiervoor was dat het resultaat van de simulatie zo veel stabieler wordt, niet om natuurkundige correctheid te berijken. Toch valt er natuurkundig iets te zeggen voor het idee, met enkele aanpassingen blijkt het zelfs zeer geschikt te zijn om op natuurkundig accurate wijze normaalkrachten te simuleren. In het verslag zelf zal toelichting geveven worden over de natuurkundige achtergrond van dit idee.
+
+//zet er nog bij dat het natuurkundige idee van mij komt, zonder plagiaat te plegen op het practische idee natuurlijk
+
+Omdat verschillende krachten op verschillende manieren ontstaan kan het practisch zijn de krachten op te delen in groepen, in dit geval verdelen we alle krachten in de volgende twee groepen: de contactkrachten en de niet-contactkrachten. We gebruiken de volgende definitie van contactkrachten:
 
 	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
 
 Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Uit de definitie volgt dat contactkrachten altijd direct invloed hebben op de positie van objecten (want ruimtelijke beperkingen), terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan dan ook concrete formules om de kracht uit te rekenen.
 
-Een bijzonder geval is trekkracht, waarvan het vaak praktisch is (maar natuurkundig gezien niet geheel correct) om deze beschouwen als een contactkracht aangezien de bindingen die door trekkrachten omschreven worden ongelofelijk stijf kunnen zijn. Bij zeer stijve relaties die berekend worden als niet-contactkracht geeft een simulator over het algemeen instabiele resultaten. Door de stijfheid als oneindig groot te beschouwen kunnen ze als contactkracht beschouwd worden, wat de stabiliteit aanzienlijk verhoogd.
+Wrijvingskracht lijkt op het eerste gezicht een uitzondering te zijn. Wrijvingskracht is namelijk geen fundamentele kracht, maar een gevolg van meerdere krachten op kleine tot zeer kleine schaal. Hieronder vallen zowel contactkrachten (normaalkrachten op oneffen oppervlakten) als niet-contactkrachten. De enige goede manier om wrijvingskracht te simuleren om alle verschillende krachten die bij elkaar 'wrijvingskracht' genoemd worden los van elkaar te simuleren. Dit blijkt in de praktijk echter zeer moeilijk te zijn, met name door de kleine schaal waar de krachten op spelen.
 
-Wrijvingskrachten zijn een andere uitzondering. Wrijvingskrachten zijn namelijk geen fundamentele krachten, maar een gevolg van meerdere krachten op kleine tot zeer kleine schaal. Hierdoor is de enige goede manier om wrijvingskracht te simuleren om alle verschillende krachten die bij elkaar 'wrijvingskracht' genoemd worden apart te simuleren. Dit blijkt in de praktijk echter zeer moeilijk te zijn, met name door de kleine schaal waar de krachten op spelen.
+Zeer stijve krachten zijn ook een speciaale gevallen aangezien ze geen echte contactkrachten zijn, maar het gedrag wel lijkt op dat van contactkrachten. Omdat het simuleren van zeer stijve krachten vaak instabiliteit oplevert kan het een uitkomst bieden om de stijfheid als oneindig beschouwen, waardoor de kracht als contactkracht gezien kan worden. Trekkrachten zijn voorbeelden van krachten die zeer stijf kunnen zijn. In 'Advanced Character Physics' worden naast normaalkrachten ook trekkrachten als contactkrachten gesimuleerd.
 
 
-Hoe hebben anderen het simuleren van bewegingen aangepakt?
-Het simuleren van bewegingen is een veel bestudeerd gebied. Veel verschillende methoden om natuurkunde te simuleren zijn ontwikkelt met uiteenlopende eigenschappen. 'Real Time Physics Class Notes' geeft een kleine greep uit de methodes die compitutioneel snel genoeg zijn om interactief te werken. De meeste methoden hebben echter een paar grote problemen; aangezien veel methoden voor elk soort stof (vloeistoffen, gassen, vaste objecten en draden/doeken) een andere techniek gebruiken speciaal voor die soort stof is het zeer moeilijk om onderling gedrag tussen verschillende stoffen die in andere categorieën vallen te simuleren. Bovendien geeft deze koppeling over het algemeen een grote natuurkundige fout. Een ander groot probleem zijn contactkrachten, aangezien simulatoren krachten over het algemeen toepassen op snelheden of acceleraties, maar contactkrachten direct werken op posities.
-
-Deze problemen zijn echter aangepakt door een paar simulatietechnieken die radicaal anders werken dan de de meeste bekende technieken. Het probleem om contactkrachten goed te simuleren is geadresseerd door Thomas Jakobsen in 'Advanced Character Physics'. Om het mogelijk te maken om contactkrachten direct op posities uit te oefenen stelt hij voor constraints en een Verlet-integratieschema te gebruiken. Verlet-integratie betekent dat de huidige positie, de vorige positie en de tijd tussen deze posities opgeslagen worden, terwijl het gangbaar is om de huidige positie en huidige snelheid bij te houden. De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen berekenen met de volgende formule:
+Om contactkrachten direct op posities uit te oefenen wordt in 'Advanced Character Physics' voorgesteld een Verlet-integratieschema in combinatie met constraints te gebruiken. Verlet-integratie betekent dat de huidige positie, de vorige positie en de tijd tussen deze posities opgeslagen worden (het is gangbaar om de huidige positie en huidige snelheid op te slaan). De snelheid van de particles is toch impliciet opgeslagen aangezien we deze kunnen berekenen met de volgende formule:
 
 bij constante V:
 	V = (S1 - S0) / t0
@@ -130,31 +156,20 @@ t0: tijdsinterval tussen S0 en S1 (in s)
 t1: tijdsinterval tussen S1 en S2 (in s)
 a: acceleratie (in m/s^2)
 
-Dit verlet-integratieschema is interessant omdat de snelheid impliciet word opgeslagen in de posities, waardoor we de huidige posities aan kunnen passen terwijl de snelheden automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat V constant is, wat niet klopt aangezien acceleraties toch gebruikt worden. De methode is wiskundig gezien dus niet correct. Later in het verslag zal ik met een oplossing voor dit probleem komen (aan de hand van een aanpassing voorgestelt door andere onderzoekers).
+Dit verlet-integratieschema is interessant omdat de snelheid impliciet word opgeslagen in de posities. Dit betekent dat we de gespeculeerde volgende posities (S2) aan kunnen passen terwijl de snelheden voor de volgende tijdstap automatisch bijgewerkt worden. Wat belangrijk is om op te merken is dat bij deze methode aangenomen word dat de snelheid constant is, wat niet klopt aangezien acceleraties gebruikt worden. De methode is wiskundig gezien dus niet correct. Later in het verslag zal ik met een oplossing voor dit probleem komen (aan de hand van een aanpassing voorgestelt door andere onderzoekers).
 
-Nu de gespeculeerde positie bekend is kunnen de normaalkrachten hierop werken. Omdat we nu niet geinterreseert zijn in acceleraties maar in posities moeten we normaalkrachten anders berekenen dan andere krachten. Aangezien normaalkrachten ontstaan als voorwerpen tegen elkaar gedrukt worden om te voorkomen dat ze dezelfde ruimte innemen is het het meest voor de hand liggend om normaalkrachten te representeren als bepaalde voorwaarden waar de posities van objecten aan moeten voldoen. Deze voorwaarden worden 'constraints' genoemd. Om normaalkrachten uit te oefenen kijken we welke constraints geschonden zijn, en passen de posities van de objecten simpelweg aan zodat de constraint niet meer geschonden word. In de praktijk komen een aantal moeilijkheden voor, zo kan het verplaatsen van objecten ervoor zorgen dat een andere constraint juist geschonden word. Ook kan het dat twee constraints een object grofweg dezelfde richting in duwen, wat ervoor kan zorgen dat het object te ver weggeduwd word. De details en oplossingen van deze problemen worden later behandeld. Tot dat punt mag de lezer er van uit gaan dat alle constraints tijdens deze stap op natuurkundig correcte wijze opgelost worden.
+Nu de gespeculeerde volgende positie bekend is kunnen de contactkrachten hierop werken. Omdat we nu niet geinterreseert zijn in acceleraties maar in posities kunnen contactkrachten niet berekend worden zoals krachten normaal berekend worden. Aangezien contactkrachten ontstaan door beperkingen aan de posities van objecten is het het meest voor de hand liggend om normaalkrachten te representeren als voorwaarden aan de posities van objecten. Deze voorwaarden worden 'constraints' genoemd. Om contactkrachten uit te oefenen kijken we welke constraints geschonden zijn, en passen de posities van de objecten simpelweg aan zodat de constraint niet meer geschonden word (dit met respect tot natuurkundige wetten uiteraart). Dit word constraint projection of constraint relaxation genoemd. In de praktijk komen hierbij een aantal moeilijkheden voor, zo kan het verplaatsen van objecten ervoor zorgen dat een andere constraint juist geschonden word. Ook kan het dat twee constraints een object grofweg dezelfde richting in duwen, wat ervoor kan zorgen dat het object te ver weggeduwd word. De details en oplossingen van deze problemen worden later behandeld. Tot dat punt mag de lezer er van uit gaan dat alle constraints tijdens deze stap op natuurkundig correcte wijze opgelost worden.
 
-In 'Position Based Dynamics' wordt het idee van het Verlet-integgraschema overgenomen uit 'Advanced Character Physics', hoewel hier gekozen word om de snelheden van de particles na elke simulatiestap uit te rekenen en ze expliciet op te slaan. Bij het berekenen van de nieuwe gespeculeerde posities is het resultaat identiek aan Verlet-integratie, wat ook betekent dat de wiskundig fout nog steeds aanwezig is. Het expliciet opslaan van de snelheden maakt het mogelijk de snelheden aan te passen zonder de posities te hoeven veranderen. Voor mijn toepassing heeft deze aanpassing nog een voordeel; hierdoor is het namelijk mogelijk om de formules te veranderen zodat de fout die eerder aangeduid was niet gemaakt hoeft te worden.
+In 'Position Based Dynamics' wordt het idee van het Verlet-integgraschema overgenomen uit 'Advanced Character Physics', hoewel hier gekozen word om de snelheden van de particles na elke tijdstap uit te rekenen en ze expliciet op te slaan. De resulterende posities zijn identiek aan de resultaten van normale Verlet-integratie, wat ook betekent dat de wiskundig fout nog steeds aanwezig is. Er is gekozen voor het expliciet opslaan van de snelheden omdat dit het mogelijk maakt de snelheden aan te passen zonder de posities te hoeven veranderen. Voor mijn toepassing heeft deze aanpassing nog een voordeel; hierdoor is het namelijk mogelijk om de formules te veranderen zodat het niet meer nodig is om een constante snelheid aan te nemen, wat er voor zorgt dat de eerder beschreven wiskundige fout niet meer aanwezig is.
 
-In 'Unified Particle Physics for Real-Time Applications' word het systeem dat voorgestelt is in 'Position Based Dynamics' aangepast met als hoofddoel te zorgen dat het systeem toegepast kan worden op een verschillende typen stoffen, zonder dat de simulator onderscheid hoeft te maken tussen de verschillende stoffen. Door alle objecten op voor te stellen als 'particles' of puntmassa's, en onderlinge relaties tussen deze particles aan te brengen kunnen zowel vaste stoffen, elastische/vervormbare stoffen, vloeistoffen, gassen en doek gesimuleerd worden. Bovendien word de wiskunde vereenvoudigt door het feit dat particles individueel geen rotatie hebben, terwijl rotaties van objecten nog steeds op natuurkundig correcte manieren gesimuleerd kunnen worden door particles met elkaar te verbinden.
+Ook word een systeem geboden dat gebruikt kan worden om een grote verscheidenheid aan constraints te formuleren en op te lossen. Dit systeem is helaas gemaakt met snelheid en stabiliteit van de simulatie als uitgangspunt, natuurkundige correctheid is hier bewust voor opgeoffert. Dit systeem heb ik hierom niet overgenomen.
+
+In 'Unified Particle Physics for Real-Time Applications' word het systeem uit 'Position Based Dynamics' aangepast met als hoofddoel te zorgen dat het systeem toegepast kan worden op verschillende typen stoffen, zonder dat de simulator voor de verschillende stoffen verschillende subsystemen nodig heeft. Om dit te berijken worden objecten voorgesteld als 'particles' of puntmassa's met onderlinge relaties (constraints bijvoorbeeld). Zo kunnen zowel vaste stoffen, elastische/vervormbare stoffen, vloeistoffen, gassen en doek op dezelfde wijze gesimuleerd worden. Bovendien word de wiskunde vereenvoudigt door het feit dat particles individueel geen rotatie hebben, terwijl rotaties van objecten die bestaan uit onderling verbonden particles nog steeds op natuurkundig correcte manieren gesimuleerd kunnen worden.
 
 De ideeën die ik heb overgenomen zijn de volgende:
 	Verlet-integratie met expliciete snelheid
 	constraint projection
 	objecten representeren door (groepen) particles, waar particles puntmassa's zijn
-
-resultaten:
-	snelheid van simuleren (real-time ?)
-	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
-	stabiliteit simulatie
-	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
-	fouten (t > 0, E > 0, floating-point precision) -> geloofwaardigheid & natuurkundige precisie
-
-
-
-
-
-
 
 
 
@@ -163,9 +178,15 @@ resultaten:
 
 
 Het simuleren van bewegingen van objecten:
-Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. 'Unified Particle Physics for Real-Time Applications' stelt voor om particles te gebruiken, meerdere particles met elkaar verbonden om objecten met complexe vormen voor te stellen worden . Dit maakt de simulatie wiskundig eenvoudig en bovendien zeer flexibel, om deze redenen nemen we deze methode over. De particles krijgen bij onze implementatie de volgende attributen: positie, snelheid, acceleratie en massa. Een andere goede eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren terwijl de complexe wiskunde en de practische problemen die normaal met rotaties gepaard gaan niet voorkomen. Bovendien kunnen interne krachten (binnen het object) met deze methode goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten buigen of breken.
+Om iets te hebben om mee te rekenen moet allereerst een abstractie voor objecten gevonden worden. 'Unified Particle Physics for Real-Time Applications' stelt voor om particles te gebruiken, meerdere particles jkunnen met elkaar verbonden om objecten met complexe vormen voor te stellen worden. Dit maakt de simulatie wiskundig eenvoudig en bovendien zeer flexibel, om deze redenen nemen we deze methode over. De particles krijgen bij onze implementatie de volgende attributen: positie, snelheid, acceleratie en massa. Een andere goede eigenschappen van dit systeem is dat objecten op natuurkundig accurate wijze kunnen roteren terwijl de complexe wiskunde en de practische problemen die normaal met rotaties gepaard gaan niet voorkomen. Bovendien kunnen interne krachten (binnen het object) met deze methode goed gesimuleerd worden, zo wordt het bijvoorbeeld mogelijk dat objecten op accurate wijze buigen of breken.
 
-Bij simuleren van bewegingen zijn we geïnteresseert in het vinden van nieuwe posities na een bepaald tijdsinterval (t). Om de verandering in positie te kunnen beschrijven zien we de positie (S) als een functie van tijd. De afgeleide van deze functie is de snelheid (V), en de dubbele afgeleide is de acceleratie (a). Zowel positie, snelheid en acceleratie zijn vectorgrootheden. Merk op dat de omschrijving van snelheid en acceleratie puur een wiskundige omschrijving is. Met deze theorie zijn onder andere de volgende formules te vormen:
+Omdat verschillende krachten op verschillende manieren ontstaan hebben we alle krachten opgedeeld in twee groepen, de contactkrachten en de niet-contactkrachten. De definitie van contactkrachten is als volgt:
+
+	Contactkrachten zijn krachten die alleen ontstaan door ruimtelijke beperkingen aan de posities van objecten.
+
+Alle andere krachten zijn niet-contactkrachten. De enige contactkracht is de normaalkracht, welke ontstaat om te zorgen dat twee objecten niet dezelfde ruimte innemen (ruimtelijke beperking). Omdat de ruimtelijke beperkingen gehandhaafd moeten blijven blijkt uit de definitie dat contactkrachten een direct effect hebben op de posities van objecten, terwijl alle andere krachten invloed hebben op de snelheden van objecten. Voor alle niet-contactkrachten bestaan dan ook concrete formules om de kracht uit te rekenen.
+
+Met deze theorie zijn onder andere de volgende formules te vormen:
 
 Bij constante acceleratie:
 	V2 = V1 + a * t
@@ -351,13 +372,19 @@ Nu kan de verplaatsing van de particles berekent worden met:
 	dS2 = +1 * relativePosition * displacement2
 
 
-
-
 //Merk dat bij het opstellen van dit algoritme gebruik gemaakt is van de wetten F = M * a ^ F1 = -F2 ^ Sdelta = 1/2 * a * t^2. Deze wetten worden dus door de constraint toegepast.
 
 
-Globale werking:	//is niet meer nodig aangezien de verwijzingen aan het begin al een groot gedeelte uitleggen!
-Onderweg zijn een paar gedeeltes veranderd, dus ik zal een keer de uiteindelijke, globale werking uitleggen. Naast de oorspronkelijke snelheid en positie van de particles hebben we de acceleratie van de particles nodig om iets over de eindpositie te kunnen zeggen. De acceleratie word bepaalt door de totale kracht op de particles, wat op zijn beurt de som is van alle individuele krachten die op de particle werken. Al deze krachten moeten dus benaderd worden. Omdat er een groot verschil zit tussen twee groepen krachten (deterministische krachten & constriants) moet het benaderen van de nieuwe positie in twee stappen verdeeld worden; eerst worden de deterministische krachten bepaalt, en worden toegepast op de posities van de particles samen met de beginsnelheid. Daarna worden de constraints toegepast. Dit gebeurt door alle constriants voor een bepaald gedeelte op te lossen, en dit te herhalen. Bij elke herhaling daalt fout in de constriants. We weten nu de positie van de particles nadat de oorspronkelijke snelheid, de deterministische krachten, en de constraints toegepast zijn. Dit is onze eindpositie. Voor de volgende simulatie moet echter een beginsnelheid vastgesteld worden, deze kan berekend worden aan de hand van de beginsnelheid, beginpositie, en de eindsnelheid.
+resultaten:
+	snelheid van simuleren (real-time ?)
+	optimalizaties (?) (multithreaden, gpu acceleratie, cache coherence, bepaalde natuurkundige fout toestaan)
+	stabiliteit simulatie
+	optimale instellingen (relaxationCoeficient, fullIterations, relaxationIterations)
+	fouten (t > 0, E > 0, floating-point precision) -> geloofwaardigheid & natuurkundige precisie
+
+
+Broncode voor het testen van de resultaten:
+https://github.com/Failsnail/PositionBasedPhysics
 
 
 Referenties:
