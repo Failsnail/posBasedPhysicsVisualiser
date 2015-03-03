@@ -594,6 +594,14 @@ void loadWorld() {
     tempParticle.setVelocity(vectorType(0, 0));
     particle7 = myWorldstate.addParticle(tempParticle);
 
+    tempParticle.setPosition(vectorType(8, 1));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle8 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(8, -1));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle9 = myWorldstate.addParticle(tempParticle);
+
 
     constraint* myConstraint;
 
@@ -601,10 +609,21 @@ void loadWorld() {
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
+    myConstraint = new distanceconstraint(particle7, particle8, 2, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle8, particle9, 2, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
+
+    myConstraint = new distanceconstraint(particle7, particle9, 2, 1);
+    myWorldstate.addConstraint(myConstraint);
+    myConstraint = nullptr;
 
     softforce* mySoftforce;
 
-    float springStiffness = 5; //50
+    float springStiffness = 20;
 
     mySoftforce = new spring(particle1, particle2, 1, springStiffness);
     myWorldstate.addSoftforce(mySoftforce);
@@ -631,7 +650,7 @@ void loadWorld() {
     mySoftforce = nullptr;
 
 
-    float damperStiffness = 20; //150
+    float damperStiffness = 10;
 
     mySoftforce = new damper(particle1, particle2, damperStiffness);
     myWorldstate.addSoftforce(mySoftforce);
@@ -662,6 +681,7 @@ void loadWorld() {
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
+    mySimulator.relaxConstraints(myWorldstate, 500);
 }
 
 void update() {
