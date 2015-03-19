@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define fullscreen false
+#define fullscreen true
 
 #define PI 3.14159265358979323846
 #define phi 1.6180339887498948482
@@ -77,7 +77,7 @@ GLFWwindow* window;
 
 bool keys[1024];
 
-glm::vec3 cameraPos = glm::vec3(0.0f, -1.0f, 20.0f);
+glm::vec3 cameraPos = glm::vec3(0.0f, -5.0f, 30.0f);
 glm::vec3 cameraDir = glm::vec3(0.0f, 0.0f, 1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -549,8 +549,8 @@ void displayInstanceList() {
 
 void loadWorld() {
 
-    mySimulator.setFullIterationsNumber(50);             //50
-    mySimulator.setRelaxationIterationsNumber(3);       //3
+    mySimulator.setFullIterationsNumber(200);             //50
+    mySimulator.setRelaxationIterationsNumber(1);       //3
     mySimulator.setRelaxationCoefficient(0.3f);         //0.3
 
     cout << "initialize particlePool..." << endl;
@@ -560,8 +560,6 @@ void loadWorld() {
     tempParticlePool.initialize(40);
     myWorldstate.setParticlePool(tempParticlePool);
     }
-
-    cout << "initializing particles..." << endl;
 
     particle tempParticle;
     tempParticle.setMass(0.25);
@@ -594,13 +592,21 @@ void loadWorld() {
     tempParticle.setVelocity(vectorType(0, 0));
     particle7 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(8, 1));
+    tempParticle.setPosition(vectorType(7, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle8 = myWorldstate.addParticle(tempParticle);
 
-    tempParticle.setPosition(vectorType(8, -1));
+    tempParticle.setPosition(vectorType(8, 0));
     tempParticle.setVelocity(vectorType(0, 0));
     particle9 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(9, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle10 = myWorldstate.addParticle(tempParticle);
+
+    tempParticle.setPosition(vectorType(10, 0));
+    tempParticle.setVelocity(vectorType(0, 0));
+    particle11 = myWorldstate.addParticle(tempParticle);
 
 
     constraint* myConstraint;
@@ -609,21 +615,10 @@ void loadWorld() {
     myWorldstate.addConstraint(myConstraint);
     myConstraint = nullptr;
 
-    myConstraint = new distanceconstraint(particle7, particle8, 2, 1);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle8, particle9, 2, 1);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
-
-    myConstraint = new distanceconstraint(particle7, particle9, 2, 1);
-    myWorldstate.addConstraint(myConstraint);
-    myConstraint = nullptr;
 
     softforce* mySoftforce;
 
-    float springStiffness = 20;
+    float springStiffness = 800;
 
     mySoftforce = new spring(particle1, particle2, 1, springStiffness);
     myWorldstate.addSoftforce(mySoftforce);
@@ -649,8 +644,24 @@ void loadWorld() {
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
+    mySoftforce = new spring(particle7, particle8, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
 
-    float damperStiffness = 10;
+    mySoftforce = new spring(particle8, particle9, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle9, particle10, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new spring(particle10, particle11, 1, springStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+
+    float damperStiffness = 50;
 
     mySoftforce = new damper(particle1, particle2, damperStiffness);
     myWorldstate.addSoftforce(mySoftforce);
@@ -676,18 +687,32 @@ void loadWorld() {
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
 
+    mySoftforce = new damper(particle7, particle8, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle8, particle9, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle9, particle10, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
+    mySoftforce = new damper(particle10, particle11, damperStiffness);
+    myWorldstate.addSoftforce(mySoftforce);
+    mySoftforce = nullptr;
+
 
     mySoftforce = new gravity(9.81, vectorType(0, -1));
     myWorldstate.addSoftforce(mySoftforce);
     mySoftforce = nullptr;
-
-    mySimulator.relaxConstraints(myWorldstate, 500);
 }
 
 void update() {
     //updating of time values and clearing the screen is already done.
 
-    //cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
+    cout << "deltaTime: " << deltaTime << "   FPS: " << 1 / deltaTime << endl;
 
     if (!paused) {
         #if true
@@ -699,8 +724,8 @@ void update() {
 
         double simulationTime = glfwGetTime();
 
-        //mySimulator.simulate(&myWorldstate, (float)deltaTime * timeScale);
-        mySimulator.simulate(myWorldstate, timeScale / 60.0f);
+        mySimulator.simulate(myWorldstate, (float)deltaTime * timeScale);
+        //mySimulator.simulate(myWorldstate, timeScale / 60.0f);
 
         simulationTime = glfwGetTime() - simulationTime;
 
